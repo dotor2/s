@@ -1,0 +1,2698 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>منصة الأستاذ الذكية - لإنشاء الأسئلة الامتحانية</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: 5 Distinct Arabic Academic Fonts + English Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&family=Noto+Kufi+Arabic:wght@400;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- HTML2Canvas & jsPDF for Direct Image & PDF Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #0f766e;
+            --primary-light: #14b8a6;
+            --accent: #d97706;
+        }
+
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+
+        /* Allow typing inside inputs/textareas while keeping copy/paste blocked via JS */
+        input, textarea, select {
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+        }
+
+        /* Smooth & Unrestricted Vertical Scrolling across all devices */
+        html, body {
+            font-family: 'Cairo', sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+
+        /* 5 Arabic Font Classes for Questions */
+        .font-cairo { font-family: 'Cairo', sans-serif; }
+        .font-amiri { font-family: 'Amiri', serif; }
+        .font-tajawal { font-family: 'Tajawal', sans-serif; }
+        .font-almarai { font-family: 'Almarai', sans-serif; }
+        .font-kufi { font-family: 'Noto Kufi Arabic', sans-serif; }
+
+        /* Splash Screen Animations */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-8px) scale(1.02); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(20, 184, 166, 0.35); }
+            50% { box-shadow: 0 0 40px rgba(20, 184, 166, 0.65); }
+        }
+        @keyframes shimmerBar {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        .animate-float { animation: floatSlow 3s ease-in-out infinite; }
+        .animate-glow { animation: pulseGlow 2.5s ease-in-out infinite; }
+        .splash-progress { animation: shimmerBar 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+        /* Official A4 Paper Progressive Styles (Full-Height Flex Distribution) */
+        .exam-paper-base {
+            background: #ffffff;
+            color: #0f172a;
+            width: 794px;
+            min-height: 1122px;
+            padding: 26px 34px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
+        }
+
+        /* Tier 1: Daily Exam */
+        .exam-tier-daily {
+            border: 2px solid #1e293b;
+        }
+
+        /* Tier 2: Weekly Exam */
+        .exam-tier-weekly {
+            border: 3px double #0f766e;
+            box-shadow: inset 0 0 0 1px #99f6e4;
+        }
+
+        /* Tier 3: Monthly Exam */
+        .exam-tier-monthly {
+            border: 3px solid #0f172a;
+            outline: 1px solid #334155;
+            outline-offset: -6px;
+        }
+
+        /* Tier 4: Comprehensive Exam (Mid-year / Final) */
+        .exam-tier-comprehensive {
+            border: 4px double #0f172a;
+            outline: 1.5px solid #0f172a;
+            outline-offset: -7px;
+        }
+
+        /* Responsive A4 Preview Scaling Wrapper so it fits mobile & desktop screens cleanly */
+        .a4-preview-viewport {
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .a4-scale-container {
+            transform-origin: top center;
+            transition: transform 0.2s ease;
+        }
+
+        /* Print Media Styles */
+        @media print {
+            body * { visibility: hidden; }
+            #printableExamSheet, #printableExamSheet * { visibility: visible; }
+            #printableExamSheet {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                box-shadow: none !important;
+                transform: none !important;
+            }
+        }
+
+        /* Custom Compact Scrollbar */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800">
+
+    <!-- 1. SPLASH SCREEN -->
+    <div id="splashScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-br from-teal-900 via-emerald-800 to-slate-900 text-white px-5 transition-opacity duration-500">
+        <div class="relative flex flex-col items-center max-w-sm w-full text-center">
+            <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-teal-500 to-emerald-400 flex items-center justify-center animate-float animate-glow mb-4 border border-white/30">
+                <i class="fa-solid fa-file-signature text-3xl text-white drop-shadow"></i>
+            </div>
+
+            <h1 class="text-xl sm:text-2xl font-extrabold tracking-wide mb-2 text-teal-50">
+                منصة الأستاذ الذكية
+            </h1>
+            <p class="text-teal-200/90 text-xs font-medium mb-6 leading-relaxed">
+                النظام المتكامل لإعداد وتنسيق الأسئلة الامتحانية الرسمية بأعلى معايير الدقة والاحترافية
+            </p>
+
+            <div class="w-52 h-2 bg-slate-800/80 rounded-full overflow-hidden border border-teal-500/30 p-0.5">
+                <div class="h-full bg-gradient-to-r from-amber-400 via-teal-300 to-emerald-400 rounded-full splash-progress"></div>
+            </div>
+            <span class="mt-2.5 text-[11px] text-teal-300/80 font-medium">جاري تهيئة بيئة العمل الآمنة...</span>
+        </div>
+    </div>
+
+    <!-- 2. AUTHENTICATION SCREEN (Compact & Balanced for All Devices) -->
+    <div id="authScreen" class="hidden min-h-screen w-full py-8 px-4 flex flex-col items-center justify-center bg-gradient-to-b from-teal-50/60 via-slate-50 to-slate-100">
+        <div class="w-full max-w-3xl my-auto">
+            <!-- Header -->
+            <div class="text-center mb-5">
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-teal-700 text-white shadow-md shadow-teal-700/20 mb-2">
+                    <i class="fa-solid fa-graduation-cap text-xl"></i>
+                </div>
+                <h2 class="text-lg sm:text-xl font-extrabold text-slate-800">بوابة الأساتذة المعتمدة</h2>
+                <p class="text-slate-500 text-xs mt-0.5">سجّل دخولك أو أنشئ حساباً جديداً للبدء بتصميم الأسئلة الامتحانية</p>
+                
+                <!-- Mobile Mode Switcher Pill -->
+                <div class="inline-flex sm:hidden bg-slate-200/80 p-1 rounded-xl mt-3">
+                    <button onclick="switchAuthTab('login')" id="tabBtnLogin" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-white text-teal-800 shadow-xs transition">
+                        تسجيل الدخول
+                    </button>
+                    <button onclick="switchAuthTab('register')" id="tabBtnRegister" class="px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 transition">
+                        إنشاء حساب
+                    </button>
+                </div>
+            </div>
+
+            <!-- Two Distinct Windows Side-by-Side on Desktop, Tabbed on Mobile -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-stretch">
+                
+                <!-- Window 1: Login -->
+                <div id="loginWindow" class="bg-white rounded-2xl shadow-md border border-slate-200/80 p-5 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 right-0 left-0 h-1.5 bg-gradient-to-r from-teal-600 to-emerald-500"></div>
+                    <div>
+                        <div class="flex items-center gap-2.5 mb-4">
+                            <div class="w-9 h-9 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center font-bold text-sm">
+                                <i class="fa-solid fa-right-to-bracket"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-extrabold text-slate-800">تسجيل الدخول</h3>
+                                <p class="text-[11px] text-slate-500">لديّ حساب مسجل مسبقاً</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-700 mb-1">البريد الإلكتروني</label>
+                                <div class="relative">
+                                    <input type="email" id="loginEmail" placeholder="example@gmail.com" dir="ltr"
+                                        class="w-full px-3 py-2 pr-8 rounded-xl border border-slate-200 bg-slate-50/60 focus:bg-white focus:border-teal-600 outline-none transition text-xs text-left">
+                                    <i class="fa-regular fa-envelope absolute right-3 top-2.5 text-xs text-slate-400"></i>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-700 mb-1">الرمز السري</label>
+                                <div class="relative">
+                                    <input type="password" id="loginPassword" placeholder="••••••••" dir="ltr"
+                                        class="w-full px-3 py-2 pr-8 rounded-xl border border-slate-200 bg-slate-50/60 focus:bg-white focus:border-teal-600 outline-none transition text-xs text-left">
+                                    <i class="fa-solid fa-lock absolute right-3 top-2.5 text-xs text-slate-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <button onclick="handleLogin()" id="btnLoginSubmit"
+                            class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-teal-700 to-emerald-600 hover:from-teal-800 hover:to-emerald-700 text-white font-bold text-xs shadow-sm active:scale-[0.99] transition flex items-center justify-center gap-2">
+                            <span>تسجيل الدخول للحساب</span>
+                            <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Window 2: Register -->
+                <div id="registerWindow" class="hidden sm:flex bg-white rounded-2xl shadow-md border border-slate-200/80 p-5 flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 right-0 left-0 h-1.5 bg-gradient-to-r from-amber-500 to-orange-500"></div>
+                    <div>
+                        <div class="flex items-center gap-2.5 mb-4">
+                            <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-sm">
+                                <i class="fa-solid fa-user-plus"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-extrabold text-slate-800">إنشاء حساب جديد</h3>
+                                <p class="text-[11px] text-slate-500">تسجيل أستاذ جديد في المنصة</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2.5">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-700 mb-1">اسم الأستاذ الثلاثي أو اللقب العلمي</label>
+                                <div class="relative">
+                                    <input type="text" id="regName" placeholder="مثال: أ. محمد علي الكوفي"
+                                        class="w-full px-3 py-2 pr-8 rounded-xl border border-slate-200 bg-slate-50/60 focus:bg-white focus:border-amber-500 outline-none transition text-xs">
+                                    <i class="fa-regular fa-user absolute right-3 top-2.5 text-xs text-slate-400"></i>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-700 mb-1">البريد الإلكتروني</label>
+                                <div class="relative">
+                                    <input type="email" id="regEmail" placeholder="teacher@gmail.com" dir="ltr"
+                                        class="w-full px-3 py-2 pr-8 rounded-xl border border-slate-200 bg-slate-50/60 focus:bg-white focus:border-amber-500 outline-none transition text-xs text-left">
+                                    <i class="fa-regular fa-envelope absolute right-3 top-2.5 text-xs text-slate-400"></i>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-700 mb-1">الرمز السري</label>
+                                <div class="relative">
+                                    <input type="password" id="regPassword" placeholder="6 رموز أو أكثر" dir="ltr"
+                                        class="w-full px-3 py-2 pr-8 rounded-xl border border-slate-200 bg-slate-50/60 focus:bg-white focus:border-amber-500 outline-none transition text-xs text-left">
+                                    <i class="fa-solid fa-key absolute right-3 top-2.5 text-xs text-slate-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <button onclick="handleRegister()" id="btnRegSubmit"
+                            class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-bold text-xs shadow-sm active:scale-[0.99] transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-sparkles text-[11px]"></i>
+                            <span>إنشاء حساب جديد</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Footnote -->
+            <div class="mt-4 text-center">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-200/70 text-slate-600 text-[11px] font-semibold">
+                    <i class="fa-solid fa-shield-halved text-teal-700"></i>
+                    نظام الحماية مفعل: جلسة واحدة نشطة لكل حساب
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. MAIN APPLICATION CONTAINER -->
+    <div id="appContainer" class="hidden min-h-screen flex flex-col pb-24">
+        
+        <!-- Compact Top App Header -->
+        <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200 px-3 sm:px-5 py-2.5 shadow-2xs">
+            <div class="max-w-4xl mx-auto flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-teal-700 to-emerald-600 text-white flex items-center justify-center shadow-2xs">
+                        <i class="fa-solid fa-file-pen text-sm"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xs sm:text-sm font-extrabold text-slate-800 leading-tight">منصة الأسئلة الامتحانية</h1>
+                        <p id="headerSubStatus" class="text-[11px] text-slate-500 font-semibold">مرحباً بك أستاذنا الفاضل</p>
+                    </div>
+                </div>
+                <div id="accessBadgeTop" class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-600 border border-slate-200">
+                    غير مشترك
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 max-w-4xl w-full mx-auto p-3 sm:p-5 pb-16">
+
+            <!-- SECTION 1: EXAM TYPES SELECTION -->
+            <section id="sectionExamTypes" class="space-y-3">
+                <div class="flex items-center justify-between px-1 mb-1">
+                    <div>
+                        <h2 class="text-sm sm:text-base font-extrabold text-slate-800">اختر نوع الأسئلة الامتحانية</h2>
+                        <p class="text-[11px] text-slate-500">اضغط على نوع الامتحان للبدء بكتابة وتنسيق الأسئلة</p>
+                    </div>
+                </div>
+
+                <!-- 4 Compact Exam Type Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    
+                    <!-- Type 1: Daily Exam -->
+                    <button onclick="openExamBuilder('daily')" class="group text-right bg-white hover:bg-teal-50/40 rounded-2xl p-4 border border-slate-200 hover:border-teal-500 shadow-2xs hover:shadow-sm transition-all flex items-start gap-3.5">
+                        <div class="w-11 h-11 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center text-lg font-bold shrink-0 group-hover:scale-105 transition">
+                            <i class="fa-solid fa-calendar-day"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between gap-2">
+                                <h3 class="text-sm sm:text-base font-extrabold text-slate-800">امتحان يومي</h3>
+                                <span class="exam-lock-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 flex items-center gap-1 shrink-0">
+                                    <i class="fa-solid fa-lock text-amber-600"></i> مقفل
+                                </span>
+                            </div>
+                            <span class="block text-[10px] font-bold text-sky-600 mt-0.5">المستوى الأول • عملي ومرتب</span>
+                            <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                                تنسيق أنيق ومباشر للاختبارات اليومية السريعة بإطار رسمي نظيف.
+                            </p>
+                        </div>
+                    </button>
+
+                    <!-- Type 2: Weekly Exam -->
+                    <button onclick="openExamBuilder('weekly')" class="group text-right bg-white hover:bg-teal-50/40 rounded-2xl p-4 border border-slate-200 hover:border-teal-500 shadow-2xs hover:shadow-sm transition-all flex items-start gap-3.5">
+                        <div class="w-11 h-11 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-lg font-bold shrink-0 group-hover:scale-105 transition">
+                            <i class="fa-solid fa-calendar-week"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between gap-2">
+                                <h3 class="text-sm sm:text-base font-extrabold text-slate-800">امتحان أسبوعي</h3>
+                                <span class="exam-lock-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 flex items-center gap-1 shrink-0">
+                                    <i class="fa-solid fa-lock text-amber-600"></i> مقفل
+                                </span>
+                            </div>
+                            <span class="block text-[10px] font-bold text-teal-600 mt-0.5">المستوى الثاني • ترتيب احترافي</span>
+                            <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                                إطار مزدوج احترافي مع ترويسة ثلاثية مقسمة بدقة للأسئلة والدرجات.
+                            </p>
+                        </div>
+                    </button>
+
+                    <!-- Type 3: Monthly Exam -->
+                    <button onclick="openExamBuilder('monthly')" class="group text-right bg-white hover:bg-indigo-50/40 rounded-2xl p-4 border border-slate-200 hover:border-indigo-500 shadow-2xs hover:shadow-sm transition-all flex items-start gap-3.5">
+                        <div class="w-11 h-11 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-lg font-bold shrink-0 group-hover:scale-105 transition">
+                            <i class="fa-solid fa-calendar-check"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between gap-2">
+                                <h3 class="text-sm sm:text-base font-extrabold text-slate-800">امتحان شهري</h3>
+                                <span class="exam-lock-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 flex items-center gap-1 shrink-0">
+                                    <i class="fa-solid fa-lock text-amber-600"></i> مقفل
+                                </span>
+                            </div>
+                            <span class="block text-[10px] font-bold text-indigo-600 mt-0.5">المستوى الثالث • احترافية عالية</span>
+                            <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                                تصميم رسمي للامتحانات الشهرية مع حقل اسم الطالب والشعبة وتنسيق متكامل.
+                            </p>
+                        </div>
+                    </button>
+
+                    <!-- Type 4: Comprehensive Exam -->
+                    <button onclick="openExamBuilder('comprehensive')" class="group text-right bg-gradient-to-br from-amber-50/50 via-white to-amber-50/30 hover:from-amber-50 rounded-2xl p-4 border border-amber-300 hover:border-amber-500 shadow-2xs hover:shadow-sm transition-all flex items-start gap-3.5">
+                        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-white flex items-center justify-center text-lg font-bold shadow-xs shrink-0 group-hover:scale-105 transition">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between gap-2">
+                                <h3 class="text-sm sm:text-base font-extrabold text-slate-900">امتحان شامل / نصف ونهاية السنة</h3>
+                                <span class="exam-lock-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 flex items-center gap-1 shrink-0">
+                                    <i class="fa-solid fa-lock text-amber-600"></i> مقفل
+                                </span>
+                            </div>
+                            <span class="block text-[10px] font-bold text-amber-700 mt-0.5">المستوى الرابع • تصميم وزاري فخم</span>
+                            <p class="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                                التصميم الرسمي الكامل لامتحانات نصف السنة وآخر السنة مطابق للنماذج المعتمدة.
+                            </p>
+                        </div>
+                    </button>
+                </div>
+            </section>
+
+            <!-- SECTION: EXAM BUILDER -->
+            <section id="sectionExamBuilder" class="hidden space-y-4">
+                <!-- Top Navigation & Direction Toggle -->
+                <div class="flex flex-wrap items-center justify-between gap-2 bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
+                    <button onclick="closeExamBuilder()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        <span>رجوع</span>
+                    </button>
+
+                    <span id="builderExamTypeBadge" class="px-2.5 py-1 rounded-lg bg-teal-50 text-teal-800 border border-teal-200 text-xs font-extrabold">
+                        امتحان شهري
+                    </span>
+
+                    <!-- Direction Switcher: Arabic RTL vs English LTR -->
+                    <div class="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg border border-slate-200">
+                        <button onclick="setExamDirection('rtl')" id="dirBtnRtl" class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-teal-700 text-white shadow-2xs transition">
+                            عربي (RTL)
+                        </button>
+                        <button onclick="setExamDirection('ltr')" id="dirBtnLtr" class="px-2.5 py-1 rounded-md text-[11px] font-bold text-slate-600 hover:text-slate-900 transition">
+                            English (LTR)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TOP 3 HEADER FIELDS -->
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs space-y-3">
+                    <div class="flex items-center gap-2 border-b border-slate-100 pb-2">
+                        <span class="w-6 h-6 rounded-md bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-xs">1</span>
+                        <div>
+                            <h3 class="text-xs sm:text-sm font-extrabold text-slate-800">بيانات ترويسة الورقة الامتحانية (أعلى الورقة)</h3>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <!-- Field 1: School Name -->
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/80 space-y-1.5">
+                            <label class="block text-[11px] font-extrabold text-teal-800">
+                                <i class="fa-solid fa-school ml-1"></i> الحقل الأول: اسم المدرسة
+                            </label>
+                            <input type="text" id="headerSchoolName" placeholder="مثال: ثانوية الرافدين للبنين / للبنات"
+                                class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white focus:border-teal-600 outline-none text-xs font-bold">
+                        </div>
+
+                        <!-- Field 2: Exam Title & Academic Year -->
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/80 space-y-1.5">
+                            <label class="block text-[11px] font-extrabold text-teal-800">
+                                <i class="fa-solid fa-award ml-1"></i> الحقل الثاني: عنوان الامتحان والعام الدراسي
+                            </label>
+                            <div class="grid grid-cols-2 gap-1.5">
+                                <input type="text" id="headerExamTitle" placeholder="امتحان نصف السنة"
+                                    class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white focus:border-teal-600 outline-none text-xs font-bold">
+                                <input type="text" id="headerAcademicYear" value="للعام الدراسي ٢٠٢٦ - ٢٠٢٧" placeholder="للعام الدراسي..."
+                                    class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white focus:border-teal-600 outline-none text-xs font-bold">
+                            </div>
+                        </div>
+
+                        <!-- Field 3: Class / Subject / Time / Total Mark -->
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/80 space-y-1.5">
+                            <label class="block text-[11px] font-extrabold text-teal-800">
+                                <i class="fa-solid fa-layer-group ml-1"></i> الحقل الثالث: (الصف / المادة / الوقت / الدرجة)
+                            </label>
+                            <div class="grid grid-cols-2 gap-1.5">
+                                <input type="text" id="headerClass" placeholder="الصف (السادس العلمي)"
+                                    class="w-full px-2 py-1.5 rounded-lg border border-slate-300 bg-white focus:border-teal-600 outline-none text-[11px] font-bold">
+                                <input type="text" id="headerSubject" placeholder="المادة (التربية الإسلامية)"
+                                    class="w-full px-2 py-1.5 rounded-lg border border-slate-300 bg-white focus:border-teal-600 outline-none text-[11px] font-bold">
+                                <input type="text" id="headerTime" placeholder="الوقت (ساعتان)"
+                                    class="w-full px-2 py-1.5 rounded-lg border border-slate-300 bg-white focus:border-teal-600 outline-none text-[11px] font-bold">
+                                <input type="text" id="headerTotalMark" placeholder="الدرجة الكلية (١٠٠)"
+                                    class="w-full px-2 py-1.5 rounded-lg border border-slate-300 bg-white focus:border-teal-600 outline-none text-[11px] font-bold">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTIONS LIST SECTION -->
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-md bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-xs">2</span>
+                            <div>
+                                <h3 class="text-xs sm:text-sm font-extrabold text-slate-800">حقول الأسئلة الامتحانية</h3>
+                                <p class="text-[11px] text-slate-500">اضغط على أي حقل سؤال لفتح <b>محرر السؤال الكامل</b> بملء الشاشة</p>
+                            </div>
+                        </div>
+                        <span id="questionsCountBadge" class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-bold">
+                            5 أسئلة
+                        </span>
+                    </div>
+
+                    <!-- Dynamic Questions Container -->
+                    <div id="questionsContainer" class="space-y-2.5"></div>
+
+                    <!-- Add Question Button -->
+                    <div class="pt-1">
+                        <button onclick="addNewQuestionField()" class="w-full py-2.5 px-4 rounded-xl border border-dashed border-teal-500 bg-teal-50/50 hover:bg-teal-50 text-teal-800 font-extrabold text-xs transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-circle-plus text-sm text-teal-600"></i>
+                            <span>إضافة حقل سؤال جديد</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- BOTTOM TEACHER NAME & SAVE BUTTON -->
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs space-y-3">
+                    <div class="flex items-center gap-2 border-b border-slate-100 pb-2">
+                        <span class="w-6 h-6 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xs">3</span>
+                        <div>
+                            <h3 class="text-xs sm:text-sm font-extrabold text-slate-800">تذييل الورقة الامتحانية ومعاينة A4</h3>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
+                        <div>
+                            <label class="block text-[11px] font-extrabold text-slate-700 mb-1">اسم مدرس المادة (يظهر أسفل الورقة)</label>
+                            <input type="text" id="footerTeacherName" placeholder="مثال: أ. زينب عبد الله"
+                                class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-teal-600 outline-none text-xs font-bold">
+                        </div>
+                        <div>
+                            <button onclick="saveAndGenerateExam()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-teal-700 to-emerald-600 hover:from-teal-800 hover:to-emerald-700 text-white font-extrabold text-xs shadow-md shadow-teal-700/20 transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-file-circle-check"></i>
+                                <span>حفظ ومعاينة ورقة الأسئلة (A4)</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GENERATED EXAM PREVIEW & DOWNLOAD VIEW -->
+            <section id="sectionExamPreview" class="hidden space-y-3">
+                <!-- Top Preview Header Bar -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
+                    <div class="p-3 sm:px-4 flex items-center justify-between border-b border-slate-100">
+                        <button onclick="backToBuilderFromPreview()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+                            <i class="fa-solid fa-arrow-right"></i>
+                            <span>تعديل الأسئلة</span>
+                        </button>
+                        <div class="text-left">
+                            <h3 class="text-sm sm:text-base font-extrabold text-slate-800">معاينة الورقة</h3>
+                            <p class="text-[11px] text-slate-500">١ صفحة A4 – كما ستُطبع تماماً</p>
+                        </div>
+                    </div>
+
+                    <!-- Auto-Fit Single Page Toggle Bar -->
+                    <div class="px-3 sm:px-4 py-2 bg-teal-50/50 flex items-center justify-between gap-2">
+                        <label class="inline-flex items-center cursor-pointer gap-2">
+                            <input type="checkbox" id="autoFitSinglePageToggle" onchange="toggleAutoFitPaper(this.checked)" class="sr-only peer">
+                            <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all relative peer-checked:bg-teal-700"></div>
+                        </label>
+                        <div class="flex items-center gap-1.5 text-xs font-bold text-slate-700">
+                            <span>ورقة واحدة – صغّر الخط إلى ١١.٥ لتكفي</span>
+                            <i class="fa-regular fa-file-lines text-teal-700"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scaled A4 Sheet Viewport -->
+                <div id="a4PreviewViewport" class="a4-preview-viewport bg-slate-200/70 rounded-2xl p-2 sm:p-4 border border-slate-300/80">
+                    <div id="a4ScaleContainer" class="a4-scale-container">
+                        <div id="printableExamSheet" class="exam-paper-base shadow-xl">
+                            <!-- Populated dynamically by saveAndGenerateExam() -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Action Buttons (حفظ PDF | صورة PNG | طباعة) -->
+                <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm grid grid-cols-3 gap-2">
+                    <button onclick="window.print()" class="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-extrabold transition flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-print text-teal-700"></i>
+                        <span>طباعة</span>
+                    </button>
+                    <button onclick="downloadExamAsImage()" id="btnDownloadImg" class="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-extrabold transition flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-image text-teal-700"></i>
+                        <span>حفظ صورة</span>
+                    </button>
+                    <button onclick="downloadExamAsPDF()" id="btnDownloadPdf" class="py-2.5 px-3 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-xs font-extrabold shadow-sm transition flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-download"></i>
+                        <span>حفظ PDF</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- SECTION 2: MY ACCOUNT -->
+            <section id="sectionAccount" class="hidden space-y-3">
+                
+                <!-- Compact Profile Card -->
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div class="flex items-center gap-3 text-center sm:text-right flex-col sm:flex-row">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-teal-700 to-emerald-500 text-white flex items-center justify-center text-lg font-extrabold shadow-xs">
+                            <i class="fa-solid fa-user-tie"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-center sm:justify-start gap-1.5">
+                                <h2 id="profileNameDisplay" class="text-base font-extrabold text-slate-800">الأستاذ</h2>
+                                <span id="ownerCrownBadge" class="hidden px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-extrabold border border-amber-300">
+                                    <i class="fa-solid fa-crown text-amber-600 ml-0.5"></i>المالك
+                                </span>
+                            </div>
+                            <p id="profileEmailDisplay" class="text-xs text-slate-500 font-medium" dir="ltr">teacher@gmail.com</p>
+                            <div class="mt-1 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-teal-50 text-teal-800 text-[11px] font-bold border border-teal-200">
+                                <span class="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse"></span>
+                                <span id="profileStatusText">حالة الحساب: غير مشترك</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center sm:text-left bg-slate-50 px-3 py-2 rounded-xl border border-slate-200/80">
+                        <span class="block text-[10px] text-slate-400 font-bold">حماية الجلسة النشطة</span>
+                        <span class="text-[11px] font-extrabold text-slate-700 flex items-center gap-1 mt-0.5">
+                            <i class="fa-solid fa-shield-check text-emerald-600"></i> جهاز واحد متصل حالياً
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 4 Compact Action Buttons -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    
+                    <!-- Button 1: Request 1 Free Trial -->
+                    <button onclick="handleFreeTrialButtonClick()" class="bg-white hover:bg-teal-50/40 p-3.5 rounded-2xl border border-slate-200 hover:border-teal-500 shadow-2xs transition flex items-center gap-3 text-right">
+                        <div class="w-10 h-10 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-base shrink-0">
+                            <i class="fa-solid fa-gift"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-xs sm:text-sm font-extrabold text-slate-800">طلب تجربة مجانية واحدة</h3>
+                            <p id="trialBtnSubtext" class="text-[11px] text-slate-500 mt-0.5 truncate">تجربة الأسئلة لمرة واحدة مجاناً بعد موافقة الإدارة</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-left text-slate-400 text-xs"></i>
+                    </button>
+
+                    <!-- Button 2: Subscribe with Code -->
+                    <button onclick="openSubscriptionModal()" class="bg-white hover:bg-amber-50/40 p-3.5 rounded-2xl border border-slate-200 hover:border-amber-500 shadow-2xs transition flex items-center gap-3 text-right">
+                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-base shrink-0">
+                            <i class="fa-solid fa-key"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-xs sm:text-sm font-extrabold text-slate-800">اشتراك</h3>
+                            <p class="text-[11px] text-slate-500 mt-0.5 truncate">إدخال كود الاشتراك الدائم لفتح جميع أنواع الأسئلة</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-left text-slate-400 text-xs"></i>
+                    </button>
+
+                    <!-- Button 3: Owner Control Panel -->
+                    <button id="btnOwnerDashboard" onclick="openOwnerDashboard()" class="hidden bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white p-3.5 rounded-2xl border border-amber-400/80 shadow-sm transition items-center gap-3 text-right">
+                        <div class="w-10 h-10 rounded-xl bg-amber-400/20 text-amber-300 border border-amber-400/40 flex items-center justify-center text-base shrink-0">
+                            <i class="fa-solid fa-sliders"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-1.5">
+                                <h3 class="text-xs sm:text-sm font-extrabold text-amber-300">لوحة تحكم المالك</h3>
+                                <span id="ownerPendingCounter" class="px-1.5 py-0.2 rounded-full bg-rose-500 text-white text-[10px] font-bold">0</span>
+                            </div>
+                            <p class="text-[11px] text-slate-300 mt-0.5 truncate">إدارة الطلبات المجانية وأكواد الاشتراك</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-left text-amber-300 text-xs"></i>
+                    </button>
+
+                    <!-- Button 4: Logout -->
+                    <button onclick="handleLogout()" class="bg-white hover:bg-rose-50/50 p-3.5 rounded-2xl border border-slate-200 hover:border-rose-400 shadow-2xs transition flex items-center gap-3 text-right">
+                        <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-base shrink-0">
+                            <i class="fa-solid fa-power-off"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-xs sm:text-sm font-extrabold text-rose-700">تسجيل الخروج</h3>
+                            <p class="text-[11px] text-slate-500 mt-0.5 truncate">إنهاء الجلسة الحالية بأمان من هذا الجهاز</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-left text-rose-400 text-xs"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- OWNER CONTROL PANEL MAIN -->
+            <section id="sectionOwnerHub" class="hidden space-y-4">
+                <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
+                    <button onclick="showSection('account')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <span>رجوع إلى حسابي</span>
+                    </button>
+                    <span class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-900 text-xs font-extrabold">
+                        <i class="fa-solid fa-user-shield ml-1"></i> لوحة تحكم المالك
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Square 1: Free Trial Requests -->
+                    <button onclick="openOwnerRequestsPage()" class="bg-white hover:bg-teal-50/40 rounded-2xl p-6 border border-slate-200 hover:border-teal-600 shadow-xs transition flex flex-col items-center justify-center text-center group">
+                        <div class="w-14 h-14 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center text-2xl mb-3 group-hover:scale-105 transition relative">
+                            <i class="fa-solid fa-inbox"></i>
+                            <span id="hubPendingBadge" class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-rose-600 text-white text-[10px] font-extrabold flex items-center justify-center shadow">0</span>
+                        </div>
+                        <h3 class="text-base font-extrabold text-slate-800">الطلبات المجانية</h3>
+                        <p class="text-xs text-slate-500 mt-1 max-w-xs">
+                            مراجعة طلبات الأساتذة للحصول على تجربة مجانية واحدة مع القبول أو الرفض الفوري
+                        </p>
+                    </button>
+
+                    <!-- Square 2: Create Subscription Code -->
+                    <button onclick="openOwnerCodesPage()" class="bg-white hover:bg-amber-50/40 rounded-2xl p-6 border border-slate-200 hover:border-amber-600 shadow-xs transition flex flex-col items-center justify-center text-center group">
+                        <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl mb-3 group-hover:scale-105 transition">
+                            <i class="fa-solid fa-key"></i>
+                        </div>
+                        <h3 class="text-base font-extrabold text-slate-800">إنشاء كود اشتراك</h3>
+                        <p class="text-xs text-slate-500 mt-1 max-w-xs">
+                            توليد أكواد اشتراك دائمة لحساب واحد فقط مع متابعة التفعيل أو تعطيل الكود
+                        </p>
+                    </button>
+                </div>
+            </section>
+
+            <!-- OWNER SUB-PAGE 1: FREE TRIAL REQUESTS -->
+            <section id="sectionOwnerRequests" class="hidden space-y-3">
+                <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
+                    <button onclick="openOwnerDashboard()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <span>رجوع للوحة المالك</span>
+                    </button>
+                    <h3 class="text-xs sm:text-sm font-extrabold text-slate-800">إدارة الطلبات المجانية للأساتذة</h3>
+                </div>
+
+                <div id="ownerRequestsList" class="space-y-2.5"></div>
+            </section>
+
+            <!-- OWNER SUB-PAGE 2: SUBSCRIPTION CODES -->
+            <section id="sectionOwnerCodes" class="hidden space-y-3">
+                <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
+                    <button onclick="openOwnerDashboard()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <span>رجوع للوحة المالك</span>
+                    </button>
+                    <h3 class="text-xs sm:text-sm font-extrabold text-slate-800">إنشاء وإدارة أكواد الاشتراك</h3>
+                </div>
+
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div>
+                        <h4 class="text-sm font-extrabold text-slate-800">توليد كود اشتراك جديد</h4>
+                        <p class="text-[11px] text-slate-500 mt-0.5">الكود صالح لحساب واحد فقط ويفعّل الاشتراك للأبد</p>
+                    </div>
+                    <button onclick="generateNewSubscriptionCode()" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-extrabold text-xs shadow-sm transition flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-plus-circle"></i>
+                        <span>إنشاء كود اشتراك جديد</span>
+                    </button>
+                </div>
+
+                <div id="ownerCodesList" class="space-y-2.5"></div>
+            </section>
+
+        </main>
+
+        <!-- COMPACT BOTTOM NAVIGATION BAR -->
+        <nav class="fixed bottom-0 right-0 left-0 z-30 bg-white/95 backdrop-blur border-t border-slate-200 shadow-md">
+            <div class="max-w-sm mx-auto grid grid-cols-2 gap-2 px-3 py-1.5">
+                <button onclick="showSection('examTypes')" id="navBtnExams" class="py-1.5 px-3 rounded-xl flex items-center justify-center gap-1.5 bg-teal-50 text-teal-800 font-extrabold transition">
+                    <i class="fa-solid fa-layer-group text-sm"></i>
+                    <span class="text-xs">نوع الأسئلة</span>
+                </button>
+                <button onclick="showSection('account')" id="navBtnAccount" class="py-1.5 px-3 rounded-xl flex items-center justify-center gap-1.5 text-slate-500 hover:bg-slate-50 font-bold transition">
+                    <i class="fa-solid fa-circle-user text-sm"></i>
+                    <span class="text-xs">حسابي</span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- 4. FULL-SCREEN WORD-LIKE QUESTION EDITOR MODAL (بأزرار علوية مرتبة تفتح وتغلق عند الضغط) -->
+    <div id="fullScreenQuestionEditorModal" class="hidden fixed inset-0 z-50 bg-slate-100 flex flex-col">
+        
+        <!-- Top Bar: Question Title + Done ("تم") Button -->
+        <div class="bg-slate-900 text-white px-3 sm:px-5 py-2.5 flex items-center justify-between gap-2 shadow-sm shrink-0">
+            <div class="flex items-center gap-2">
+                <span class="w-7 h-7 rounded-lg bg-teal-500/20 border border-teal-400/40 text-teal-300 flex items-center justify-center text-xs font-extrabold">
+                    <i class="fa-solid fa-pen-nib"></i>
+                </span>
+                <div>
+                    <h3 id="fsEditorTitle" class="text-xs sm:text-sm font-extrabold text-white">محرر السؤال الأول (س1)</h3>
+                    <p class="text-[10px] text-slate-300">اضغط على أي أداة بالأسفل لفتح نافذتها، واضغط عليها مرة ثانية لإخفائها</p>
+                </div>
+            </div>
+
+            <button type="button" onclick="closeFullScreenQuestionEditor()"
+                class="px-5 py-1.5 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white text-xs sm:text-sm font-extrabold shadow-sm transition flex items-center gap-1.5">
+                <i class="fa-solid fa-check"></i>
+                <span>تم</span>
+            </button>
+        </div>
+
+        <!-- Clean 4-Button Toggle Bar (نوع الخط | لون الخط | الرموز والأفرع | الدرجة والعنوان) -->
+        <div class="bg-white border-b border-slate-200 px-2.5 sm:px-5 py-2 shadow-2xs shrink-0 relative z-20">
+            <div class="max-w-4xl mx-auto grid grid-cols-4 gap-1.5 sm:gap-2.5">
+                
+                <!-- Button 1: Font Family Toggle -->
+                <button type="button" id="btnToolFont" onclick="toggleEditorToolPanel('font')"
+                    class="py-2 px-2 sm:px-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-teal-50/60 text-slate-700 font-extrabold text-[11px] sm:text-xs transition flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-font text-teal-700"></i>
+                    <span class="truncate">نوع الخط</span>
+                    <i id="iconChevronFont" class="fa-solid fa-chevron-down text-[9px] text-slate-400 transition-transform"></i>
+                </button>
+
+                <!-- Button 2: Font Color Toggle -->
+                <button type="button" id="btnToolColor" onclick="toggleEditorToolPanel('color')"
+                    class="py-2 px-2 sm:px-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-teal-50/60 text-slate-700 font-extrabold text-[11px] sm:text-xs transition flex items-center justify-center gap-1.5">
+                    <span id="activeColorIndicatorDot" class="w-3.5 h-3.5 rounded-full border border-slate-300 shrink-0" style="background-color: #0f172a;"></span>
+                    <span class="truncate">لون الخط</span>
+                    <i id="iconChevronColor" class="fa-solid fa-chevron-down text-[9px] text-slate-400 transition-transform"></i>
+                </button>
+
+                <!-- Button 3: Symbols & Branches Toggle -->
+                <button type="button" id="btnToolSymbols" onclick="toggleEditorToolPanel('symbols')"
+                    class="py-2 px-2 sm:px-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-amber-50/70 text-slate-700 font-extrabold text-[11px] sm:text-xs transition flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-square-root-variable text-amber-600"></i>
+                    <span class="truncate">الرموز والأفرع</span>
+                    <i id="iconChevronSymbols" class="fa-solid fa-chevron-down text-[9px] text-slate-400 transition-transform"></i>
+                </button>
+
+                <!-- Button 4: Grade & Section Heading Toggle -->
+                <button type="button" id="btnToolMeta" onclick="toggleEditorToolPanel('meta')"
+                    class="py-2 px-2 sm:px-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-teal-50/60 text-slate-700 font-extrabold text-[11px] sm:text-xs transition flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-award text-teal-700"></i>
+                    <span class="truncate">الدرجة والعنوان</span>
+                    <i id="iconChevronMeta" class="fa-solid fa-chevron-down text-[9px] text-slate-400 transition-transform"></i>
+                </button>
+            </div>
+
+            <!-- COLLAPSIBLE PANEL 1: FONT FAMILY (يفتح عند الضغط على زر نوع الخط ويختفي عند الضغط مرة ثانية) -->
+            <div id="panelToolFont" class="hidden max-w-4xl mx-auto mt-2 p-3 rounded-2xl bg-slate-50 border border-teal-200 shadow-md">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-extrabold text-teal-800">اختر نوع خط السؤال (يُطبق فوراً أمامك):</span>
+                    <button type="button" onclick="toggleEditorToolPanel('font')" class="text-[11px] font-bold text-slate-400 hover:text-rose-600">
+                        <i class="fa-solid fa-xmark ml-0.5"></i> إغلاق
+                    </button>
+                </div>
+                <div id="fsFontButtonsGrid" class="grid grid-cols-1 sm:grid-cols-5 gap-2">
+                    <!-- Populated dynamically by renderFsFontButtons() -->
+                </div>
+            </div>
+
+            <!-- COLLAPSIBLE PANEL 2: FONT COLOR (يفتح عند الضغط على زر لون الخط ويختفي عند الضغط مرة ثانية) -->
+            <div id="panelToolColor" class="hidden max-w-4xl mx-auto mt-2 p-3 rounded-2xl bg-slate-50 border border-teal-200 shadow-md">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-extrabold text-teal-800">اختر لون خط السؤال (يُطبق فوراً أمامك):</span>
+                    <button type="button" onclick="toggleEditorToolPanel('color')" class="text-[11px] font-bold text-slate-400 hover:text-rose-600">
+                        <i class="fa-solid fa-xmark ml-0.5"></i> إغلاق
+                    </button>
+                </div>
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div id="fsEditorColorSwatches" class="flex flex-wrap items-center gap-2"></div>
+                    <label class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white border border-slate-200 cursor-pointer text-xs font-bold text-slate-700">
+                        <input type="color" id="fsEditorCustomColor" oninput="applyFsEditorColor(this.value)"
+                            class="w-6 h-6 rounded cursor-pointer border-0 bg-transparent">
+                        <span>لون مخصص</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- COLLAPSIBLE PANEL 3: SYMBOLS & QUICK BRANCHES (يفتح عند الضغط على زر الرموز ويختفي عند الضغط مرة ثانية) -->
+            <div id="panelToolSymbols" class="hidden max-w-4xl mx-auto mt-2 p-3 rounded-2xl bg-slate-50 border border-amber-200 shadow-md space-y-2.5">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <!-- Quick Structure Insert Buttons -->
+                    <div class="flex flex-wrap items-center gap-1">
+                        <span class="text-[10px] font-extrabold text-slate-500 ml-1">إدراج سريع:</span>
+                        <button type="button" onclick="insertSymbolIntoFsEditor('\nأ/ ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">فرع أ/</button>
+                        <button type="button" onclick="insertSymbolIntoFsEditor('\nب/ ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">فرع ب/</button>
+                        <button type="button" onclick="insertSymbolIntoFsEditor('\nج/ ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">فرع ج/</button>
+                        <button type="button" onclick="insertSymbolIntoFsEditor('\n١- ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">١-</button>
+                        <button type="button" onclick="insertSymbolIntoFsEditor('\n٢- ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">٢-</button>
+                        <button type="button" onclick="insertSymbolIntoFsEditor(' ﴿  ﴾ ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">﴿ آية ﴾</button>
+                        <button type="button" onclick="insertSymbolIntoFsEditor(' (          ) ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">( فراغ )</button>
+                    </div>
+                    <button type="button" onclick="toggleEditorToolPanel('symbols')" class="text-[11px] font-bold text-slate-400 hover:text-rose-600">
+                        <i class="fa-solid fa-xmark ml-0.5"></i> إغلاق
+                    </button>
+                </div>
+
+                <!-- Scientific Categories Tabs -->
+                <div class="flex flex-wrap items-center gap-1.5 pt-1 border-t border-slate-200/80">
+                    <button type="button" onclick="switchSymbolsTab('math')" id="symTabMath" class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-teal-700 text-white transition">
+                        <i class="fa-solid fa-calculator ml-1"></i> الرياضيات
+                    </button>
+                    <button type="button" onclick="switchSymbolsTab('chem')" id="symTabChem" class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition">
+                        <i class="fa-solid fa-flask ml-1"></i> الكيمياء
+                    </button>
+                    <button type="button" onclick="switchSymbolsTab('phys')" id="symTabPhys" class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition">
+                        <i class="fa-solid fa-atom ml-1"></i> الفيزياء
+                    </button>
+                    <button type="button" onclick="switchSymbolsTab('arabic')" id="symTabArabic" class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition">
+                        <i class="fa-solid fa-book-quran ml-1"></i> رموز عربية وأقواس
+                    </button>
+                </div>
+
+                <!-- Symbols Grid -->
+                <div id="symbolsGridContainer" class="flex flex-wrap items-center gap-1.5 max-h-32 overflow-y-auto p-1.5 bg-white rounded-xl border border-slate-200" dir="ltr">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- COLLAPSIBLE PANEL 4: GRADE & SECTION HEADING (الدرجة والعنوان الفرعي للسؤال) -->
+            <div id="panelToolMeta" class="hidden max-w-4xl mx-auto mt-2 p-3 rounded-2xl bg-slate-50 border border-teal-200 shadow-md">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-extrabold text-teal-800">تخصيص درجة السؤال والعنوان الفرعي (اختياري):</span>
+                    <button type="button" onclick="toggleEditorToolPanel('meta')" class="text-[11px] font-bold text-slate-400 hover:text-rose-600">
+                        <i class="fa-solid fa-xmark ml-0.5"></i> إغلاق
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <div>
+                        <label class="block text-[10px] font-extrabold text-slate-600 mb-1">درجة السؤال (تظهر مقابل السؤال بالورقة)</label>
+                        <input type="text" id="fsEditorGrade" placeholder="مثال: ٢٠ درجة"
+                            oninput="liveSyncFromFullScreenEditor()"
+                            class="w-full px-3 py-1.5 rounded-xl bg-white border border-slate-300 text-slate-800 text-xs font-extrabold outline-none focus:border-teal-600">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-extrabold text-slate-600 mb-1">عنوان فرعي فوق السؤال (اختياري: التلاوة / الحديث / الإنشاء)</label>
+                        <input type="text" id="fsEditorSectionTitle" placeholder="اتركه فارغاً إذا لم يكن هناك عنوان فرعي"
+                            oninput="liveSyncFromFullScreenEditor()"
+                            class="w-full px-3 py-1.5 rounded-xl bg-white border border-slate-300 text-slate-800 text-xs font-bold outline-none focus:border-teal-600">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spacious Word-Style Writing Canvas (مساحة مريحة وواسعة لكتابة السؤال) -->
+        <div class="flex-1 p-2.5 sm:p-5 overflow-y-auto flex justify-center bg-slate-200/60" onclick="closeAllEditorToolPanelsOnCanvasClick()">
+            <div class="w-full max-w-4xl bg-white rounded-2xl shadow-md border border-slate-300 flex flex-col overflow-hidden" onclick="event.stopPropagation()">
+                <!-- Live Preview Header Strip inside the Canvas -->
+                <div class="px-4 py-2 bg-slate-50 border-b border-slate-200 flex items-center justify-between text-xs font-bold text-slate-600">
+                    <div class="flex items-center gap-2">
+                        <span id="fsCanvasQuestionPrefix" class="text-teal-800 font-extrabold text-sm">س1/</span>
+                        <span id="fsCanvasLiveSecPreview" class="hidden px-2 py-0.5 rounded bg-amber-100 text-amber-900 text-[11px] font-extrabold"></span>
+                    </div>
+                    <button type="button" onclick="toggleEditorToolPanel('meta')" class="hover:text-teal-700 transition flex items-center gap-1">
+                        <span id="fsCanvasLiveGradePreview" class="text-slate-800 font-extrabold">(٢٠ درجة)</span>
+                        <i class="fa-solid fa-pen text-[10px] text-slate-400"></i>
+                    </button>
+                </div>
+
+                <!-- Main Full-Screen Textarea where Font & Color apply immediately -->
+                <textarea id="fsEditorTextarea"
+                    onfocus="closeAllEditorToolPanelsOnCanvasClick()"
+                    oninput="liveSyncFromFullScreenEditor()"
+                    placeholder="اكتب نص السؤال وفروعه هنا بكل راحة... اضغط على الأزرار في الأعلى لتغيير الخط أو اللون أو إدراج الرموز وسيتم تطبيقها فوراً أمامك."
+                    class="flex-1 w-full p-4 sm:p-6 outline-none resize-none text-xl sm:text-2xl font-bold leading-relaxed font-amiri"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. FREE TRIAL CONFIRMATION MODAL -->
+    <div id="freeTrialModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-slate-200 text-center space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-xl mx-auto">
+                <i class="fa-solid fa-gift"></i>
+            </div>
+            <h3 class="text-base font-extrabold text-slate-800">طلب تجربة مجانية</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+                هل ترغب في تجربة أنواع الأسئلة لمرة واحدة مجاناً؟
+            </p>
+            <div class="flex items-center gap-2 pt-1">
+                <button onclick="confirmFreeTrialRequest()" class="flex-1 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-extrabold text-xs shadow-sm transition">
+                    تأكيد الطلب
+                </button>
+                <button onclick="closeFreeTrialModal()" class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+                    إلغاء
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. SUBSCRIPTION CODE MODAL -->
+    <div id="subscriptionModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-slate-200 text-center space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl mx-auto">
+                <i class="fa-solid fa-key"></i>
+            </div>
+            <h3 class="text-base font-extrabold text-slate-800">تفعيل كود الاشتراك الدائم</h3>
+            <p class="text-[11px] text-slate-500 leading-relaxed">
+                أدخل الكود الذي حصلت عليه من مالك التطبيق لتفعيل اشتراكك الدائم وفتح جميع أنواع الأسئلة
+            </p>
+            <div>
+                <input type="text" id="subscriptionCodeInput" placeholder="EXM-XXXX-XXXX" dir="ltr"
+                    class="w-full px-3 py-2.5 rounded-xl border-2 border-slate-200 bg-slate-50 focus:bg-white focus:border-amber-500 outline-none text-center font-mono text-sm font-extrabold tracking-widest uppercase">
+            </div>
+            <div class="flex items-center gap-2 pt-1">
+                <button onclick="activateSubscriptionCode()" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-extrabold text-xs shadow-sm transition">
+                    اشتراك وتفعيل
+                </button>
+                <button onclick="closeSubscriptionModal()" class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+                    إغلاق
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. CUSTOM MESSAGE / ALERT MODAL -->
+    <div id="customMessageModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-xs w-full p-5 shadow-2xl border border-slate-200 text-center space-y-3">
+            <div id="msgModalIcon" class="w-11 h-11 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-lg mx-auto">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <h3 id="msgModalTitle" class="text-sm font-extrabold text-slate-800">تنبيه</h3>
+            <p id="msgModalBody" class="text-xs text-slate-600 leading-relaxed"></p>
+            <button onclick="closeCustomMessage()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-extrabold text-xs transition">
+                حسناً، فهمت
+            </button>
+        </div>
+    </div>
+
+    <!-- APPLICATION LOGIC & FIREBASE INTEGRATION -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // ============================================================================
+        // 1. ANTI-COPY / ANTI-PASTE / ANTI-TAMPER PROTECTION (With Free Scrolling)
+        // ============================================================================
+        const OWNER_EMAIL = "mslmalmyaly223@gmail.com";
+        let allowInternalCopy = false;
+
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
+        document.addEventListener('copy', (e) => {
+            if (!allowInternalCopy) {
+                e.preventDefault();
+                showCustomMessage("ممنوع النسخ", "نظام الحماية يمنع النسخ واللصق داخل التطبيق للحفاظ على حقوق المنصة.", "warning");
+            }
+        });
+        document.addEventListener('cut', (e) => e.preventDefault());
+        document.addEventListener('paste', (e) => {
+            e.preventDefault();
+            showCustomMessage("ممنوع اللصق", "الرجاء كتابة الأسئلة أو الكود يدوياً؛ خاصية النسخ واللصق معطلة لأغراض الأمان.", "warning");
+        });
+        document.addEventListener('dragstart', (e) => e.preventDefault());
+
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0', 'c', 'v', 'x', 'u', 's'].includes(e.key.toLowerCase())) {
+                e.preventDefault();
+            }
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase()))) {
+                e.preventDefault();
+            }
+        });
+
+        // ============================================================================
+        // 2. FIREBASE INITIALIZATION
+        // ============================================================================
+        const fallbackFirebaseConfig = {
+            apiKey: "AIzaSyC-aOdWkAcL5MB_7rBnme_7eFqXJd1RBaU",
+            authDomain: "travel-company-699a5.firebaseapp.com",
+            projectId: "travel-company-699a5",
+            storageBucket: "travel-company-699a5.firebasestorage.app",
+            messagingSenderId: "503808638609",
+            appId: "1:503808638609:web:55213354ee692cad1b0930",
+            measurementId: "G-LECHXHH49C"
+        };
+
+        const activeConfig = typeof __firebase_config !== 'undefined'
+            ? JSON.parse(__firebase_config)
+            : fallbackFirebaseConfig;
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'exam-builder-pro-v1';
+        const app = initializeApp(activeConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // State Variables
+        let firebaseUser = null;
+        let currentTeacher = null;
+        let currentSessionToken = null;
+        let unsubscribeTeacherDoc = null;
+        let unsubscribeOwnerUsers = null;
+        let unsubscribeOwnerCodes = null;
+
+        let allUsersCache = [];
+        let allCodesCache = [];
+
+        // Exam Builder State
+        let selectedExamType = 'daily';
+        let examDirection = 'rtl';
+        let questionsList = [];
+        let activeEditorQuestionIndex = 0;
+        let currentSymbolsCategory = 'math';
+        let activeEditorToolPanel = null; // 'font' | 'color' | 'symbols' | 'meta' | null
+        let autoFitSinglePage = false;
+
+        // ============================================================================
+        // 3. SCIENTIFIC & ACADEMIC SYMBOLS DICTIONARY
+        // ============================================================================
+        const SCIENTIFIC_SYMBOLS = {
+            math: [
+                '√', '∛', '²', '³', '⁴', 'ⁿ', 'π', '∞',
+                '±', '×', '÷', '≠', '≈', '≡', '≤', '≥',
+                '∑', '∫', '∆', '∇', '∈', '∉', '⊂', '⊆',
+                '∪', '∩', '∅', '∀', '∃', '∴', '∵', '∠',
+                '⊥', '∥', '°', '⇒', '⇔', '→', 'sin(', 'cos(',
+                'tan(', 'log(', 'ln(', 'lim', 'd/dx', 'f(x)', '|x|', '[ ]'
+            ],
+            chem: [
+                '→', '⇌', '↑', '↓', 'Δ', '°C', 'K', 'atm',
+                '₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇',
+                '₈', '₉', '⁺', '⁻', '²⁺', '³⁺', '²⁻', '³⁻',
+                'H₂O', 'CO₂', 'O₂', 'H₂', 'N₂', 'NH₃', 'CH₄', 'HCl',
+                'H₂SO₄', 'HNO₃', 'NaOH', 'NaCl', 'CaCO₃', 'OH⁻', 'H₃O⁺', 'SO₄²⁻',
+                'NO₃⁻', 'CO₃²⁻', 'PO₄³⁻', 'NH₄⁺', 'mol', 'g/mol', 'pH', 'ΔH°'
+            ],
+            phys: [
+                'Ω', 'μ', 'λ', 'θ', 'Φ', 'ψ', 'ω', 'α',
+                'β', 'γ', 'Δ', 'τ', 'ρ', 'σ', 'ε₀', 'μ₀',
+                'v⃗', 'a⃗', 'F⃗', 'E⃗', 'B⃗', '×10³', '×10⁶', '×10⁻³',
+                '×10⁻⁶', '×10⁻⁹', '×10⁻¹²', '×10⁻¹⁹', 'm/s', 'm/s²', 'kg', 'N',
+                'J', 'W', 'Pa', 'Hz', 'C', 'V', 'A', 'T', 'Wb', 'eV'
+            ],
+            arabic: [
+                '﴿', '﴾', '«', '»', 'ﷺ', 'ﷻ', '﴾١﴿', '﴾٢﴿',
+                '﴾٣﴿', '﴾٤﴿', '•', '◈', 'أ/', 'ب/', 'ج/', 'د/',
+                '١-', '٢-', '٣-', '٤-', '٥-', '(   )', '[   ]', 'ـــــــــــــ',
+                '١٠ درجات', '٢٠ درجة', '١٥ درجة', '٥ درجات', 'درجتان'
+            ]
+        };
+
+        const ARABIC_FONTS = [
+            { id: 'font-amiri', label: 'خط أميري الرسمي', short: 'أميري' },
+            { id: 'font-cairo', label: 'خط القاهرة الحديث', short: 'القاهرة' },
+            { id: 'font-tajawal', label: 'خط تجول الأنيق', short: 'تجول' },
+            { id: 'font-almarai', label: 'خط المراعي الواضح', short: 'المراعي' },
+            { id: 'font-kufi', label: 'خط الكوفي الأكاديمي', short: 'الكوفي' }
+        ];
+
+        const QUESTION_COLORS = [
+            { hex: '#0f172a', name: 'أسود رسمي' },
+            { hex: '#1e3a8a', name: 'أزرق وزاري' },
+            { hex: '#0f766e', name: 'أخضر زمردي' },
+            { hex: '#7c2d12', name: 'بني كلاسيكي' },
+            { hex: '#881337', name: 'عنابي فخم' },
+            { hex: '#4c1d95', name: 'بنفسجي أكاديمي' }
+        ];
+
+        // ============================================================================
+        // 4. HELPER UTILITIES & CRYPTOGRAPHIC HASHING
+        // ============================================================================
+        async function hashString(str) {
+            const msgBuffer = new TextEncoder().encode(str + "_SMART_SALT_2026");
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function emailToDocId(email) {
+            return email.trim().toLowerCase().replace(/[^a-z0-9]/g, '_');
+        }
+
+        function getUsersCollection() {
+            return collection(db, 'artifacts', appId, 'public', 'data', 'exam_app_users');
+        }
+
+        function getUserDocRef(email) {
+            return doc(db, 'artifacts', appId, 'public', 'data', 'exam_app_users', emailToDocId(email));
+        }
+
+        function getCodesCollection() {
+            return collection(db, 'artifacts', appId, 'public', 'data', 'exam_app_codes');
+        }
+
+        function getCodeDocRef(codeStr) {
+            return doc(db, 'artifacts', appId, 'public', 'data', 'exam_app_codes', codeStr.trim().toUpperCase());
+        }
+
+        window.showCustomMessage = function(title, body, type = 'info') {
+            const modal = document.getElementById('customMessageModal');
+            const iconBox = document.getElementById('msgModalIcon');
+            document.getElementById('msgModalTitle').textContent = title;
+            document.getElementById('msgModalBody').textContent = body;
+
+            if (type === 'error') {
+                iconBox.className = "w-11 h-11 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-lg mx-auto";
+                iconBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+            } else if (type === 'success') {
+                iconBox.className = "w-11 h-11 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg mx-auto";
+                iconBox.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+            } else if (type === 'warning') {
+                iconBox.className = "w-11 h-11 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg mx-auto";
+                iconBox.innerHTML = '<i class="fa-solid fa-shield-halved"></i>';
+            } else {
+                iconBox.className = "w-11 h-11 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-lg mx-auto";
+                iconBox.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
+            }
+
+            modal.classList.remove('hidden');
+        };
+
+        window.closeCustomMessage = function() {
+            document.getElementById('customMessageModal').classList.add('hidden');
+        };
+
+        // ============================================================================
+        // 5. BOOTSTRAP & SPLASH SCREEN TRANSITION
+        // ============================================================================
+        async function initAppAuth() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                firebaseUser = auth.currentUser;
+            } catch (err) {
+                console.error("Auth init error:", err);
+            }
+
+            setTimeout(() => {
+                const splash = document.getElementById('splashScreen');
+                splash.classList.add('opacity-0');
+                setTimeout(() => {
+                    splash.classList.add('hidden');
+                    document.getElementById('authScreen').classList.remove('hidden');
+                }, 500);
+            }, 2300);
+        }
+
+        onAuthStateChanged(auth, (u) => {
+            if (u) firebaseUser = u;
+        });
+
+        window.addEventListener('load', initAppAuth);
+        window.addEventListener('resize', adjustA4PreviewScale);
+
+        // ============================================================================
+        // 6. TEACHER LOGIN, REGISTRATION & SINGLE-DEVICE SESSION GUARD
+        // ============================================================================
+        window.switchAuthTab = function(mode) {
+            const loginWin = document.getElementById('loginWindow');
+            const regWin = document.getElementById('registerWindow');
+            const btnLogin = document.getElementById('tabBtnLogin');
+            const btnReg = document.getElementById('tabBtnRegister');
+
+            if (mode === 'login') {
+                loginWin.classList.remove('hidden');
+                regWin.classList.add('hidden');
+                btnLogin.className = "px-4 py-1.5 rounded-lg text-xs font-bold bg-white text-teal-800 shadow-xs transition";
+                btnReg.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 transition";
+            } else {
+                loginWin.classList.add('hidden');
+                regWin.classList.remove('hidden');
+                regWin.classList.add('flex');
+                btnReg.className = "px-4 py-1.5 rounded-lg text-xs font-bold bg-white text-amber-700 shadow-xs transition";
+                btnLogin.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 transition";
+            }
+        };
+
+        window.handleRegister = async function() {
+            if (!firebaseUser) {
+                showCustomMessage("يرجى الانتظار", "جاري الاتصال بقاعدة البيانات الآمنة...", "info");
+                return;
+            }
+
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim().toLowerCase();
+            const password = document.getElementById('regPassword').value;
+
+            if (!name || !email || !password) {
+                showCustomMessage("حقول مطلوبة", "يرجى كتابة الاسم والبريد الإلكتروني والرمز السري لإتمام إنشاء الحساب.", "error");
+                return;
+            }
+            if (!email.includes('@') || password.length < 6) {
+                showCustomMessage("بيانات غير صالحة", "يرجى إدخال بريد إلكتروني صحيح ورمز سري لا يقل عن 6 مراتب.", "error");
+                return;
+            }
+
+            const btn = document.getElementById('btnRegSubmit');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري إنشاء الحساب...';
+
+            try {
+                const userRef = getUserDocRef(email);
+                const snap = await getDoc(userRef);
+
+                if (snap.exists()) {
+                    showCustomMessage("الحساب موجود مسبقاً", "هذا البريد الإلكتروني مسجل بالفعل! يرجى تسجيل الدخول من نافذة تسجيل الدخول.", "warning");
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>إنشاء حساب جديد</span>';
+                    return;
+                }
+
+                const passwordHash = await hashString(password);
+                const newSessionId = crypto.randomUUID();
+                const isOwnerAccount = (email === OWNER_EMAIL.toLowerCase());
+
+                const newUserObj = {
+                    name: name,
+                    email: email,
+                    passwordHash: passwordHash,
+                    activeSessionId: newSessionId,
+                    isSubscribed: isOwnerAccount ? true : false,
+                    subscriptionCode: isOwnerAccount ? 'OWNER-MASTER' : '',
+                    trialStatus: 'none',
+                    trialRequestedAt: 0,
+                    createdAt: Date.now()
+                };
+
+                await setDoc(userRef, newUserObj);
+                currentSessionToken = newSessionId;
+                enterApplication(newUserObj);
+            } catch (err) {
+                console.error("Register error:", err);
+                showCustomMessage("خطأ في الاتصال", "تعذر إنشاء الحساب حالياً، يرجى المحاولة مرة أخرى.", "error");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-sparkles text-[11px]"></i><span>إنشاء حساب جديد</span>';
+            }
+        };
+
+        window.handleLogin = async function() {
+            if (!firebaseUser) {
+                showCustomMessage("يرجى الانتظار", "جاري الاتصال بقاعدة البيانات الآمنة...", "info");
+                return;
+            }
+
+            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                showCustomMessage("بيانات ناقصة", "يرجى إدخال البريد الإلكتروني والرمز السري لتسجيل الدخول.", "error");
+                return;
+            }
+
+            const btn = document.getElementById('btnLoginSubmit');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحقق...';
+
+            try {
+                const userRef = getUserDocRef(email);
+                const snap = await getDoc(userRef);
+
+                if (!snap.exists()) {
+                    showCustomMessage("الحساب غير موجود", "لا يوجد حساب مسجل بهذا البريد الإلكتروني. يمكنك إنشاء حساب جديد من النافذة المجاورة.", "error");
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>تسجيل الدخول للحساب</span>';
+                    return;
+                }
+
+                const userData = snap.data();
+                const inputHash = await hashString(password);
+
+                if (userData.passwordHash !== inputHash) {
+                    showCustomMessage("خطأ في الرمز السري", "الرمز السري الذي أدخلته غير صحيح، يرجى التأكد والمحاولة مجدداً.", "error");
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>تسجيل الدخول للحساب</span>';
+                    return;
+                }
+
+                const newSessionId = crypto.randomUUID();
+                currentSessionToken = newSessionId;
+
+                const isOwnerAccount = (email === OWNER_EMAIL.toLowerCase());
+                const updatedFields = {
+                    activeSessionId: newSessionId,
+                    ...(isOwnerAccount ? { isSubscribed: true } : {})
+                };
+
+                await updateDoc(userRef, updatedFields);
+                enterApplication({ ...userData, ...updatedFields });
+            } catch (err) {
+                console.error("Login error:", err);
+                showCustomMessage("خطأ في الدخول", "حدث خطأ أثناء تسجيل الدخول، يرجى المحاولة مرة أخرى.", "error");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>تسجيل الدخول للحساب</span><i class="fa-solid fa-arrow-left text-[10px]"></i>';
+            }
+        };
+
+        function enterApplication(userObj) {
+            currentTeacher = userObj;
+
+            document.getElementById('authScreen').classList.add('hidden');
+            document.getElementById('appContainer').classList.remove('hidden');
+
+            document.getElementById('footerTeacherName').value = `أ. ${userObj.name}`;
+
+            if (unsubscribeTeacherDoc) unsubscribeTeacherDoc();
+            const userRef = getUserDocRef(userObj.email);
+
+            unsubscribeTeacherDoc = onSnapshot(userRef, (docSnap) => {
+                if (!docSnap.exists()) return;
+                const liveData = docSnap.data();
+
+                if (liveData.activeSessionId && currentSessionToken && liveData.activeSessionId !== currentSessionToken) {
+                    forceLogoutDueToAnotherDevice();
+                    return;
+                }
+
+                currentTeacher = liveData;
+                refreshAccountUI();
+            }, (err) => {
+                console.error("Live teacher listener error:", err);
+            });
+
+            if (userObj.email.toLowerCase() === OWNER_EMAIL.toLowerCase()) {
+                startOwnerRealtimeListeners();
+            }
+
+            refreshAccountUI();
+            showSection('examTypes');
+        }
+
+        function forceLogoutDueToAnotherDevice() {
+            if (unsubscribeTeacherDoc) { unsubscribeTeacherDoc(); unsubscribeTeacherDoc = null; }
+            if (unsubscribeOwnerUsers) { unsubscribeOwnerUsers(); unsubscribeOwnerUsers = null; }
+            if (unsubscribeOwnerCodes) { unsubscribeOwnerCodes(); unsubscribeOwnerCodes = null; }
+
+            currentTeacher = null;
+            currentSessionToken = null;
+
+            document.getElementById('fullScreenQuestionEditorModal').classList.add('hidden');
+            document.getElementById('appContainer').classList.add('hidden');
+            document.getElementById('authScreen').classList.remove('hidden');
+
+            showCustomMessage(
+                "تم تسجيل الدخول من جهاز آخر!",
+                "تم فتح حسابك على جهاز آخر، وبموجب نظام الحماية (جلسة واحدة لكل حساب) تم تسجيل خروجك تلقائياً من هذا الجهاز.",
+                "warning"
+            );
+        }
+
+        window.handleLogout = async function() {
+            if (unsubscribeTeacherDoc) { unsubscribeTeacherDoc(); unsubscribeTeacherDoc = null; }
+            if (unsubscribeOwnerUsers) { unsubscribeOwnerUsers(); unsubscribeOwnerUsers = null; }
+            if (unsubscribeOwnerCodes) { unsubscribeOwnerCodes(); unsubscribeOwnerCodes = null; }
+
+            currentTeacher = null;
+            currentSessionToken = null;
+
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('fullScreenQuestionEditorModal').classList.add('hidden');
+            document.getElementById('appContainer').classList.add('hidden');
+            document.getElementById('authScreen').classList.remove('hidden');
+        };
+
+        // ============================================================================
+        // 7. ACCESS CONTROL & ACCOUNT STATUS REFRESH
+        // ============================================================================
+        function hasExamAccess() {
+            if (!currentTeacher) return false;
+            if (currentTeacher.email.toLowerCase() === OWNER_EMAIL.toLowerCase()) return true;
+            if (currentTeacher.isSubscribed === true) return true;
+            if (currentTeacher.trialStatus === 'approved') return true;
+            return false;
+        }
+
+        function refreshAccountUI() {
+            if (!currentTeacher) return;
+
+            const isOwner = currentTeacher.email.toLowerCase() === OWNER_EMAIL.toLowerCase();
+            document.getElementById('profileNameDisplay').textContent = currentTeacher.name;
+            document.getElementById('profileEmailDisplay').textContent = currentTeacher.email;
+            document.getElementById('headerSubStatus').textContent = `أهلاً بك، ${currentTeacher.name}`;
+
+            const ownerBtn = document.getElementById('btnOwnerDashboard');
+            const ownerCrown = document.getElementById('ownerCrownBadge');
+            if (isOwner) {
+                ownerBtn.classList.remove('hidden');
+                ownerBtn.classList.add('flex');
+                ownerCrown.classList.remove('hidden');
+            } else {
+                ownerBtn.classList.add('hidden');
+                ownerBtn.classList.remove('flex');
+                ownerCrown.classList.add('hidden');
+            }
+
+            const topBadge = document.getElementById('accessBadgeTop');
+            const profileStatus = document.getElementById('profileStatusText');
+            const trialSubtext = document.getElementById('trialBtnSubtext');
+            const lockBadges = document.querySelectorAll('.exam-lock-badge');
+
+            if (isOwner || currentTeacher.isSubscribed) {
+                topBadge.className = "px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300";
+                topBadge.innerHTML = '<i class="fa-solid fa-circle-check ml-1"></i> اشتراك دائمي';
+                profileStatus.textContent = isOwner ? "حالة الحساب: مالك المنصة (وصول كامل)" : "حالة الحساب: مشترك دائمي مفعل";
+                trialSubtext.textContent = "حسابك مفعل بالكامل ولا يحتاج لتجربة مجانية";
+
+                lockBadges.forEach(b => {
+                    b.className = "exam-lock-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 flex items-center gap-1 shrink-0";
+                    b.innerHTML = '<i class="fa-solid fa-lock-open text-emerald-600"></i> متاح';
+                });
+            } else if (currentTeacher.trialStatus === 'approved') {
+                topBadge.className = "px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-amber-100 text-amber-800 border border-amber-300";
+                topBadge.innerHTML = '<i class="fa-solid fa-gift ml-1"></i> تجربة مجانية (1)';
+                profileStatus.textContent = "حالة الحساب: لديك تجربة مجانية واحدة متاحة الآن";
+                trialSubtext.textContent = "تمت الموافقة! يمكنك الآن إنشاء أسئلة لمرة واحدة مجاناً";
+
+                lockBadges.forEach(b => {
+                    b.className = "exam-lock-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-teal-100 text-teal-800 flex items-center gap-1 shrink-0";
+                    b.innerHTML = '<i class="fa-solid fa-unlock text-teal-600"></i> متاح (1)';
+                });
+            } else {
+                topBadge.className = "px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200";
+                topBadge.innerHTML = '<i class="fa-solid fa-lock ml-1"></i> غير مشترك';
+
+                if (currentTeacher.trialStatus === 'pending') {
+                    profileStatus.textContent = "حالة الحساب: بانتظار موافقة الإدارة على التجربة المجانية";
+                    trialSubtext.textContent = "تم إرسال طلبك للإدارة، انتظر الموافقة";
+                } else if (currentTeacher.trialStatus === 'used') {
+                    profileStatus.textContent = "حالة الحساب: انتهت التجربة المجانية (يتطلب اشتراك)";
+                    trialSubtext.textContent = "لقد استهلكت التجربة المجانية الواحدة، يرجى الاشتراك بكود";
+                } else if (currentTeacher.trialStatus === 'rejected') {
+                    profileStatus.textContent = "حالة الحساب: غير مشترك";
+                    trialSubtext.textContent = "تم رفض الطلب السابق، يمكنك الاشتراك بكود تفعيل";
+                } else {
+                    profileStatus.textContent = "حالة الحساب: غير مشترك";
+                    trialSubtext.textContent = "تجربة الأسئلة لمرة واحدة مجاناً بعد موافقة الإدارة";
+                }
+
+                lockBadges.forEach(b => {
+                    b.className = "exam-lock-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 flex items-center gap-1 shrink-0";
+                    b.innerHTML = '<i class="fa-solid fa-lock text-amber-600"></i> مقفل';
+                });
+            }
+        }
+
+        // ============================================================================
+        // 8. NAVIGATION & FREE TRIAL / SUBSCRIPTION CODE FLOWS
+        // ============================================================================
+        window.showSection = function(sectionName) {
+            const sections = [
+                'sectionExamTypes',
+                'sectionExamBuilder',
+                'sectionExamPreview',
+                'sectionAccount',
+                'sectionOwnerHub',
+                'sectionOwnerRequests',
+                'sectionOwnerCodes'
+            ];
+            sections.forEach(id => document.getElementById(id).classList.add('hidden'));
+
+            const navExams = document.getElementById('navBtnExams');
+            const navAccount = document.getElementById('navBtnAccount');
+
+            if (sectionName === 'examTypes') {
+                document.getElementById('sectionExamTypes').classList.remove('hidden');
+                navExams.className = "py-1.5 px-3 rounded-xl flex items-center justify-center gap-1.5 bg-teal-50 text-teal-800 font-extrabold transition";
+                navAccount.className = "py-1.5 px-3 rounded-xl flex items-center justify-center gap-1.5 text-slate-500 hover:bg-slate-50 font-bold transition";
+            } else if (sectionName === 'account') {
+                document.getElementById('sectionAccount').classList.remove('hidden');
+                navAccount.className = "py-1.5 px-3 rounded-xl flex items-center justify-center gap-1.5 bg-teal-50 text-teal-800 font-extrabold transition";
+                navExams.className = "py-1.5 px-3 rounded-xl flex items-center justify-center gap-1.5 text-slate-500 hover:bg-slate-50 font-bold transition";
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.handleFreeTrialButtonClick = function() {
+            if (!currentTeacher) return;
+
+            if (currentTeacher.isSubscribed) {
+                showCustomMessage("حسابك مشترك بالفعل", "أنت تملك اشتراكاً دائمياً مفعلاً، جميع أنواع الأسئلة مفتوحة لك دائماً!", "success");
+                return;
+            }
+            if (currentTeacher.trialStatus === 'pending') {
+                showCustomMessage("الطلب قيد المراجعة", "تم إرسال طلبك للإدارة، انتظر الموافقة على التجربة المجانية.", "info");
+                return;
+            }
+            if (currentTeacher.trialStatus === 'approved') {
+                showCustomMessage("التجربة متاحة الآن!", "تمت الموافقة على طلبك! يمكنك الذهاب إلى قسم (نوع الأسئلة) وتجربة إنشاء الأسئلة لمرة واحدة مجاناً.", "success");
+                return;
+            }
+            if (currentTeacher.trialStatus === 'used') {
+                showCustomMessage("انتهت التجربة المجانية", "لقد استخدمت محاولتك المجانية الواحدة مسبقاً. يرجى الضغط على زر (اشتراك) وإدخال كود التفعيل.", "warning");
+                return;
+            }
+
+            document.getElementById('freeTrialModal').classList.remove('hidden');
+        };
+
+        window.closeFreeTrialModal = function() {
+            document.getElementById('freeTrialModal').classList.add('hidden');
+        };
+
+        window.confirmFreeTrialRequest = async function() {
+            if (!currentTeacher) return;
+            closeFreeTrialModal();
+
+            try {
+                const userRef = getUserDocRef(currentTeacher.email);
+                await updateDoc(userRef, {
+                    trialStatus: 'pending',
+                    trialRequestedAt: Date.now()
+                });
+                showCustomMessage("تم إرسال الطلب بنجاح", "تم إرسال طلبك للإدارة، انتظر الموافقة على التجربة المجانية.", "success");
+            } catch (err) {
+                console.error("Trial request error:", err);
+                showCustomMessage("خطأ", "تعذر إرسال الطلب حالياً، حاول مرة أخرى.", "error");
+            }
+        };
+
+        window.openSubscriptionModal = function() {
+            document.getElementById('subscriptionCodeInput').value = '';
+            document.getElementById('subscriptionModal').classList.remove('hidden');
+        };
+
+        window.closeSubscriptionModal = function() {
+            document.getElementById('subscriptionModal').classList.add('hidden');
+        };
+
+        window.activateSubscriptionCode = async function() {
+            if (!currentTeacher) return;
+            const rawCode = document.getElementById('subscriptionCodeInput').value.trim().toUpperCase();
+
+            if (!rawCode) {
+                showCustomMessage("أدخل الكود", "يرجى كتابة كود الاشتراك في الحقل المخصص.", "warning");
+                return;
+            }
+
+            try {
+                const codeRef = getCodeDocRef(rawCode);
+                const codeSnap = await getDoc(codeRef);
+
+                if (!codeSnap.exists()) {
+                    showCustomMessage("منتهي الصلاحية", "هذا الكود غير صحيح أو منتهي الصلاحية.", "error");
+                    return;
+                }
+
+                const codeData = codeSnap.data();
+
+                if (codeData.status === 'disabled') {
+                    showCustomMessage("منتهي الصلاحية", "هذا الكود تم تعطيله من قبل الإدارة وهو منتهي الصلاحية.", "error");
+                    return;
+                }
+
+                if (codeData.status === 'active' && codeData.usedByEmail !== currentTeacher.email) {
+                    showCustomMessage("منتهي الصلاحية", "هذا الكود مستخدم مسبقاً لحساب آخر وهو منتهي الصلاحية (الكود صالح لحساب واحد فقط).", "error");
+                    return;
+                }
+
+                await updateDoc(codeRef, {
+                    status: 'active',
+                    usedByEmail: currentTeacher.email,
+                    usedByName: currentTeacher.name,
+                    activatedAt: Date.now()
+                });
+
+                const userRef = getUserDocRef(currentTeacher.email);
+                await updateDoc(userRef, {
+                    isSubscribed: true,
+                    subscriptionCode: rawCode
+                });
+
+                closeSubscriptionModal();
+                showCustomMessage("تم تفعيل الاشتراك الدائم!", "مبارك لك! تم تفعيل كود الاشتراك بنجاح وفتحت جميع أنواع الأسئلة لحسابك للأبد.", "success");
+            } catch (err) {
+                console.error("Code activation error:", err);
+                showCustomMessage("خطأ", "حدث خطأ أثناء التحقق من الكود، يرجى المحاولة مرة أخرى.", "error");
+            }
+        };
+
+        // ============================================================================
+        // 9. OWNER CONTROL PANEL
+        // ============================================================================
+        function startOwnerRealtimeListeners() {
+            if (unsubscribeOwnerUsers) unsubscribeOwnerUsers();
+            if (unsubscribeOwnerCodes) unsubscribeOwnerCodes();
+
+            unsubscribeOwnerUsers = onSnapshot(getUsersCollection(), (snap) => {
+                allUsersCache = [];
+                snap.forEach(d => allUsersCache.push(d.data()));
+                renderOwnerRequestsUI();
+            }, (err) => console.error("Owner users listener error:", err));
+
+            unsubscribeOwnerCodes = onSnapshot(getCodesCollection(), (snap) => {
+                allCodesCache = [];
+                snap.forEach(d => allCodesCache.push(d.data()));
+                renderOwnerCodesUI();
+            }, (err) => console.error("Owner codes listener error:", err));
+        }
+
+        window.openOwnerDashboard = function() {
+            if (!currentTeacher || currentTeacher.email.toLowerCase() !== OWNER_EMAIL.toLowerCase()) {
+                showCustomMessage("غير مصرح", "هذه اللوحة مخصصة لمالك التطبيق فقط.", "error");
+                return;
+            }
+            const sections = ['sectionExamTypes', 'sectionExamBuilder', 'sectionExamPreview', 'sectionAccount', 'sectionOwnerRequests', 'sectionOwnerCodes'];
+            sections.forEach(id => document.getElementById(id).classList.add('hidden'));
+            document.getElementById('sectionOwnerHub').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.openOwnerRequestsPage = function() {
+            if (!currentTeacher || currentTeacher.email.toLowerCase() !== OWNER_EMAIL.toLowerCase()) return;
+            document.getElementById('sectionOwnerHub').classList.add('hidden');
+            document.getElementById('sectionOwnerRequests').classList.remove('hidden');
+            renderOwnerRequestsUI();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.openOwnerCodesPage = function() {
+            if (!currentTeacher || currentTeacher.email.toLowerCase() !== OWNER_EMAIL.toLowerCase()) return;
+            document.getElementById('sectionOwnerHub').classList.add('hidden');
+            document.getElementById('sectionOwnerCodes').classList.remove('hidden');
+            renderOwnerCodesUI();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        function renderOwnerRequestsUI() {
+            const pendingUsers = allUsersCache.filter(u => u.trialStatus === 'pending');
+            const historyUsers = allUsersCache.filter(u => ['approved', 'rejected', 'used'].includes(u.trialStatus));
+
+            const count = pendingUsers.length;
+            const c1 = document.getElementById('ownerPendingCounter');
+            const c2 = document.getElementById('hubPendingBadge');
+            if (c1) c1.textContent = count;
+            if (c2) c2.textContent = count;
+
+            const container = document.getElementById('ownerRequestsList');
+            if (!container) return;
+
+            if (pendingUsers.length === 0 && historyUsers.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white rounded-2xl p-8 text-center border border-slate-200">
+                        <i class="fa-solid fa-inbox text-3xl text-slate-300 mb-2"></i>
+                        <p class="text-xs font-extrabold text-slate-600">لا توجد طلبات تجربة مجانية حالياً</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+
+            pendingUsers.forEach(u => {
+                html += `
+                    <div class="bg-white rounded-2xl p-4 border-2 border-amber-300 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                        <div>
+                            <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-extrabold">طلب جديد بانتظار الموافقة</span>
+                            <h4 class="text-sm font-extrabold text-slate-800 mt-1">${escapeHtml(u.name)}</h4>
+                            <p class="text-[11px] text-slate-500 font-mono" dir="ltr">${escapeHtml(u.email)}</p>
+                        </div>
+                        <div class="flex items-center gap-2 w-full sm:w-auto">
+                            <button onclick="ownerHandleTrialDecision('${escapeHtml(u.email)}', 'approved')" class="flex-1 sm:flex-initial px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold transition">
+                                <i class="fa-solid fa-check ml-1"></i> قبول
+                            </button>
+                            <button onclick="ownerHandleTrialDecision('${escapeHtml(u.email)}', 'rejected')" class="flex-1 sm:flex-initial px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold transition">
+                                <i class="fa-solid fa-xmark ml-1"></i> رفض
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            historyUsers.forEach(u => {
+                let badge = '';
+                if (u.trialStatus === 'approved') badge = '<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">تم القبول (لم يستخدمها بعد)</span>';
+                else if (u.trialStatus === 'used') badge = '<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[10px] font-bold">أكمل المحاولة المجانية</span>';
+                else if (u.trialStatus === 'rejected') badge = '<span class="px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 text-[10px] font-bold">مرفوض</span>';
+
+                html += `
+                    <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200 flex items-center justify-between gap-3">
+                        <div>
+                            ${badge}
+                            <h4 class="text-xs font-bold text-slate-800 mt-1">${escapeHtml(u.name)}</h4>
+                            <p class="text-[11px] text-slate-500 font-mono" dir="ltr">${escapeHtml(u.email)}</p>
+                        </div>
+                        <button onclick="ownerHandleTrialDecision('${escapeHtml(u.email)}', 'approved')" class="px-3 py-1.5 rounded-lg bg-white border border-slate-300 hover:border-teal-600 text-teal-700 text-[11px] font-bold transition">
+                            منح محاولة جديدة
+                        </button>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        window.ownerHandleTrialDecision = async function(teacherEmail, decision) {
+            try {
+                const userRef = getUserDocRef(teacherEmail);
+                await updateDoc(userRef, { trialStatus: decision });
+                showCustomMessage(
+                    decision === 'approved' ? "تم قبول الطلب" : "تم رفض الطلب",
+                    decision === 'approved' ? "وصلت المحاولة المجانية الواحدة لحساب الأستاذ بنجاح." : "تم رفض طلب التجربة المجانية.",
+                    decision === 'approved' ? "success" : "info"
+                );
+            } catch (err) {
+                console.error("Owner decision error:", err);
+            }
+        };
+
+        window.generateNewSubscriptionCode = async function() {
+            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            let part1 = "", part2 = "";
+            for (let i = 0; i < 4; i++) {
+                part1 += chars.charAt(Math.floor(Math.random() * chars.length));
+                part2 += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            const newCode = `EXM-${part1}-${part2}`;
+
+            try {
+                const codeRef = getCodeDocRef(newCode);
+                await setDoc(codeRef, {
+                    code: newCode,
+                    status: 'unused',
+                    usedByEmail: '',
+                    usedByName: '',
+                    createdAt: Date.now()
+                });
+            } catch (err) {
+                console.error("Create code error:", err);
+                showCustomMessage("خطأ", "تعذر إنشاء الكود، حاول مجدداً.", "error");
+            }
+        };
+
+        function renderOwnerCodesUI() {
+            const container = document.getElementById('ownerCodesList');
+            if (!container) return;
+
+            const sorted = [...allCodesCache].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+            if (sorted.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white rounded-2xl p-8 text-center border border-slate-200">
+                        <i class="fa-solid fa-key text-3xl text-slate-300 mb-2"></i>
+                        <p class="text-xs font-extrabold text-slate-600">لم يتم إنشاء أي أكواد اشتراك بعد</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            sorted.forEach(item => {
+                let statusBadge = '';
+                if (item.status === 'unused') {
+                    statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-extrabold">غير مفعل</span>`;
+                } else if (item.status === 'active') {
+                    statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-extrabold">مفعل للأستاذ (${escapeHtml(item.usedByName || item.usedByEmail)})</span>`;
+                } else if (item.status === 'disabled') {
+                    statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700 text-[11px] font-extrabold">معطل (ملغي)</span>`;
+                }
+
+                html += `
+                    <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="px-3 py-1.5 rounded-lg bg-slate-900 text-amber-300 font-mono text-xs sm:text-sm font-extrabold tracking-widest" dir="ltr">
+                                    ${escapeHtml(item.code)}
+                                </span>
+                                ${statusBadge}
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
+                            <button onclick="copySubscriptionCode('${escapeHtml(item.code)}')" class="flex-1 py-2 px-3 rounded-xl bg-teal-50 hover:bg-teal-100 text-teal-800 font-extrabold text-xs transition flex items-center justify-center gap-1.5">
+                                <i class="fa-regular fa-copy"></i>
+                                <span>نسخ الكود</span>
+                            </button>
+                            <button onclick="disableSubscriptionCode('${escapeHtml(item.code)}', '${escapeHtml(item.usedByEmail || '')}')" 
+                                ${item.status === 'disabled' ? 'disabled' : ''}
+                                class="flex-1 py-2 px-3 rounded-xl ${item.status === 'disabled' ? 'bg-slate-100 text-slate-400 cursor-not-allowed' : 'bg-rose-50 hover:bg-rose-100 text-rose-700'} font-extrabold text-xs transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-ban"></i>
+                                <span>${item.status === 'disabled' ? 'تم تعطيل الكود' : 'تعطيل الكود'}</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        window.copySubscriptionCode = function(codeStr) {
+            allowInternalCopy = true;
+            const tempInput = document.createElement('textarea');
+            tempInput.value = codeStr;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            allowInternalCopy = false;
+
+            showCustomMessage("تم نسخ الكود", `تم نسخ الكود (${codeStr}) بنجاح، يمكنك إرساله للأستاذ الآن.`, "success");
+        };
+
+        window.disableSubscriptionCode = async function(codeStr, usedByEmail) {
+            try {
+                const codeRef = getCodeDocRef(codeStr);
+                await updateDoc(codeRef, { status: 'disabled' });
+
+                if (usedByEmail) {
+                    const userRef = getUserDocRef(usedByEmail);
+                    await updateDoc(userRef, { isSubscribed: false });
+                }
+
+                showCustomMessage("تم تعطيل الكود", "تم تعطيل الكود بنجاح وإيقاف اشتراك الأستاذ المرتبط به فوراً.", "warning");
+            } catch (err) {
+                console.error("Disable code error:", err);
+            }
+        };
+
+        // ============================================================================
+        // 10. EXAM BUILDER ENGINE & FULL-SCREEN WORD-STYLE QUESTION EDITOR
+        // ============================================================================
+        const EXAM_TYPE_LABELS = {
+            daily: 'امتحان يومي',
+            weekly: 'امتحان أسبوعي',
+            monthly: 'امتحان شهري',
+            comprehensive: 'امتحان نصف السنة / شامل'
+        };
+
+        window.openExamBuilder = function(type) {
+            if (!hasExamAccess()) {
+                showCustomMessage(
+                    "القسم مقفل - يتطلب اشتراك",
+                    "يرجى الذهاب إلى قسم (حسابي) وتفعيل كود الاشتراك أو طلب تجربة مجانية واحدة لفتح أنواع الأسئلة.",
+                    "warning"
+                );
+                return;
+            }
+
+            selectedExamType = type;
+            document.getElementById('builderExamTypeBadge').textContent = EXAM_TYPE_LABELS[type];
+
+            const titleInput = document.getElementById('headerExamTitle');
+            if (!titleInput.value.trim()) {
+                titleInput.value = EXAM_TYPE_LABELS[type];
+            }
+
+            if (questionsList.length === 0) {
+                questionsList = Array.from({ length: 5 }, () => ({
+                    id: crypto.randomUUID(),
+                    sectionTitle: '',
+                    text: '',
+                    grade: '٢٠ درجة',
+                    color: '#0f172a',
+                    font: 'font-amiri'
+                }));
+            }
+
+            renderQuestionFields();
+
+            document.getElementById('sectionExamTypes').classList.add('hidden');
+            document.getElementById('sectionExamBuilder').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.closeExamBuilder = function() {
+            document.getElementById('sectionExamBuilder').classList.add('hidden');
+            document.getElementById('sectionExamTypes').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.setExamDirection = function(dir) {
+            examDirection = dir;
+            const btnRtl = document.getElementById('dirBtnRtl');
+            const btnLtr = document.getElementById('dirBtnLtr');
+
+            if (dir === 'rtl') {
+                btnRtl.className = "px-2.5 py-1 rounded-md text-[11px] font-bold bg-teal-700 text-white shadow-2xs transition";
+                btnLtr.className = "px-2.5 py-1 rounded-md text-[11px] font-bold text-slate-600 hover:text-slate-900 transition";
+            } else {
+                btnLtr.className = "px-2.5 py-1 rounded-md text-[11px] font-bold bg-teal-700 text-white shadow-2xs transition";
+                btnRtl.className = "px-2.5 py-1 rounded-md text-[11px] font-bold text-slate-600 hover:text-slate-900 transition";
+            }
+
+            renderQuestionFields();
+        };
+
+        // Render compact Question Cards that open the Full-Screen Editor when clicked
+        function renderQuestionFields() {
+            const container = document.getElementById('questionsContainer');
+            document.getElementById('questionsCountBadge').textContent = `${questionsList.length} أسئلة`;
+
+            const isRtl = examDirection === 'rtl';
+            let html = '';
+
+            questionsList.forEach((q, idx) => {
+                const qLabel = isRtl ? `السؤال ${idx + 1} (س${idx + 1})` : `Question ${idx + 1} (Q${idx + 1})`;
+                const fontObj = ARABIC_FONTS.find(f => f.id === q.font) || ARABIC_FONTS[0];
+                const hasText = q.text && q.text.trim().length > 0;
+                const displayPreview = hasText
+                    ? escapeHtml(q.text)
+                    : (isRtl ? `اضغط هنا لفتح محرر السؤال ${idx + 1} بملء الشاشة وكتابة السؤال...` : `Click here to open full-screen editor for Question ${idx + 1}...`);
+
+                html += `
+                    <div class="bg-slate-50 rounded-xl p-3 border border-slate-200/90 hover:border-teal-500 transition space-y-2" dir="${examDirection}">
+                        <!-- Top Row: Question Badge + Delete Button + Active Style Info + Grade Input -->
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-1.5">
+                                <span class="px-2.5 py-0.5 rounded-lg bg-teal-700 text-white text-[11px] font-extrabold">
+                                    ${qLabel}
+                                </span>
+                                <!-- Delete Button Above Question -->
+                                <button type="button" onclick="deleteQuestionField(${idx})"
+                                    class="px-2 py-0.5 rounded-lg bg-rose-100 hover:bg-rose-600 text-rose-700 hover:text-white text-[11px] font-extrabold transition flex items-center gap-1">
+                                    <i class="fa-solid fa-trash-can text-[10px]"></i>
+                                    <span>حذف</span>
+                                </button>
+                                ${q.sectionTitle ? `<span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 text-[10px] font-bold">${escapeHtml(q.sectionTitle)}</span>` : ''}
+                            </div>
+
+                            <div class="flex items-center gap-1.5">
+                                <span class="w-3.5 h-3.5 rounded-full border border-slate-300" style="background-color: ${q.color};" title="لون السؤال"></span>
+                                <span class="text-[10px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">${fontObj.short}</span>
+                                <input type="text" value="${escapeHtml(q.grade)}" placeholder="${isRtl ? 'الدرجة (٢٠ درجة)' : 'Marks'}"
+                                    oninput="updateQuestionFieldGrade(${idx}, this.value)"
+                                    class="w-24 px-2 py-0.5 rounded-lg border border-slate-300 bg-white focus:border-teal-600 outline-none text-[11px] font-extrabold text-center">
+                            </div>
+                        </div>
+
+                        <!-- Clickable Question Field Box that launches Full-Screen Word-Like Editor -->
+                        <div onclick="openFullScreenQuestionEditor(${idx})"
+                            style="color: ${hasText ? q.color : '#64748b'};"
+                            class="w-full min-h-[58px] p-3 rounded-xl border border-slate-300 bg-white hover:bg-teal-50/20 hover:border-teal-500 cursor-pointer transition flex items-start justify-between gap-2 ${q.font}">
+                            <div class="text-sm font-bold leading-relaxed whitespace-pre-wrap flex-1 ${!hasText ? 'italic font-normal text-xs' : ''}">${displayPreview}</div>
+                            <span class="shrink-0 px-2.5 py-1 rounded-lg bg-teal-50 text-teal-700 border border-teal-200 text-[10px] font-extrabold flex items-center gap-1">
+                                <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                                <span>فتح المحرر</span>
+                            </span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // ============================================================================
+        // 11. FULL-SCREEN QUESTION EDITOR WITH TOGGLEABLE POPOVER PANELS
+        // ============================================================================
+        window.openFullScreenQuestionEditor = function(idx) {
+            activeEditorQuestionIndex = idx;
+            const q = questionsList[idx];
+            if (!q) return;
+
+            const isRtl = examDirection === 'rtl';
+            document.getElementById('fsEditorTitle').textContent = isRtl
+                ? `محرر السؤال ${idx + 1} (س${idx + 1})`
+                : `Question ${idx + 1} Editor (Q${idx + 1})`;
+            document.getElementById('fsCanvasQuestionPrefix').textContent = isRtl ? `س${idx + 1}/` : `Q${idx + 1}:`;
+
+            // Populate fields
+            const textarea = document.getElementById('fsEditorTextarea');
+            const gradeInput = document.getElementById('fsEditorGrade');
+            const secInput = document.getElementById('fsEditorSectionTitle');
+            const customColor = document.getElementById('fsEditorCustomColor');
+
+            textarea.value = q.text || '';
+            textarea.setAttribute('dir', examDirection);
+            gradeInput.value = q.grade || '';
+            secInput.value = q.sectionTitle || '';
+            customColor.value = q.color || '#0f172a';
+
+            // Close all tool panels initially so the writing canvas is super clean and spacious
+            closeAllEditorToolPanelsOnCanvasClick();
+
+            // Apply live font and color immediately to the full-screen editor textarea
+            applyLiveFormattingToTextarea();
+            renderFsFontButtons();
+            renderFsColorSwatches();
+            switchSymbolsTab(currentSymbolsCategory);
+
+            // Show Full-Screen Modal
+            document.getElementById('fullScreenQuestionEditorModal').classList.remove('hidden');
+            setTimeout(() => textarea.focus(), 80);
+        };
+
+        // Toggle any of the 4 top tool panels (Click once to open, click again to hide)
+        window.toggleEditorToolPanel = function(panelName) {
+            const panels = {
+                font: document.getElementById('panelToolFont'),
+                color: document.getElementById('panelToolColor'),
+                symbols: document.getElementById('panelToolSymbols'),
+                meta: document.getElementById('panelToolMeta')
+            };
+            const buttons = {
+                font: document.getElementById('btnToolFont'),
+                color: document.getElementById('btnToolColor'),
+                symbols: document.getElementById('btnToolSymbols'),
+                meta: document.getElementById('btnToolMeta')
+            };
+            const chevrons = {
+                font: document.getElementById('iconChevronFont'),
+                color: document.getElementById('iconChevronColor'),
+                symbols: document.getElementById('iconChevronSymbols'),
+                meta: document.getElementById('iconChevronMeta')
+            };
+
+            const isAlreadyOpen = (activeEditorToolPanel === panelName);
+
+            // Reset all panels & buttons
+            Object.keys(panels).forEach(k => {
+                if (panels[k]) panels[k].classList.add('hidden');
+                if (buttons[k]) {
+                    buttons[k].className = "py-2 px-2 sm:px-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-teal-50/60 text-slate-700 font-extrabold text-[11px] sm:text-xs transition flex items-center justify-center gap-1.5";
+                }
+                if (chevrons[k]) {
+                    chevrons[k].className = "fa-solid fa-chevron-down text-[9px] text-slate-400 transition-transform";
+                }
+            });
+
+            if (isAlreadyOpen) {
+                activeEditorToolPanel = null;
+            } else {
+                activeEditorToolPanel = panelName;
+                if (panels[panelName]) panels[panelName].classList.remove('hidden');
+                if (buttons[panelName]) {
+                    buttons[panelName].className = "py-2 px-2 sm:px-3 rounded-xl border-2 border-teal-600 bg-teal-50 text-teal-900 font-extrabold text-[11px] sm:text-xs shadow-2xs transition flex items-center justify-center gap-1.5";
+                }
+                if (chevrons[panelName]) {
+                    chevrons[panelName].className = "fa-solid fa-chevron-up text-[9px] text-teal-700 transition-transform";
+                }
+            }
+        };
+
+        window.closeAllEditorToolPanelsOnCanvasClick = function() {
+            if (!activeEditorToolPanel) return;
+            toggleEditorToolPanel(activeEditorToolPanel);
+        };
+
+        window.closeFullScreenQuestionEditor = function() {
+            liveSyncFromFullScreenEditor();
+            closeAllEditorToolPanelsOnCanvasClick();
+            document.getElementById('fullScreenQuestionEditorModal').classList.add('hidden');
+            renderQuestionFields();
+        };
+
+        window.liveSyncFromFullScreenEditor = function() {
+            const q = questionsList[activeEditorQuestionIndex];
+            if (!q) return;
+            const textarea = document.getElementById('fsEditorTextarea');
+            const gradeInput = document.getElementById('fsEditorGrade');
+            const secInput = document.getElementById('fsEditorSectionTitle');
+
+            q.text = textarea.value;
+            q.grade = gradeInput.value;
+            q.sectionTitle = secInput.value;
+
+            document.getElementById('fsCanvasLiveGradePreview').textContent = q.grade ? `(${q.grade})` : '(بدون درجة)';
+            const secPreview = document.getElementById('fsCanvasLiveSecPreview');
+            if (q.sectionTitle && q.sectionTitle.trim()) {
+                secPreview.textContent = q.sectionTitle.trim();
+                secPreview.classList.remove('hidden');
+            } else {
+                secPreview.classList.add('hidden');
+            }
+        };
+
+        function applyLiveFormattingToTextarea() {
+            const q = questionsList[activeEditorQuestionIndex];
+            if (!q) return;
+            const textarea = document.getElementById('fsEditorTextarea');
+
+            // Apply selected font class immediately
+            ARABIC_FONTS.forEach(f => textarea.classList.remove(f.id));
+            textarea.classList.add(q.font || 'font-amiri');
+
+            // Apply color immediately
+            textarea.style.color = q.color || '#0f172a';
+            const dot = document.getElementById('activeColorIndicatorDot');
+            if (dot) dot.style.backgroundColor = q.color || '#0f172a';
+
+            document.getElementById('fsCanvasLiveGradePreview').textContent = q.grade ? `(${q.grade})` : '(بدون درجة)';
+            const secPreview = document.getElementById('fsCanvasLiveSecPreview');
+            if (q.sectionTitle && q.sectionTitle.trim()) {
+                secPreview.textContent = q.sectionTitle.trim();
+                secPreview.classList.remove('hidden');
+            } else {
+                secPreview.classList.add('hidden');
+            }
+        }
+
+        function renderFsFontButtons() {
+            const q = questionsList[activeEditorQuestionIndex];
+            if (!q) return;
+            const container = document.getElementById('fsFontButtonsGrid');
+            if (!container) return;
+
+            container.innerHTML = ARABIC_FONTS.map(f => {
+                const isSelected = (q.font === f.id);
+                return `
+                    <button type="button" onclick="applyFsEditorFont('${f.id}')"
+                        class="py-2 px-3 rounded-xl border text-xs font-bold transition flex items-center justify-between ${f.id} ${isSelected ? 'border-2 border-teal-600 bg-teal-50 text-teal-900 shadow-2xs' : 'border-slate-200 bg-white hover:bg-slate-100 text-slate-700'}">
+                        <span>${f.label}</span>
+                        ${isSelected ? '<i class="fa-solid fa-circle-check text-teal-600"></i>' : ''}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function renderFsColorSwatches() {
+            const q = questionsList[activeEditorQuestionIndex];
+            if (!q) return;
+            const container = document.getElementById('fsEditorColorSwatches');
+            container.innerHTML = QUESTION_COLORS.map(c => `
+                <button type="button" onclick="applyFsEditorColor('${c.hex}')" title="${c.name}"
+                    class="px-2.5 py-1.5 rounded-xl border transition flex items-center gap-1.5 bg-white ${q.color === c.hex ? 'border-2 border-amber-500 ring-2 ring-amber-200 font-extrabold' : 'border-slate-200 hover:border-slate-400 font-bold'}">
+                    <span class="w-4 h-4 rounded-full border border-white shadow-2xs" style="background-color: ${c.hex};"></span>
+                    <span class="text-[11px] text-slate-700">${c.name}</span>
+                </button>
+            `).join('');
+        }
+
+        window.applyFsEditorFont = function(newFont) {
+            const q = questionsList[activeEditorQuestionIndex];
+            if (!q) return;
+            q.font = newFont;
+            applyLiveFormattingToTextarea();
+            renderFsFontButtons();
+            document.getElementById('fsEditorTextarea').focus();
+        };
+
+        window.applyFsEditorColor = function(newColor) {
+            const q = questionsList[activeEditorQuestionIndex];
+            if (!q) return;
+            q.color = newColor;
+            document.getElementById('fsEditorCustomColor').value = newColor;
+            applyLiveFormattingToTextarea();
+            renderFsColorSwatches();
+            document.getElementById('fsEditorTextarea').focus();
+        };
+
+        window.switchSymbolsTab = function(category) {
+            currentSymbolsCategory = category;
+            const tabs = {
+                math: document.getElementById('symTabMath'),
+                chem: document.getElementById('symTabChem'),
+                phys: document.getElementById('symTabPhys'),
+                arabic: document.getElementById('symTabArabic')
+            };
+
+            Object.keys(tabs).forEach(k => {
+                if (!tabs[k]) return;
+                if (k === category) {
+                    tabs[k].className = "px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-teal-700 text-white transition";
+                } else {
+                    tabs[k].className = "px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition";
+                }
+            });
+
+            const symbols = SCIENTIFIC_SYMBOLS[category] || [];
+            const grid = document.getElementById('symbolsGridContainer');
+            grid.innerHTML = symbols.map(sym => `
+                <button type="button" onclick="insertSymbolIntoFsEditor('${sym.replace(/'/g, "\\'")}')"
+                    class="py-1 px-2.5 rounded-lg bg-slate-50 hover:bg-teal-600 hover:text-white border border-slate-200 font-mono text-xs font-bold text-slate-800 transition shadow-2xs">
+                    ${sym}
+                </button>
+            `).join('');
+        };
+
+        window.insertSymbolIntoFsEditor = function(symbolStr) {
+            const textarea = document.getElementById('fsEditorTextarea');
+            if (!textarea) return;
+
+            const start = textarea.selectionStart ?? textarea.value.length;
+            const end = textarea.selectionEnd ?? textarea.value.length;
+            const before = textarea.value.substring(0, start);
+            const after = textarea.value.substring(end);
+
+            textarea.value = before + symbolStr + after;
+            liveSyncFromFullScreenEditor();
+
+            textarea.focus();
+            const newCursor = start + symbolStr.length;
+            textarea.setSelectionRange(newCursor, newCursor);
+        };
+
+        window.updateQuestionFieldGrade = function(idx, val) {
+            if (questionsList[idx]) questionsList[idx].grade = val;
+        };
+
+        window.addNewQuestionField = function() {
+            questionsList.push({
+                id: crypto.randomUUID(),
+                sectionTitle: '',
+                text: '',
+                grade: '٢٠ درجة',
+                color: '#0f172a',
+                font: 'font-amiri'
+            });
+            renderQuestionFields();
+        };
+
+        window.deleteQuestionField = function(idx) {
+            if (questionsList.length <= 1) {
+                showCustomMessage("تنبيه", "يجب أن تحتوي الورقة الامتحانية على سؤال واحد على الأقل.", "warning");
+                return;
+            }
+            questionsList.splice(idx, 1);
+            renderQuestionFields();
+        };
+
+        // ============================================================================
+        // 12. SAVE & GENERATE OFFICIAL IRAQI A4 EXAM PAPER (Dynamic Font & Zero Empty Space)
+        // ============================================================================
+        function toArabicNumerals(num) {
+            const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+            return String(num).replace(/[0-9]/g, d => arabicDigits[d]);
+        }
+
+        window.toggleAutoFitPaper = function(checked) {
+            autoFitSinglePage = checked;
+            buildAndRenderOfficialExamSheet();
+        };
+
+        window.saveAndGenerateExam = async function() {
+            if (!hasExamAccess()) {
+                showCustomMessage("انتهت الصلاحية", "لا تملك صلاحية فعالة لتكوين الأسئلة. يرجى تفعيل اشتراكك.", "error");
+                return;
+            }
+
+            const filledQuestions = questionsList.filter(q => q.text.trim() !== '');
+            if (filledQuestions.length === 0) {
+                showCustomMessage("لا توجد أسئلة مكتوبة", "يرجى الضغط على حقل السؤال وكتابة سؤال واحد على الأقل قبل الحفظ والمعاينة.", "warning");
+                return;
+            }
+
+            // Consume one-time free trial if applicable
+            const isOwner = currentTeacher.email.toLowerCase() === OWNER_EMAIL.toLowerCase();
+            if (!isOwner && !currentTeacher.isSubscribed && currentTeacher.trialStatus === 'approved') {
+                try {
+                    const userRef = getUserDocRef(currentTeacher.email);
+                    await updateDoc(userRef, { trialStatus: 'used' });
+                } catch (err) {
+                    console.error("Consume trial error:", err);
+                }
+            }
+
+            buildAndRenderOfficialExamSheet();
+
+            document.getElementById('sectionExamBuilder').classList.add('hidden');
+            document.getElementById('sectionExamPreview').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            setTimeout(adjustA4PreviewScale, 60);
+        };
+
+        function buildAndRenderOfficialExamSheet() {
+            const schoolName = document.getElementById('headerSchoolName').value.trim() || 'ثانوية الرافدين';
+            const examTitle = document.getElementById('headerExamTitle').value.trim() || EXAM_TYPE_LABELS[selectedExamType];
+            const academicYear = document.getElementById('headerAcademicYear').value.trim() || 'للعام الدراسي ٢٠٢٦ - ٢٠٢٧';
+            const examClass = document.getElementById('headerClass').value.trim() || 'السادس العلمي';
+            const examSubject = document.getElementById('headerSubject').value.trim() || 'التربية الإسلامية';
+            const examTime = document.getElementById('headerTime').value.trim() || 'ساعتان';
+            const totalMark = document.getElementById('headerTotalMark').value.trim() || '١٠٠';
+            const teacherName = document.getElementById('footerTeacherName').value.trim() || `أ. ${currentTeacher ? currentTeacher.name : ''}`;
+
+            const filledQuestions = questionsList.filter(q => q.text.trim() !== '');
+
+            renderPrintableSheet({
+                type: selectedExamType,
+                dir: examDirection,
+                schoolName,
+                examTitle,
+                academicYear,
+                examClass,
+                examSubject,
+                examTime,
+                totalMark,
+                teacherName,
+                questions: filledQuestions
+            });
+
+            setTimeout(adjustA4PreviewScale, 50);
+        }
+
+        window.backToBuilderFromPreview = function() {
+            if (!hasExamAccess()) {
+                showCustomMessage(
+                    "انتهت التجربة المجانية الواحدة",
+                    "لقد أكملت إنشاء الأسئلة بالتجربة المجانية الواحدة. يمكنك تنزيل ورقتك الحالية كصورة أو PDF، ولإنشاء أسئلة جديدة يرجى تفعيل كود الاشتراك.",
+                    "info"
+                );
+                return;
+            }
+            document.getElementById('sectionExamPreview').classList.add('hidden');
+            document.getElementById('sectionExamBuilder').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        // Responsive Scaling so the 794px A4 Sheet fits inside any Mobile/Tablet/Laptop screen
+        function adjustA4PreviewScale() {
+            const viewport = document.getElementById('a4PreviewViewport');
+            const scaleContainer = document.getElementById('a4ScaleContainer');
+            const sheet = document.getElementById('printableExamSheet');
+            if (!viewport || !scaleContainer || !sheet) return;
+
+            const availableWidth = viewport.clientWidth - 16;
+            const sheetNaturalWidth = 794;
+            const scale = Math.min(1, availableWidth / sheetNaturalWidth);
+
+            scaleContainer.style.transform = `scale(${scale})`;
+            const scaledHeight = sheet.offsetHeight * scale;
+            viewport.style.height = `${scaledHeight + 20}px`;
+        }
+
+        function renderPrintableSheet(data) {
+            const sheet = document.getElementById('printableExamSheet');
+            const isRtl = data.dir === 'rtl';
+
+            const tierClasses = {
+                daily: 'exam-tier-daily',
+                weekly: 'exam-tier-weekly',
+                monthly: 'exam-tier-monthly',
+                comprehensive: 'exam-tier-comprehensive'
+            };
+
+            sheet.className = `exam-paper-base shadow-xl mx-auto ${tierClasses[data.type]}`;
+            sheet.setAttribute('dir', data.dir);
+
+            // Calculate Dynamic Font Sizes & Line Heights based on Question Count (4, 5, 6, 7) and Total Lines
+            const qCount = data.questions.length;
+            const totalLines = data.questions.reduce((acc, q) => {
+                const lines = q.text.trim().split('\n').filter(l => l.trim() !== '').length;
+                return acc + Math.max(1, lines) + (q.sectionTitle && q.sectionTitle.trim() ? 1 : 0);
+            }, 0);
+
+            let mainFontSize = '20px';
+            let subFontSize = '19px';
+            let quoteFontSize = '21px';
+            let gradeFontSize = '16.5px';
+            let secTitleFontSize = '18px';
+            let lineHeightVal = '1.85';
+
+            if (autoFitSinglePage) {
+                mainFontSize = '14px';
+                subFontSize = '13.5px';
+                quoteFontSize = '15px';
+                gradeFontSize = '13px';
+                secTitleFontSize = '14px';
+                lineHeightVal = '1.55';
+            } else {
+                if (qCount <= 4 && totalLines <= 10) {
+                    mainFontSize = '23px';
+                    subFontSize = '21.5px';
+                    quoteFontSize = '24px';
+                    gradeFontSize = '18.5px';
+                    secTitleFontSize = '20px';
+                    lineHeightVal = '1.95';
+                } else if (qCount <= 4) {
+                    mainFontSize = '20.5px';
+                    subFontSize = '19.5px';
+                    quoteFontSize = '21.5px';
+                    gradeFontSize = '17px';
+                    secTitleFontSize = '18.5px';
+                    lineHeightVal = '1.85';
+                } else if (qCount === 5 && totalLines <= 13) {
+                    mainFontSize = '21px';
+                    subFontSize = '19.5px';
+                    quoteFontSize = '22px';
+                    gradeFontSize = '17.5px';
+                    secTitleFontSize = '19px';
+                    lineHeightVal = '1.85';
+                } else if (qCount === 5) {
+                    mainFontSize = '18.5px';
+                    subFontSize = '17.5px';
+                    quoteFontSize = '19.5px';
+                    gradeFontSize = '15.5px';
+                    secTitleFontSize = '17px';
+                    lineHeightVal = '1.75';
+                } else if (qCount === 6 && totalLines <= 16) {
+                    mainFontSize = '19px';
+                    subFontSize = '18px';
+                    quoteFontSize = '20px';
+                    gradeFontSize = '16px';
+                    secTitleFontSize = '17.5px';
+                    lineHeightVal = '1.78';
+                } else if (qCount === 6) {
+                    mainFontSize = '17px';
+                    subFontSize = '16px';
+                    quoteFontSize = '18px';
+                    gradeFontSize = '14.5px';
+                    secTitleFontSize = '16px';
+                    lineHeightVal = '1.68';
+                } else {
+                    // 7 or more questions
+                    mainFontSize = totalLines <= 18 ? '17.5px' : '15.5px';
+                    subFontSize = totalLines <= 18 ? '16.5px' : '14.5px';
+                    quoteFontSize = totalLines <= 18 ? '18.5px' : '16.5px';
+                    gradeFontSize = totalLines <= 18 ? '15px' : '13.5px';
+                    secTitleFontSize = totalLines <= 18 ? '16.5px' : '15px';
+                    lineHeightVal = '1.62';
+                }
+            }
+
+            const bismillah = isRtl ? 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ' : 'In the Name of Allah, the Most Gracious, the Most Merciful';
+
+            // 1. Top 3-Column Iraqi Official Header (shrink-0 so it stays crisp at the top)
+            const headerHtml = `
+                <div class="shrink-0">
+                    <div class="border-b-2 border-slate-900 pb-3 mb-2">
+                        <div class="grid grid-cols-3 items-start gap-2 text-slate-900">
+                            <!-- Right Column: School Name -->
+                            <div class="pt-3 font-extrabold text-sm leading-relaxed">
+                                <p>${escapeHtml(data.schoolName)}</p>
+                            </div>
+
+                            <!-- Center Column: Bismillah + Exam Title + Academic Year -->
+                            <div class="text-center space-y-0.5">
+                                <div class="font-amiri text-xl font-bold tracking-wide">${bismillah}</div>
+                                <h2 class="text-base font-extrabold text-slate-950">${escapeHtml(data.examTitle)}</h2>
+                                <p class="text-xs font-extrabold text-slate-800">${escapeHtml(data.academicYear)}</p>
+                            </div>
+
+                            <!-- Left Column: Class, Subject, Time, Total Mark -->
+                            <div class="${isRtl ? 'text-right pr-10' : 'text-left pl-10'} text-xs font-extrabold space-y-0.5 leading-snug">
+                                <p>${isRtl ? 'الصف:' : 'Class:'} ${escapeHtml(data.examClass)}</p>
+                                <p>${isRtl ? 'المادة:' : 'Subject:'} ${escapeHtml(data.examSubject)}</p>
+                                <p>${isRtl ? 'الوقت:' : 'Time:'} ${escapeHtml(data.examTime)}</p>
+                                ${data.totalMark ? `<p>${isRtl ? 'الدرجة الكلية:' : 'Total Marks:'} ${escapeHtml(data.totalMark)}</p>` : ''}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Student Name & Section Row -->
+                    <div class="border-b-2 border-slate-800 pb-2 mb-1 flex items-center justify-between text-xs font-extrabold text-slate-900">
+                        <div class="flex-1">${isRtl ? 'اسم الطالب:' : 'Student Name:'} ......................................................................................</div>
+                        <div class="w-48">${isRtl ? 'الشعبة:' : 'Section:'} .....................................</div>
+                    </div>
+                </div>
+            `;
+
+            // 2. Questions List (Flex-1 container that distributes all questions proportionally so ZERO blank space remains at the bottom)
+            let questionsHtml = `<div class="flex-1 flex flex-col justify-between divide-y divide-slate-400/85 my-1" style="line-height: ${lineHeightVal};">`;
+
+            data.questions.forEach((q, idx) => {
+                const qNumStr = isRtl ? `س${toArabicNumerals(idx + 1)}/` : `Q${idx + 1}/`;
+                const gradeText = q.grade.trim() ? `(${escapeHtml(q.grade)})` : '';
+                const sectionHeadingHtml = q.sectionTitle && q.sectionTitle.trim()
+                    ? `<div class="mb-1"><span class="inline-block font-extrabold underline underline-offset-4" style="font-size: ${secTitleFontSize};">${escapeHtml(q.sectionTitle)}:</span></div>`
+                    : '';
+
+                const lines = q.text.trim().split('\n');
+                const firstLine = lines[0] || '';
+                const restLines = lines.slice(1).filter(l => l.trim() !== '');
+
+                // Weight the flex-grow of each question block slightly by its line count so multi-branch questions get proportional room
+                const blockFlexWeight = Math.max(1, 0.85 + (restLines.length * 0.35) + (q.sectionTitle ? 0.25 : 0)).toFixed(2);
+
+                let subLinesHtml = '';
+                if (restLines.length > 0) {
+                    subLinesHtml = `<div class="mt-1.5 space-y-1.5 pr-2" style="font-size: ${subFontSize};">`;
+                    restLines.forEach(line => {
+                        const trimmed = line.trim();
+                        const isCenteredQuote = (trimmed.startsWith('﴿') && trimmed.endsWith('﴾')) || (trimmed.startsWith('«') && trimmed.endsWith('»'));
+                        subLinesHtml += `
+                            <div class="${isCenteredQuote ? 'text-center py-1 font-amiri' : ''} font-bold whitespace-pre-wrap" style="${isCenteredQuote ? `font-size: ${quoteFontSize};` : ''}">${escapeHtml(line)}</div>
+                        `;
+                    });
+                    subLinesHtml += `</div>`;
+                }
+
+                questionsHtml += `
+                    <div class="flex flex-col justify-center py-2.5 ${q.font}" style="color: ${q.color}; flex: ${blockFlexWeight} 1 0%;">
+                        ${sectionHeadingHtml}
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex-1">
+                                <div class="font-extrabold" style="font-size: ${mainFontSize};">
+                                    <span>${qNumStr} </span>
+                                    <span>${escapeHtml(firstLine)}</span>
+                                </div>
+                                ${subLinesHtml}
+                            </div>
+                            ${gradeText ? `<div class="shrink-0 font-extrabold pt-0.5" style="font-size: ${gradeFontSize};">${gradeText}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            questionsHtml += `</div>`;
+
+            // 3. Official Footer (shrink-0 at the very bottom)
+            const wishesText = isRtl ? 'مع تمنياتنا لكم بالنجاح والموفقية' : 'Best Wishes for Success';
+            const teacherTitleLabel = isRtl ? 'مدرس المادة' : 'Subject Teacher';
+
+            const footerHtml = `
+                <div class="shrink-0 pt-3 border-t-2 border-slate-800">
+                    <div class="grid grid-cols-3 items-end text-xs sm:text-sm font-extrabold text-slate-900">
+                        <div></div>
+                        <div class="text-center pb-1.5">${wishesText}</div>
+                        <div class="${isRtl ? 'text-left pl-4' : 'text-right pr-4'} space-y-0.5">
+                            <div class="text-center inline-block">
+                                <p>${teacherTitleLabel}</p>
+                                <p>${escapeHtml(data.teacherName)}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            sheet.innerHTML = `
+                ${headerHtml}
+                ${questionsHtml}
+                ${footerHtml}
+            `;
+        }
+
+        // ============================================================================
+        // 13. HIGH-RES DIRECT IMAGE (PNG) & A4 PDF DOWNLOAD
+        // ============================================================================
+        async function captureFullScaleSheetCanvas() {
+            const sheet = document.getElementById('printableExamSheet');
+            const scaleContainer = document.getElementById('a4ScaleContainer');
+            const prevTransform = scaleContainer.style.transform;
+
+            scaleContainer.style.transform = 'scale(1)';
+            await new Promise(r => setTimeout(r, 50));
+
+            const canvas = await html2canvas(sheet, {
+                scale: 2.5,
+                useCORS: true,
+                backgroundColor: '#ffffff',
+                width: 794,
+                windowWidth: 794
+            });
+
+            scaleContainer.style.transform = prevTransform;
+            return canvas;
+        }
+
+        window.downloadExamAsImage = async function() {
+            const btn = document.getElementById('btnDownloadImg');
+            const originalHtml = btn.innerHTML;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...';
+
+            try {
+                const canvas = await captureFullScaleSheetCanvas();
+                const dataUrl = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = `اسئلة_${EXAM_TYPE_LABELS[selectedExamType]}_${Date.now()}.png`;
+                link.href = dataUrl;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (err) {
+                console.error("Image export error:", err);
+                showCustomMessage("خطأ في التنزيل", "تعذر تصدير الصورة حالياً، يرجى المحاولة مرة أخرى.", "error");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+            }
+        };
+
+        window.downloadExamAsPDF = async function() {
+            const btn = document.getElementById('btnDownloadPdf');
+            const originalHtml = btn.innerHTML;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...';
+
+            try {
+                const canvas = await captureFullScaleSheetCanvas();
+                const imgData = canvas.toDataURL('image/png');
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save(`اسئلة_${EXAM_TYPE_LABELS[selectedExamType]}_${Date.now()}.pdf`);
+            } catch (err) {
+                console.error("PDF export error:", err);
+                showCustomMessage("خطأ في التنزيل", "تعذر تصدير ملف PDF حالياً، يرجى المحاولة مرة أخرى.", "error");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+            }
+        };
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
