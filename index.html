@@ -7,8 +7,13 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: 5 Distinct Arabic Academic Fonts + English Font -->
+    <link rel="manifest" href="/s/manifest.json">
+<meta name="theme-color" content="#134e3a">
+<link rel="icon" type="image/png" sizes="192x192" href="/s/icon-192.png">
+<link rel="apple-touch-icon" href="/s/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="منصة الأستاذ">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;600;700&family=Noto+Kufi+Arabic:wght@400;600;700;800&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
@@ -3309,6 +3314,20 @@
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
         }
+        
+  if ('serviceWorker' in navigator && window.isSecureContext) {
+    window.addEventListener('load', async () => {
+      try {
+        const registration = await navigator.serviceWorker.register('/s/sw.js', {
+          scope: '/s/'
+        });
+        registration.update();
+      } catch (error) {
+        console.error('Service Worker registration failed:', error);
+      }
+    });
+  }
+
     </script>
 </body>
 </html>
