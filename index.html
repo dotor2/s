@@ -8,12 +8,14 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="manifest" href="/s/manifest.json">
-<meta name="theme-color" content="#134e3a">
-<link rel="icon" type="image/png" sizes="192x192" href="/s/icon-192.png">
-<link rel="apple-touch-icon" href="/s/icon-192.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="منصة الأستاذ">
+    <meta name="theme-color" content="#134e3a">
+    <link rel="icon" type="image/png" sizes="192x192" href="/s/icon-192.png">
+    <link rel="apple-touch-icon" href="/s/icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="منصة الأستاذ">
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;600;700&family=Noto+Kufi+Arabic:wght@400;600;700;800&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
@@ -72,7 +74,7 @@
         .font-almarai { font-family: 'Almarai', sans-serif; }
         .font-kufi { font-family: 'Noto Kufi Arabic', sans-serif; }
 
-        /* Exact Splash Screen Styling & Animations Matching Provided Image */
+        /* Splash Screen Styling & Animations */
         .splash-bg-luxury {
             background:
                 radial-gradient(circle at 88% 8%, rgba(16, 185, 129, 0.42) 0%, rgba(5, 150, 105, 0.12) 32%, transparent 60%),
@@ -114,6 +116,22 @@
         .animate-diamond { animation: pulseDiamond 2.4s ease-in-out infinite; }
         .animate-qmark { animation: floatQuestionMark 4s ease-in-out infinite; }
         .animate-gold-glow { animation: shimmerGoldLine 2.5s ease-in-out infinite; }
+
+        /* Moving Orange Ticker Bar Animation */
+        @keyframes tickerMoveRTL {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .orange-ticker-track {
+            display: inline-block;
+            white-space: nowrap;
+            will-change: transform;
+            animation: tickerMoveRTL 14s linear infinite;
+        }
+        #orangeTickerBar:active .orange-ticker-track,
+        #orangeTickerBar:hover .orange-ticker-track {
+            animation-play-state: paused;
+        }
 
         /* Official A4 Paper Progressive Styles (Full-Height Flex Distribution) */
         .exam-paper-base {
@@ -167,22 +185,6 @@
             transition: transform 0.2s ease;
         }
 
-        /* Print Media Styles */
-        @media print {
-            body * { visibility: hidden; }
-            #printableExamSheet, #printableExamSheet * { visibility: visible; }
-            #printableExamSheet {
-                position: fixed;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                margin: 0;
-                box-shadow: none !important;
-                transform: none !important;
-            }
-        }
-
         /* Custom Compact Scrollbar */
         ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
@@ -192,7 +194,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800">
 
-    <!-- 1. SPLASH SCREEN (مطابق تماماً للصورة المرفقة) -->
+    <!-- 1. SPLASH SCREEN -->
     <div id="splashScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center splash-bg-luxury text-white px-5 overflow-hidden transition-opacity duration-500">
         
         <!-- Top-Left Decorative Sweeping Curves (Gold & Emerald) -->
@@ -258,64 +260,43 @@
                     <!-- Inner Gloss Highlight -->
                     <div class="absolute inset-1.5 rounded-[36px] border border-white/25 pointer-events-none" style="background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 45%);"></div>
 
-                    <!-- Detailed 3D-Style SVG Illustration (Exam Paper + Checkmarks + Graduation Cap + Pencil) -->
+                    <!-- Detailed 3D-Style SVG Illustration -->
                     <svg class="w-36 h-36 sm:w-40 sm:h-40 drop-shadow-[0_12px_16px_rgba(0,0,0,0.4)]" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Soft Shadow Behind Document -->
                         <rect x="44" y="48" width="96" height="122" rx="12" fill="rgba(0,0,0,0.22)" />
-                        
-                        <!-- White Exam Sheet Base -->
                         <path d="M40 54 C40 47.3726 45.3726 42 52 42 H128 C134.627 42 140 47.3726 140 54 V142 L118 164 H52 C45.3726 164 40 158.627 40 152 V54 Z" fill="url(#paperGrad)"/>
-                        
-                        <!-- Curled Bottom-Right Page Corner -->
                         <path d="M118 164 V148 C118 144.686 120.686 142 124 142 H140 L118 164 Z" fill="#cbd5e1"/>
 
-                        <!-- Checkboxes & Lines Row 1 -->
                         <rect x="53" y="78" width="16" height="16" rx="4" fill="#047857"/>
                         <path d="M57 86.5 L60 89.5 L65.5 83" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
                         <rect x="76" y="80" width="46" height="4.5" rx="2.25" fill="#94a3b8"/>
                         <rect x="76" y="88" width="34" height="4" rx="2" fill="#cbd5e1"/>
 
-                        <!-- Checkboxes & Lines Row 2 -->
                         <rect x="53" y="104" width="16" height="16" rx="4" fill="#047857"/>
                         <path d="M57 112.5 L60 115.5 L65.5 109" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
                         <rect x="76" y="106" width="46" height="4.5" rx="2.25" fill="#94a3b8"/>
                         <rect x="76" y="114" width="38" height="4" rx="2" fill="#cbd5e1"/>
 
-                        <!-- Checkboxes & Lines Row 3 -->
                         <rect x="53" y="130" width="16" height="16" rx="4" fill="#047857"/>
                         <path d="M57 138.5 L60 141.5 L65.5 135" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
                         <rect x="76" y="132" width="40" height="4.5" rx="2.25" fill="#94a3b8"/>
                         <rect x="76" y="140" width="28" height="4" rx="2" fill="#cbd5e1"/>
 
-                        <!-- Shadow Under Graduation Cap -->
                         <ellipse cx="90" cy="54" rx="34" ry="8" fill="rgba(0,0,0,0.22)"/>
-
-                        <!-- Graduation Cap (Mortarboard) Base Skullcap -->
                         <path d="M68 42 V54 C68 60 112 60 112 54 V42 Z" fill="url(#capBaseGrad)"/>
-                        <!-- Graduation Cap Top Diamond -->
                         <polygon points="90,18 134,34 90,50 46,34" fill="url(#capTopGrad)" stroke="#34d399" stroke-width="0.8" stroke-opacity="0.5"/>
-                        <!-- Center Cap Button -->
                         <ellipse cx="90" cy="34" rx="4" ry="2.2" fill="#064e3b"/>
-                        <!-- Golden Tassel -->
                         <path d="M90 34 L123 38 V58" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M120 64 L123 55 L126 64 Z" fill="#f59e0b"/>
                         <circle cx="123" cy="56" r="2.2" fill="#fde68a"/>
 
-                        <!-- 3D Angled Emerald & Gold Pencil -->
                         <g transform="translate(136, 122) rotate(38)">
-                            <!-- Pencil Drop Shadow -->
                             <rect x="-5" y="-36" width="18" height="78" rx="4" fill="rgba(0,0,0,0.28)" transform="translate(-3, 4)"/>
-                            <!-- Pencil Body (Emerald Green) -->
                             <rect x="-7" y="-32" width="14" height="62" fill="url(#pencilBodyGrad)"/>
                             <rect x="-2" y="-32" width="4" height="62" fill="#059669" fill-opacity="0.6"/>
-                            <!-- Gold Ferrule Band -->
                             <rect x="-7" y="-42" width="14" height="10" fill="url(#goldBandGrad)"/>
                             <line x1="-7" y1="-37" x2="7" y2="-37" stroke="#b45309" stroke-width="1"/>
-                            <!-- Cream Eraser Top -->
                             <path d="M-7 -42 V-48 C-7 -51.5 7 -51.5 7 -48 V-42 Z" fill="#fde68a"/>
-                            <!-- Wooden Cone Tip -->
                             <polygon points="-7,30 7,30 0,48" fill="#fcd34d"/>
-                            <!-- Dark Green/Graphite Lead Point -->
                             <polygon points="-2.8,41 2.8,41 0,48" fill="#064e3b"/>
                         </g>
 
@@ -349,7 +330,7 @@
                 </div>
             </div>
 
-            <!-- Main Arabic Title: منصة الأستاذ الذكية -->
+            <!-- Main Arabic Title -->
             <h1 class="text-3xl sm:text-4xl font-black tracking-wide text-[#fefce8] drop-shadow-[0_4px_10px_rgba(0,0,0,0.45)] mb-4">
                 منصة الأستاذ الذكية
             </h1>
@@ -360,14 +341,14 @@
                 <div class="absolute w-3.5 h-3.5 bg-amber-300 rotate-45 shadow-[0_0_12px_#fde047]"></div>
             </div>
 
-            <!-- Subtitle: أنشئ أسئلتك بسهولة -->
+            <!-- Subtitle -->
             <p class="text-[#fef9c3]/95 text-lg sm:text-xl font-bold tracking-wide drop-shadow">
                 أنشئ أسئلتك بسهولة
             </p>
         </div>
     </div>
 
-    <!-- 2. AUTHENTICATION SCREEN (مع خيار تحديد معلم أو مدرس) -->
+    <!-- 2. AUTHENTICATION SCREEN -->
     <div id="authScreen" class="hidden min-h-screen w-full py-8 px-4 flex flex-col items-center justify-center bg-gradient-to-b from-teal-50/60 via-slate-50 to-slate-100">
         <div class="w-full max-w-3xl my-auto">
             <!-- Header -->
@@ -436,7 +417,7 @@
                     </div>
                 </div>
 
-                <!-- Window 2: Register (مع اختيار معلم أو مدرس) -->
+                <!-- Window 2: Register -->
                 <div id="registerWindow" class="hidden sm:flex bg-white rounded-2xl shadow-md border border-slate-200/80 p-5 flex-col justify-between relative overflow-hidden">
                     <div class="absolute top-0 right-0 left-0 h-1.5 bg-gradient-to-r from-amber-500 to-orange-500"></div>
                     <div>
@@ -530,16 +511,26 @@
             </div>
         </header>
 
+        <!-- MOVING ORANGE TICKER BAR (يظهر أسفل رأس الصفحة في الأقسام الثلاثة: نوع الأسئلة / سجل الأسئلة / حسابي) -->
+        <div id="orangeTickerBar" onclick="openTutorialsViewerPage()"
+            class="w-full bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600 hover:from-orange-700 hover:to-orange-700 text-white py-2 px-3 shadow-sm cursor-pointer overflow-hidden border-b border-orange-700/30 select-none transition">
+            <div class="max-w-4xl mx-auto overflow-hidden whitespace-nowrap">
+                <div class="orange-ticker-track text-xs sm:text-sm font-extrabold tracking-wide">
+                    <span>( لتثبيت الموقع ك تطبيق اضغط على الشريط البرتقالي )</span>
+                </div>
+            </div>
+        </div>
+
         <!-- MAIN CONTENT AREA -->
         <main class="flex-1 max-w-4xl w-full mx-auto p-3 sm:p-5 pb-16">
 
-            <!-- SECTION 1: EXAM TYPES SELECTION (أزرار متساوية وأنيقة باسم الزر فقط بدون وصف) -->
+            <!-- SECTION 1: EXAM TYPES SELECTION -->
             <section id="sectionExamTypes" class="space-y-3">
                 <div class="flex items-center justify-between px-1 mb-1">
                     <h2 class="text-sm sm:text-base font-extrabold text-slate-800">اختر نوع الأسئلة الامتحانية</h2>
                 </div>
 
-                <!-- 4 Equal-Sized Clean Buttons (Title + Icon + Lock Badge Only) -->
+                <!-- 4 Equal-Sized Clean Buttons -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     
                     <!-- Type 1: Daily Exam -->
@@ -596,7 +587,22 @@
                 </div>
             </section>
 
-            <!-- SECTION: EXAM HISTORY (سجل الأسئلة في الوسط) -->
+            <!-- SECTION: TUTORIALS & APP INSTALL LINKS PAGE (تفتح عند الضغط على الشريط البرتقالي المتحرك) -->
+            <section id="sectionTutorialsViewer" class="hidden space-y-3">
+                <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
+                    <button onclick="showSection('examTypes')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <span>رجوع</span>
+                    </button>
+                    <span class="px-2.5 py-1 rounded-lg bg-orange-100 text-orange-800 text-xs font-extrabold">
+                        <i class="fa-solid fa-circle-play ml-1"></i> الشروحات وتثبيت التطبيق
+                    </span>
+                </div>
+
+                <div id="tutorialsButtonsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5"></div>
+            </section>
+
+            <!-- SECTION: EXAM HISTORY -->
             <section id="sectionExamHistory" class="hidden space-y-3">
                 <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-2xs space-y-3">
                     <div class="flex items-center justify-between">
@@ -707,7 +713,7 @@
                         </div>
                     </div>
 
-                    <!-- Exam Note Field (يظهر أسفل خط اسم الطالب وقبل السؤال الأول مباشرة) -->
+                    <!-- Exam Note Field -->
                     <div class="bg-amber-50/60 p-3 rounded-xl border border-amber-200/90">
                         <label class="block text-[11px] font-extrabold text-amber-900 mb-1">
                             <i class="fa-solid fa-circle-info ml-1 text-amber-600"></i> ملاحظة أسفل خط اسم الطالب (تظهر بحجم صغير ومرتب قبل السؤال الأول)
@@ -786,7 +792,7 @@
                         </button>
                         <div class="text-left">
                             <h3 class="text-sm sm:text-base font-extrabold text-slate-800">معاينة الورقة</h3>
-                            <p class="text-[11px] text-slate-500">١ صفحة A4 – كما ستُطبع تماماً</p>
+                            <p class="text-[11px] text-slate-500">١ صفحة A4 – جاهزة للتنزيل والحفظ</p>
                         </div>
                     </div>
 
@@ -812,12 +818,8 @@
                     </div>
                 </div>
 
-                <!-- Bottom Action Buttons (حفظ PDF | صورة PNG | طباعة) -->
-                <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm grid grid-cols-3 gap-2">
-                    <button onclick="window.print()" class="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-extrabold transition flex items-center justify-center gap-1.5">
-                        <i class="fa-solid fa-print text-teal-700"></i>
-                        <span>طباعة</span>
-                    </button>
+                <!-- Bottom Action Buttons (حفظ صورة | حفظ PDF فقط بدون زر طباعة) -->
+                <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm grid grid-cols-2 gap-2.5">
                     <button onclick="downloadExamAsImage()" id="btnDownloadImg" class="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-extrabold transition flex items-center justify-center gap-1.5">
                         <i class="fa-solid fa-image text-teal-700"></i>
                         <span>حفظ صورة</span>
@@ -829,7 +831,7 @@
                 </div>
             </section>
 
-            <!-- SECTION 2: MY ACCOUNT (أزرار متساوية باسم الزر فقط + تعديل الاسم بالقلم + حذف مربع جلسة واحدة) -->
+            <!-- SECTION 2: MY ACCOUNT -->
             <section id="sectionAccount" class="hidden space-y-3">
                 
                 <!-- Compact Profile Card -->
@@ -861,7 +863,7 @@
                     </div>
                 </div>
 
-                <!-- 4 Compact Equal-Sized Action Buttons (باسم الزر فقط بدون وصف) -->
+                <!-- 4 Compact Equal-Sized Action Buttons -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     
                     <!-- Button 1: Request 1 Free Trial -->
@@ -911,7 +913,7 @@
                 </div>
             </section>
 
-            <!-- OWNER CONTROL PANEL MAIN -->
+            <!-- OWNER CONTROL PANEL MAIN (مع إضافة زر "إضافة شرح") -->
             <section id="sectionOwnerHub" class="hidden space-y-4">
                 <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
                     <button onclick="showSection('account')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
@@ -923,7 +925,7 @@
                     </span>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <!-- Square 1: Free Trial Requests -->
                     <button onclick="openOwnerRequestsPage()" class="bg-white hover:bg-teal-50/40 rounded-2xl p-6 border border-slate-200 hover:border-teal-600 shadow-xs transition flex flex-col items-center justify-center text-center group">
                         <div class="w-14 h-14 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center text-2xl mb-3 group-hover:scale-105 transition relative">
@@ -939,6 +941,14 @@
                             <i class="fa-solid fa-key"></i>
                         </div>
                         <h3 class="text-base font-extrabold text-slate-800">إنشاء كود اشتراك</h3>
+                    </button>
+
+                    <!-- Square 3: Add Tutorial / Explanation Link (إضافة شرح) -->
+                    <button onclick="openOwnerTutorialsPage()" class="bg-white hover:bg-orange-50/40 rounded-2xl p-6 border border-slate-200 hover:border-orange-500 shadow-xs transition flex flex-col items-center justify-center text-center group">
+                        <div class="w-14 h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-2xl mb-3 group-hover:scale-105 transition">
+                            <i class="fa-solid fa-circle-play"></i>
+                        </div>
+                        <h3 class="text-base font-extrabold text-slate-800">إضافة شرح</h3>
                     </button>
                 </div>
             </section>
@@ -978,6 +988,43 @@
                 </div>
 
                 <div id="ownerCodesList" class="space-y-2.5"></div>
+            </section>
+
+            <!-- OWNER SUB-PAGE 3: ADD TUTORIAL / EXPLANATION BUTTONS (إضافة شرح) -->
+            <section id="sectionOwnerTutorials" class="hidden space-y-3">
+                <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
+                    <button onclick="openOwnerDashboard()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <span>رجوع للوحة المالك</span>
+                    </button>
+                    <h3 class="text-xs sm:text-sm font-extrabold text-slate-800">إضافة شرح للشريط البرتقالي</h3>
+                </div>
+
+                <!-- Two Fields Form: Button Name & Button Link + Save -->
+                <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs space-y-3">
+                    <div>
+                        <label class="block text-[11px] font-extrabold text-slate-700 mb-1">الحقل الأول: اسم الزر</label>
+                        <input type="text" id="tutorialBtnNameInput" placeholder="مثال: شرح تثبيت التطبيق على الآيفون والأندرويد"
+                            class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-orange-500 outline-none text-xs font-bold">
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-extrabold text-slate-700 mb-1">الحقل الثاني: رابط الزر</label>
+                        <input type="url" id="tutorialBtnUrlInput" placeholder="https://youtube.com/..." dir="ltr"
+                            class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-orange-500 outline-none text-xs font-bold text-left">
+                    </div>
+
+                    <div class="pt-1">
+                        <button onclick="saveNewTutorialButton()" id="btnSaveTutorial"
+                            class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-extrabold text-xs shadow-sm transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            <span>حفظ</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Existing Tutorial Buttons List for Owner Management -->
+                <div id="ownerTutorialsList" class="space-y-2.5"></div>
             </section>
 
         </main>
@@ -1023,7 +1070,7 @@
             </button>
         </div>
 
-        <!-- Clean 4-Button Toggle Bar (نوع الخط | لون الخط | الرموز والأفرع | الدرجة والعنوان) -->
+        <!-- Clean 4-Button Toggle Bar -->
         <div class="bg-white border-b border-slate-200 px-2.5 sm:px-5 py-2 shadow-2xs shrink-0 relative z-20">
             <div class="max-w-4xl mx-auto grid grid-cols-4 gap-1.5 sm:gap-2.5">
                 
@@ -1100,7 +1147,7 @@
                         <button type="button" onclick="insertSymbolIntoFsEditor('\n١- ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">١-</button>
                         <button type="button" onclick="insertSymbolIntoFsEditor('\n٢- ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">٢-</button>
                         <button type="button" onclick="insertSymbolIntoFsEditor(' ﴿  ﴾ ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">﴿ آية ﴾</button>
-                        <button type="button" onclick="insertSymbolIntoFsEditor(' (           ) ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">( فراغ )</button>
+                        <button type="button" onclick="insertSymbolIntoFsEditor(' (            ) ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">( فراغ )</button>
                     </div>
                     <button type="button" onclick="toggleEditorToolPanel('symbols')" class="text-[11px] font-bold text-slate-400 hover:text-rose-600">
                         <i class="fa-solid fa-xmark ml-0.5"></i> إغلاق
@@ -1175,7 +1222,7 @@
         </div>
     </div>
 
-    <!-- 5. EDIT TEACHER NAME MODAL (نافذة تعديل الاسم) -->
+    <!-- 5. EDIT TEACHER NAME MODAL -->
     <div id="editNameModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-slate-200 text-center space-y-3">
             <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-xl mx-auto">
@@ -1197,7 +1244,7 @@
         </div>
     </div>
 
-    <!-- 6. TEACHER ROLE SELECTION MODAL FOR EXISTING ACCOUNTS (نافذة اختيار معلم أو مدرس للحسابات السابقة) -->
+    <!-- 6. TEACHER ROLE SELECTION MODAL FOR EXISTING ACCOUNTS -->
     <div id="rolePromptModal" class="hidden fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-slate-200 text-center space-y-4">
             <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl mx-auto">
@@ -1347,13 +1394,15 @@
         let firebaseUser = null;
         let currentTeacher = null;
         let currentHardwareFingerprint = null;
-        let selectedRegisterRole = 'مدرس'; // Default role during registration
+        let selectedRegisterRole = 'مدرس';
         let unsubscribeTeacherDoc = null;
         let unsubscribeOwnerUsers = null;
         let unsubscribeOwnerCodes = null;
+        let unsubscribeTutorials = null;
 
         let allUsersCache = [];
         let allCodesCache = [];
+        let allTutorialsCache = [];
 
         // Exam Builder State
         let selectedExamType = 'daily';
@@ -1366,11 +1415,8 @@
         let autoFitSinglePage = false;
 
         // ============================================================================
-        // 3. HARDWARE-LEVEL DEVICE FINGERPRINTING (Cross-Browser Same-Device Recognition)
+        // 3. HARDWARE-LEVEL DEVICE FINGERPRINTING
         // ============================================================================
-        // Generates a deterministic fingerprint based on physical device hardware traits
-        // (screen resolution, pixel ratio, touch points, OS platform family, timezone, color depth)
-        // so the same phone/computer is recognized even across Chrome/Safari or after closing the app.
         async function getHardwareDeviceFingerprint() {
             const screenW = Math.max(window.screen.width || 0, window.screen.height || 0);
             const screenH = Math.min(window.screen.width || 0, window.screen.height || 0);
@@ -1379,7 +1425,6 @@
             const colorDepth = window.screen.colorDepth || 24;
             const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
 
-            // Extract OS Family (iOS, Android, Windows, Mac, Linux) independent of browser name
             const ua = navigator.userAgent || '';
             let osFamily = 'OtherOS';
             if (/iPhone|iPad|iPod/i.test(ua)) osFamily = 'iOS';
@@ -1478,11 +1523,17 @@
             return doc(db, 'artifacts', appId, 'public', 'data', 'exam_app_codes', normalizeSubscriptionCode(codeStr));
         }
 
-        // Normalize subscription code to prevent false "expired" errors due to spaces or hyphen variations
+        function getTutorialsCollection() {
+            return collection(db, 'artifacts', appId, 'public', 'data', 'exam_app_tutorials');
+        }
+
+        function getTutorialDocRef(tutId) {
+            return doc(db, 'artifacts', appId, 'public', 'data', 'exam_app_tutorials', tutId);
+        }
+
         function normalizeSubscriptionCode(raw) {
             if (!raw) return '';
             let clean = String(raw).trim().toUpperCase().replace(/\s+/g, '').replace(/[ـ–—−]/g, '-');
-            // If user typed EXMXXXXXXXX without dashes, format it as EXM-XXXX-XXXX
             const alnumOnly = clean.replace(/[^A-Z0-9]/g, '');
             if (alnumOnly.length === 11 && alnumOnly.startsWith('EXM')) {
                 clean = `EXM-${alnumOnly.slice(3, 7)}-${alnumOnly.slice(7, 11)}`;
@@ -1534,7 +1585,6 @@
                 console.error("Auth init error:", err);
             }
 
-            // Check if teacher is already logged in on this device
             let autoLoggedUser = null;
             try {
                 const savedEmail = localStorage.getItem(LS_SAVED_EMAIL_KEY);
@@ -1543,7 +1593,6 @@
                     const snap = await getDoc(userRef);
                     if (snap.exists()) {
                         const userData = snap.data();
-                        // Verify if the stored device fingerprint on the account matches this device's hardware fingerprint
                         if (!userData.activeDeviceFingerprint || userData.activeDeviceFingerprint === currentHardwareFingerprint) {
                             if (userData.activeDeviceFingerprint !== currentHardwareFingerprint) {
                                 await updateDoc(userRef, { activeDeviceFingerprint: currentHardwareFingerprint });
@@ -1551,7 +1600,6 @@
                             }
                             autoLoggedUser = userData;
                         } else {
-                            // Another physical device logged in while this device was closed
                             localStorage.removeItem(LS_SAVED_EMAIL_KEY);
                         }
                     }
@@ -1761,7 +1809,6 @@
             const cleanName = userObj.name.startsWith('أ.') ? userObj.name : `أ. ${userObj.name}`;
             document.getElementById('footerTeacherName').value = cleanName;
 
-            // Check if existing account has not selected 'معلم' or 'مدرس' yet
             if (!userObj.teacherRole) {
                 document.getElementById('rolePromptModal').classList.remove('hidden');
             }
@@ -1773,7 +1820,6 @@
                 if (!docSnap.exists()) return;
                 const liveData = docSnap.data();
 
-                // Only log out if a DIFFERENT physical device logs into the account
                 if (
                     liveData.activeDeviceFingerprint &&
                     currentHardwareFingerprint &&
@@ -1789,6 +1835,9 @@
             }, (err) => {
                 console.error("Live teacher listener error:", err);
             });
+
+            // Start real-time tutorials listener for all users (for the orange ticker bar page)
+            startTutorialsRealtimeListener();
 
             if (userObj.email.toLowerCase() === OWNER_EMAIL.toLowerCase()) {
                 startOwnerRealtimeListeners();
@@ -1817,6 +1866,7 @@
             if (unsubscribeTeacherDoc) { unsubscribeTeacherDoc(); unsubscribeTeacherDoc = null; }
             if (unsubscribeOwnerUsers) { unsubscribeOwnerUsers(); unsubscribeOwnerUsers = null; }
             if (unsubscribeOwnerCodes) { unsubscribeOwnerCodes(); unsubscribeOwnerCodes = null; }
+            if (unsubscribeTutorials) { unsubscribeTutorials(); unsubscribeTutorials = null; }
 
             currentTeacher = null;
             try {
@@ -1838,6 +1888,7 @@
             if (unsubscribeTeacherDoc) { unsubscribeTeacherDoc(); unsubscribeTeacherDoc = null; }
             if (unsubscribeOwnerUsers) { unsubscribeOwnerUsers(); unsubscribeOwnerUsers = null; }
             if (unsubscribeOwnerCodes) { unsubscribeOwnerCodes(); unsubscribeOwnerCodes = null; }
+            if (unsubscribeTutorials) { unsubscribeTutorials(); unsubscribeTutorials = null; }
 
             currentTeacher = null;
             try {
@@ -1914,7 +1965,6 @@
             document.getElementById('headerSubStatus').textContent = `أهلاً بك، ${currentTeacher.name}`;
             document.getElementById('profileRoleBadge').textContent = roleWord;
 
-            // Update builder labels according to teacherRole (معلم المادة or مدرس المادة)
             const footerLabel = document.getElementById('footerTeacherLabel');
             if (footerLabel) {
                 footerLabel.textContent = `اسم ${getTeacherRoleTitle()} (الجهة اليسرى أسفل الورقة)`;
@@ -1976,18 +2026,37 @@
         // ============================================================================
         // 9. NAVIGATION & FREE TRIAL / SUBSCRIPTION CODE FLOWS
         // ============================================================================
-        window.showSection = function(sectionName) {
+        function hideAllMainSections() {
             const sections = [
                 'sectionExamTypes',
+                'sectionTutorialsViewer',
                 'sectionExamHistory',
                 'sectionExamBuilder',
                 'sectionExamPreview',
                 'sectionAccount',
                 'sectionOwnerHub',
                 'sectionOwnerRequests',
-                'sectionOwnerCodes'
+                'sectionOwnerCodes',
+                'sectionOwnerTutorials'
             ];
-            sections.forEach(id => document.getElementById(id).classList.add('hidden'));
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+        }
+
+        function setOrangeTickerVisible(visible) {
+            const ticker = document.getElementById('orangeTickerBar');
+            if (!ticker) return;
+            if (visible) {
+                ticker.classList.remove('hidden');
+            } else {
+                ticker.classList.add('hidden');
+            }
+        }
+
+        window.showSection = function(sectionName) {
+            hideAllMainSections();
 
             const navExams = document.getElementById('navBtnExams');
             const navHistory = document.getElementById('navBtnHistory');
@@ -1999,6 +2068,9 @@
             navExams.className = inactiveClass;
             navHistory.className = inactiveClass;
             navAccount.className = inactiveClass;
+
+            // Show the moving orange ticker bar across the 3 main sections: (نوع الأسئلة / سجل الأسئلة / حسابي)
+            setOrangeTickerVisible(true);
 
             if (sectionName === 'examTypes') {
                 document.getElementById('sectionExamTypes').classList.remove('hidden');
@@ -2122,7 +2194,153 @@
         };
 
         // ============================================================================
-        // 10. OWNER CONTROL PANEL (مع الحذف النهائي للأكواد المعطلة الحالية والسابقة)
+        // 10. TUTORIALS / EXPLANATIONS SYSTEM (الشريط البرتقالي + إضافة شرح للمالك)
+        // ============================================================================
+        function startTutorialsRealtimeListener() {
+            if (unsubscribeTutorials) unsubscribeTutorials();
+            unsubscribeTutorials = onSnapshot(getTutorialsCollection(), (snap) => {
+                allTutorialsCache = [];
+                snap.forEach(d => allTutorialsCache.push(d.data()));
+                allTutorialsCache.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                renderTutorialsViewerUI();
+                renderOwnerTutorialsUI();
+            }, (err) => console.error("Tutorials listener error:", err));
+        }
+
+        window.openTutorialsViewerPage = function() {
+            hideAllMainSections();
+            setOrangeTickerVisible(false);
+            document.getElementById('sectionTutorialsViewer').classList.remove('hidden');
+            renderTutorialsViewerUI();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        function formatExternalUrl(rawUrl) {
+            if (!rawUrl) return '#';
+            const trimmed = String(rawUrl).trim();
+            if (/^https?:\/\//i.test(trimmed)) return trimmed;
+            return 'https://' + trimmed;
+        }
+
+        window.openExternalTutorialLink = function(url) {
+            const finalUrl = formatExternalUrl(url);
+            window.open(finalUrl, '_blank', 'noopener,noreferrer');
+        };
+
+        function renderTutorialsViewerUI() {
+            const container = document.getElementById('tutorialsButtonsContainer');
+            if (!container) return;
+
+            if (allTutorialsCache.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full bg-white rounded-2xl p-8 text-center border border-slate-200">
+                        <i class="fa-solid fa-circle-play text-3xl text-slate-300 mb-2"></i>
+                        <p class="text-xs sm:text-sm font-extrabold text-slate-600">لا توجد أزرار شروحات مضافة حالياً</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = allTutorialsCache.map(item => `
+                <button onclick="openExternalTutorialLink('${escapeHtml(item.url)}')"
+                    class="group h-14 bg-white hover:bg-orange-50/60 rounded-xl px-4 border border-slate-200 hover:border-orange-500 shadow-2xs transition-all flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-orange-500 to-amber-600 text-white flex items-center justify-center text-sm font-bold shrink-0 group-hover:scale-105 transition">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                        <span class="text-xs sm:text-sm font-extrabold text-slate-800 truncate">${escapeHtml(item.title)}</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-orange-600 text-xs shrink-0"></i>
+                </button>
+            `).join('');
+        }
+
+        window.openOwnerTutorialsPage = function() {
+            if (!currentTeacher || currentTeacher.email.toLowerCase() !== OWNER_EMAIL.toLowerCase()) return;
+            hideAllMainSections();
+            setOrangeTickerVisible(false);
+            document.getElementById('sectionOwnerTutorials').classList.remove('hidden');
+            renderOwnerTutorialsUI();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.saveNewTutorialButton = async function() {
+            if (!currentTeacher || currentTeacher.email.toLowerCase() !== OWNER_EMAIL.toLowerCase()) return;
+
+            const btnName = document.getElementById('tutorialBtnNameInput').value.trim();
+            const btnUrl = document.getElementById('tutorialBtnUrlInput').value.trim();
+
+            if (!btnName || !btnUrl) {
+                showCustomMessage("حقول مطلوبة", "يرجى ملء اسم الزر ورابط الزر قبل الضغط على حفظ.", "warning");
+                return;
+            }
+
+            const saveBtn = document.getElementById('btnSaveTutorial');
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...';
+
+            try {
+                const newId = 'tut_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
+                const tutRef = getTutorialDocRef(newId);
+
+                await setDoc(tutRef, {
+                    id: newId,
+                    title: btnName,
+                    url: formatExternalUrl(btnUrl),
+                    createdAt: Date.now()
+                });
+
+                document.getElementById('tutorialBtnNameInput').value = '';
+                document.getElementById('tutorialBtnUrlInput').value = '';
+                showCustomMessage("تم الحفظ بنجاح", "تمت إضافة الزر بنجاح وسيظهر لجميع الأساتذة عند الضغط على الشريط البرتقالي.", "success");
+            } catch (err) {
+                console.error("Save tutorial error:", err);
+                showCustomMessage("خطأ", "تعذر حفظ الزر حالياً، يرجى المحاولة مرة أخرى.", "error");
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i><span>حفظ</span>';
+            }
+        };
+
+        window.deleteTutorialButton = async function(tutId) {
+            try {
+                const tutRef = getTutorialDocRef(tutId);
+                await deleteDoc(tutRef);
+            } catch (err) {
+                console.error("Delete tutorial error:", err);
+            }
+        };
+
+        function renderOwnerTutorialsUI() {
+            const container = document.getElementById('ownerTutorialsList');
+            if (!container) return;
+
+            if (allTutorialsCache.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white rounded-2xl p-6 text-center border border-slate-200">
+                        <p class="text-xs font-extrabold text-slate-500">لم تقم بإضافة أي أزرار شروحات بعد</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = allTutorialsCache.map(item => `
+                <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-2xs flex items-center justify-between gap-3">
+                    <div class="min-w-0 flex-1">
+                        <h4 class="text-xs sm:text-sm font-extrabold text-slate-800 truncate">${escapeHtml(item.title)}</h4>
+                        <p class="text-[11px] text-slate-500 font-mono truncate mt-0.5" dir="ltr">${escapeHtml(item.url)}</p>
+                    </div>
+                    <button onclick="deleteTutorialButton('${escapeHtml(item.id)}')"
+                        class="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-600 text-rose-700 hover:text-white text-xs font-extrabold transition flex items-center gap-1 shrink-0">
+                        <i class="fa-solid fa-trash-can"></i>
+                        <span>حذف</span>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // ============================================================================
+        // 11. OWNER CONTROL PANEL (الطلبات المجانية + أكواد الاشتراك)
         // ============================================================================
         function startOwnerRealtimeListeners() {
             if (unsubscribeOwnerUsers) unsubscribeOwnerUsers();
@@ -2138,7 +2356,6 @@
                 allCodesCache = [];
                 snap.forEach(d => {
                     const data = d.data();
-                    // Auto-delete any previously disabled code so it is permanently removed
                     if (data.status === 'disabled') {
                         deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'exam_app_codes', d.id)).catch(() => {});
                     } else {
@@ -2154,15 +2371,16 @@
                 showCustomMessage("غير مصرح", "هذه اللوحة مخصصة لمالك التطبيق فقط.", "error");
                 return;
             }
-            const sections = ['sectionExamTypes', 'sectionExamHistory', 'sectionExamBuilder', 'sectionExamPreview', 'sectionAccount', 'sectionOwnerRequests', 'sectionOwnerCodes'];
-            sections.forEach(id => document.getElementById(id).classList.add('hidden'));
+            hideAllMainSections();
+            setOrangeTickerVisible(false);
             document.getElementById('sectionOwnerHub').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
         window.openOwnerRequestsPage = function() {
             if (!currentTeacher || currentTeacher.email.toLowerCase() !== OWNER_EMAIL.toLowerCase()) return;
-            document.getElementById('sectionOwnerHub').classList.add('hidden');
+            hideAllMainSections();
+            setOrangeTickerVisible(false);
             document.getElementById('sectionOwnerRequests').classList.remove('hidden');
             renderOwnerRequestsUI();
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2170,7 +2388,8 @@
 
         window.openOwnerCodesPage = function() {
             if (!currentTeacher || currentTeacher.email.toLowerCase() !== OWNER_EMAIL.toLowerCase()) return;
-            document.getElementById('sectionOwnerHub').classList.add('hidden');
+            hideAllMainSections();
+            setOrangeTickerVisible(false);
             document.getElementById('sectionOwnerCodes').classList.remove('hidden');
             renderOwnerCodesUI();
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2349,7 +2568,6 @@
             showCustomMessage("تم نسخ الكود", `تم نسخ الكود (${codeStr}) بنجاح، يمكنك إرساله للأستاذ الآن.`, "success");
         };
 
-        // Permanently deletes the code from Firestore and revokes subscription from the associated user
         window.disableAndDeleteSubscriptionCode = async function(codeStr, usedByEmail) {
             try {
                 if (usedByEmail) {
@@ -2366,7 +2584,7 @@
         };
 
         // ============================================================================
-        // 11. EXAM HISTORY (سجل الأسئلة المحفوظة: عرض، بحث، تعديل، حذف)
+        // 12. EXAM HISTORY (سجل الأسئلة المحفوظة: عرض، بحث، تعديل، حذف)
         // ============================================================================
         const EXAM_TYPE_LABELS = {
             daily: 'امتحان يومي',
@@ -2475,7 +2693,8 @@
 
             setExamDirection(examDirection);
 
-            document.getElementById('sectionExamHistory').classList.add('hidden');
+            hideAllMainSections();
+            setOrangeTickerVisible(false);
             document.getElementById('sectionExamBuilder').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
@@ -2495,7 +2714,7 @@
         };
 
         // ============================================================================
-        // 12. EXAM BUILDER ENGINE & FULL-SCREEN WORD-STYLE QUESTION EDITOR
+        // 13. EXAM BUILDER ENGINE & FULL-SCREEN WORD-STYLE QUESTION EDITOR
         // ============================================================================
         window.openExamBuilder = function(type) {
             if (!hasExamAccess()) {
@@ -2527,15 +2746,14 @@
 
             renderQuestionFields();
 
-            document.getElementById('sectionExamTypes').classList.add('hidden');
+            hideAllMainSections();
+            setOrangeTickerVisible(false);
             document.getElementById('sectionExamBuilder').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
         window.closeExamBuilder = function() {
-            document.getElementById('sectionExamBuilder').classList.add('hidden');
-            document.getElementById('sectionExamTypes').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showSection('examTypes');
         };
 
         window.setExamDirection = function(dir) {
@@ -2610,7 +2828,7 @@
         }
 
         // ============================================================================
-        // 13. FULL-SCREEN QUESTION EDITOR WITH TOGGLEABLE POPOVER PANELS
+        // 14. FULL-SCREEN QUESTION EDITOR WITH TOGGLEABLE POPOVER PANELS
         // ============================================================================
         window.openFullScreenQuestionEditor = function(idx) {
             activeEditorQuestionIndex = idx;
@@ -2867,7 +3085,7 @@
         };
 
         // ============================================================================
-        // 14. SAVE TO HISTORY & GENERATE OFFICIAL IRAQI A4 EXAM PAPER
+        // 15. SAVE TO HISTORY & GENERATE OFFICIAL IRAQI A4 EXAM PAPER (بدون البسملة)
         // ============================================================================
         function toArabicNumerals(num) {
             const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
@@ -2891,13 +3109,11 @@
                 return;
             }
 
-            // Consume one-time free trial if applicable
             const isOwner = currentTeacher.email.toLowerCase() === OWNER_EMAIL.toLowerCase();
             const trialUpdate = (!isOwner && !currentTeacher.isSubscribed && currentTeacher.trialStatus === 'approved')
                 ? { trialStatus: 'used' }
                 : {};
 
-            // Save or Update Exam in Teacher's History (سجل الأسئلة)
             const examRecord = {
                 id: currentEditingHistoryId || crypto.randomUUID(),
                 type: selectedExamType,
@@ -2939,7 +3155,8 @@
 
             buildAndRenderOfficialExamSheet();
 
-            document.getElementById('sectionExamBuilder').classList.add('hidden');
+            hideAllMainSections();
+            setOrangeTickerVisible(false);
             document.getElementById('sectionExamPreview').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -2988,7 +3205,8 @@
                 );
                 return;
             }
-            document.getElementById('sectionExamPreview').classList.add('hidden');
+            hideAllMainSections();
+            setOrangeTickerVisible(false);
             document.getElementById('sectionExamBuilder').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
@@ -3095,24 +3313,21 @@
                 }
             }
 
-            const bismillah = isRtl ? 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ' : 'In the Name of Allah, the Most Gracious, the Most Merciful';
-
             // Small, subtle Exam Note right below the Student Name border line and before Q1
             const examNoteHtml = data.examNote
                 ? `<div class="pt-1 pb-0.5 text-center text-[12px] font-extrabold text-slate-800">( ${escapeHtml(data.examNote)} )</div>`
                 : '';
 
-            // 1. Top 3-Column Iraqi Official Header + Student Name Row + Subtle Note Below Line
+            // 1. Top 3-Column Iraqi Official Header (تم حذف بسم الله الرحمن الرحيم بناءً على الطلب)
             const headerHtml = `
                 <div class="shrink-0">
                     <div class="border-b-2 border-slate-900 pb-3 mb-2">
-                        <div class="grid grid-cols-3 items-start gap-2 text-slate-900">
-                            <div class="pt-3 font-extrabold text-sm leading-relaxed">
+                        <div class="grid grid-cols-3 items-center gap-2 text-slate-900">
+                            <div class="font-extrabold text-sm leading-relaxed">
                                 <p>${escapeHtml(data.schoolName)}</p>
                             </div>
 
-                            <div class="text-center space-y-0.5">
-                                <div class="font-amiri text-xl font-bold tracking-wide">${bismillah}</div>
+                            <div class="text-center space-y-1">
                                 <h2 class="text-base font-extrabold text-slate-950">${escapeHtml(data.examTitle)}</h2>
                                 <p class="text-xs font-extrabold text-slate-800">${escapeHtml(data.academicYear)}</p>
                             </div>
@@ -3184,9 +3399,9 @@
             });
             questionsHtml += `</div>`;
 
-            // 3. Official Footer (معلم المادة أو مدرس المادة على اليسار + مساعد الأستاذ على الجهة المقابلة اليمنى)
+            // 3. Official Footer
             const wishesText = isRtl ? 'مع تمنياتنا لكم بالنجاح والموفقية' : 'Best Wishes for Success';
-            const roleArabicTitle = getTeacherRoleTitle(); // 'معلم المادة' or 'مدرس المادة'
+            const roleArabicTitle = getTeacherRoleTitle();
             const teacherTitleLabel = isRtl ? roleArabicTitle : 'Subject Teacher';
             const assistantRoleLabel = isRtl
                 ? (currentTeacher && currentTeacher.teacherRole === 'معلم' ? 'معلم المادة المساعد' : 'مدرس المادة المساعد')
@@ -3206,13 +3421,8 @@
             const footerHtml = `
                 <div class="shrink-0 pt-3 border-t-2 border-slate-800">
                     <div class="grid grid-cols-3 items-end text-xs sm:text-sm font-extrabold text-slate-900">
-                        <!-- Opposite Side (Right in RTL): Assistant Teacher -->
                         ${assistantBlockHtml}
-
-                        <!-- Center: Wishes -->
                         <div class="text-center pb-1.5">${wishesText}</div>
-
-                        <!-- Main Teacher Side (Left in RTL): معلم المادة أو مدرس المادة -->
                         <div class="${isRtl ? 'text-left pl-4' : 'text-right pr-4'} space-y-0.5">
                             <div class="text-center inline-block">
                                 <p>${teacherTitleLabel}</p>
@@ -3231,26 +3441,50 @@
         }
 
         // ============================================================================
-        // 15. HIGH-RES DIRECT IMAGE (PNG) & A4 PDF DOWNLOAD
+        // 16. HIGH-RES DIRECT IMAGE (PNG) & A4 PDF DOWNLOAD (مضبوطة بالكامل)
         // ============================================================================
         async function captureFullScaleSheetCanvas() {
             const sheet = document.getElementById('printableExamSheet');
             const scaleContainer = document.getElementById('a4ScaleContainer');
+            const viewport = document.getElementById('a4PreviewViewport');
+
             const prevTransform = scaleContainer.style.transform;
+            const prevViewportHeight = viewport.style.height;
+            const prevViewportOverflow = viewport.style.overflow;
+            const savedScrollY = window.scrollY;
 
-            scaleContainer.style.transform = 'scale(1)';
-            await new Promise(r => setTimeout(r, 50));
+            // Ensure all web fonts are loaded before rendering
+            if (document.fonts && document.fonts.ready) {
+                try { await document.fonts.ready; } catch (e) {}
+            }
 
-            const canvas = await html2canvas(sheet, {
-                scale: 2.5,
-                useCORS: true,
-                backgroundColor: '#ffffff',
-                width: 794,
-                windowWidth: 794
-            });
+            // Temporarily reset scale and scroll so html2canvas captures 100% of the A4 sheet cleanly
+            scaleContainer.style.transform = 'none';
+            viewport.style.height = 'auto';
+            viewport.style.overflow = 'visible';
+            window.scrollTo(0, 0);
 
-            scaleContainer.style.transform = prevTransform;
-            return canvas;
+            await new Promise(r => setTimeout(r, 80));
+
+            try {
+                const canvas = await html2canvas(sheet, {
+                    scale: 2.5,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff',
+                    width: 794,
+                    height: sheet.offsetHeight,
+                    windowWidth: 1024,
+                    scrollX: 0,
+                    scrollY: 0
+                });
+                return canvas;
+            } finally {
+                scaleContainer.style.transform = prevTransform;
+                viewport.style.height = prevViewportHeight;
+                viewport.style.overflow = prevViewportOverflow;
+                window.scrollTo(0, savedScrollY);
+            }
         }
 
         window.downloadExamAsImage = async function() {
@@ -3314,20 +3548,19 @@
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
         }
-        
-  if ('serviceWorker' in navigator && window.isSecureContext) {
-    window.addEventListener('load', async () => {
-      try {
-        const registration = await navigator.serviceWorker.register('/s/sw.js', {
-          scope: '/s/'
-        });
-        registration.update();
-      } catch (error) {
-        console.error('Service Worker registration failed:', error);
-      }
-    });
-  }
 
+        if ('serviceWorker' in navigator && window.isSecureContext) {
+            window.addEventListener('load', async () => {
+                try {
+                    const registration = await navigator.serviceWorker.register('/s/sw.js', {
+                        scope: '/s/'
+                    });
+                    registration.update();
+                } catch (error) {
+                    console.error('Service Worker registration failed:', error);
+                }
+            });
+        }
     </script>
 </body>
 </html>
