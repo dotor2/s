@@ -11,7 +11,7 @@
     <!-- Google Fonts: 5 Distinct Arabic Academic Fonts + English Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&family=Noto+Kufi+Arabic:wght@400;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;600;700&family=Noto+Kufi+Arabic:wght@400;600;700;800&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -67,22 +67,48 @@
         .font-almarai { font-family: 'Almarai', sans-serif; }
         .font-kufi { font-family: 'Noto Kufi Arabic', sans-serif; }
 
-        /* Splash Screen Animations */
-        @keyframes floatSlow {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-8px) scale(1.02); }
+        /* Exact Splash Screen Styling & Animations Matching Provided Image */
+        .splash-bg-luxury {
+            background:
+                radial-gradient(circle at 88% 8%, rgba(16, 185, 129, 0.42) 0%, rgba(5, 150, 105, 0.12) 32%, transparent 60%),
+                radial-gradient(circle at 12% 88%, rgba(16, 185, 129, 0.35) 0%, rgba(4, 120, 87, 0.1) 38%, transparent 65%),
+                radial-gradient(circle at 50% 42%, rgba(20, 184, 166, 0.22) 0%, transparent 55%),
+                linear-gradient(145deg, #022c22 0%, #064e3b 48%, #022c22 100%);
         }
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 20px rgba(20, 184, 166, 0.35); }
-            50% { box-shadow: 0 0 40px rgba(20, 184, 166, 0.65); }
+
+        .splash-glass-box {
+            background: linear-gradient(145deg, rgba(16, 185, 129, 0.35) 0%, rgba(4, 120, 87, 0.55) 50%, rgba(6, 78, 59, 0.75) 100%);
+            border-radius: 42px;
+            box-shadow:
+                0 0 35px rgba(52, 211, 153, 0.35),
+                0 20px 45px rgba(0, 0, 0, 0.45),
+                inset 0 2px 6px rgba(167, 243, 208, 0.65),
+                inset 0 -3px 8px rgba(52, 211, 153, 0.45);
+            border: 2px solid rgba(110, 231, 183, 0.45);
+            backdrop-filter: blur(12px);
         }
-        @keyframes shimmerBar {
-            0% { width: 0%; }
-            100% { width: 100%; }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-9px); }
         }
-        .animate-float { animation: floatSlow 3s ease-in-out infinite; }
-        .animate-glow { animation: pulseGlow 2.5s ease-in-out infinite; }
-        .splash-progress { animation: shimmerBar 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        @keyframes pulseDiamond {
+            0%, 100% { opacity: 0.65; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.18); }
+        }
+        @keyframes floatQuestionMark {
+            0%, 100% { transform: translateY(0px) rotate(-6deg); opacity: 0.16; }
+            50% { transform: translateY(-6px) rotate(4deg); opacity: 0.26; }
+        }
+        @keyframes shimmerGoldLine {
+            0%, 100% { filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.6)); }
+            50% { filter: drop-shadow(0 0 14px rgba(251, 191, 36, 0.95)); }
+        }
+
+        .animate-splash-icon { animation: floatIcon 3.2s ease-in-out infinite; }
+        .animate-diamond { animation: pulseDiamond 2.4s ease-in-out infinite; }
+        .animate-qmark { animation: floatQuestionMark 4s ease-in-out infinite; }
+        .animate-gold-glow { animation: shimmerGoldLine 2.5s ease-in-out infinite; }
 
         /* Official A4 Paper Progressive Styles (Full-Height Flex Distribution) */
         .exam-paper-base {
@@ -123,7 +149,7 @@
             outline-offset: -7px;
         }
 
-        /* Responsive A4 Preview Scaling Wrapper so it fits mobile & desktop screens cleanly */
+        /* Responsive A4 Preview Scaling Wrapper */
         .a4-preview-viewport {
             width: 100%;
             overflow: hidden;
@@ -161,28 +187,182 @@
 </head>
 <body class="bg-slate-100 text-slate-800">
 
-    <!-- 1. SPLASH SCREEN -->
-    <div id="splashScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-br from-teal-900 via-emerald-800 to-slate-900 text-white px-5 transition-opacity duration-500">
-        <div class="relative flex flex-col items-center max-w-sm w-full text-center">
-            <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-teal-500 to-emerald-400 flex items-center justify-center animate-float animate-glow mb-4 border border-white/30">
-                <i class="fa-solid fa-file-signature text-3xl text-white drop-shadow"></i>
+    <!-- 1. SPLASH SCREEN (مطابق تماماً للصورة المرفقة) -->
+    <div id="splashScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center splash-bg-luxury text-white px-5 overflow-hidden transition-opacity duration-500">
+        
+        <!-- Top-Left Decorative Sweeping Curves (Gold & Emerald) -->
+        <svg class="absolute top-0 left-0 w-72 sm:w-96 h-72 sm:h-96 pointer-events-none opacity-80" viewBox="0 0 400 400" fill="none">
+            <path d="M-20 190 C 90 120, 160 50, 210 -20 L 0 -20 Z" fill="rgba(16, 185, 129, 0.08)"/>
+            <path d="M-10 195 C 95 125, 165 55, 215 -15" stroke="#10b981" stroke-width="1.5" stroke-opacity="0.45"/>
+            <path d="M-10 265 C 120 180, 210 90, 275 -15" stroke="url(#goldGradTop)" stroke-width="1.6" stroke-opacity="0.75"/>
+            <defs>
+                <linearGradient id="goldGradTop" x1="0" y1="265" x2="275" y2="0" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.1"/>
+                    <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.85"/>
+                    <stop offset="100%" stop-color="#fef08a" stop-opacity="0.2"/>
+                </linearGradient>
+            </defs>
+        </svg>
+
+        <!-- Bottom-Right Decorative Sweeping Curves (Gold & Emerald) -->
+        <svg class="absolute bottom-0 right-0 w-80 sm:w-[420px] h-80 sm:h-[420px] pointer-events-none opacity-85" viewBox="0 0 400 400" fill="none">
+            <path d="M 420 210 C 290 260, 210 330, 165 420 L 420 420 Z" fill="rgba(6, 95, 70, 0.35)"/>
+            <path d="M 415 175 C 275 230, 190 310, 140 415" stroke="url(#goldGradBot)" stroke-width="1.6" stroke-opacity="0.8"/>
+            <path d="M 415 225 C 295 270, 220 335, 175 415" stroke="#10b981" stroke-width="1.5" stroke-opacity="0.5"/>
+            <defs>
+                <linearGradient id="goldGradBot" x1="415" y1="175" x2="140" y2="415" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.2"/>
+                    <stop offset="55%" stop-color="#f59e0b" stop-opacity="0.85"/>
+                    <stop offset="100%" stop-color="#fef08a" stop-opacity="0.15"/>
+                </linearGradient>
+            </defs>
+        </svg>
+
+        <!-- Center Content Wrapper -->
+        <div class="relative flex flex-col items-center justify-center max-w-md w-full text-center z-10">
+            
+            <!-- Floating Background Question Marks & Geometric Accents Around Icon -->
+            <div class="relative flex items-center justify-center mb-8">
+                
+                <!-- Left Question Mark "?" -->
+                <span class="absolute -left-20 sm:-left-24 -top-10 text-6xl sm:text-7xl font-extrabold text-emerald-300/20 select-none pointer-events-none animate-qmark" style="font-family: 'Inter', sans-serif;">?</span>
+                
+                <!-- Right Question Mark "?" -->
+                <span class="absolute -right-20 sm:-right-24 top-6 text-6xl sm:text-7xl font-extrabold text-emerald-300/20 select-none pointer-events-none animate-qmark" style="font-family: 'Inter', sans-serif; animation-delay: 1.5s;">?</span>
+
+                <!-- Diagonal Accent Lines & Diamonds (Left & Right) -->
+                <div class="absolute -left-14 top-4 w-12 h-[1px] bg-gradient-to-r from-transparent via-emerald-300/50 to-transparent -rotate-45 pointer-events-none"></div>
+                <div class="absolute -left-16 bottom-6 w-14 h-[1px] bg-gradient-to-r from-transparent via-amber-300/50 to-transparent -rotate-45 pointer-events-none"></div>
+                <div class="absolute -right-16 -top-2 w-16 h-[1px] bg-gradient-to-r from-transparent via-emerald-300/40 to-transparent -rotate-45 pointer-events-none"></div>
+
+                <!-- Left Hollow Gold Diamond -->
+                <div class="absolute -left-11 top-1/2 -translate-y-2 w-3.5 h-3.5 border-2 border-amber-300/85 rotate-45 animate-diamond pointer-events-none"></div>
+
+                <!-- Right Top Solid Gold Diamond -->
+                <div class="absolute -right-10 -top-1 w-3 h-3 bg-amber-200 rotate-45 shadow-[0_0_8px_#fde68a] animate-diamond pointer-events-none" style="animation-delay: 0.7s;"></div>
+
+                <!-- Right Bottom Solid Emerald Diamond -->
+                <div class="absolute -right-10 bottom-4 w-3 h-3 bg-emerald-400/70 rotate-45 animate-diamond pointer-events-none" style="animation-delay: 1.3s;"></div>
+
+                <!-- Top & Bottom Neon Rim Glows on Icon -->
+                <div class="absolute -top-2 w-28 h-3 bg-emerald-300/60 blur-md rounded-full pointer-events-none"></div>
+                <div class="absolute -bottom-2 w-28 h-3 bg-emerald-300/70 blur-md rounded-full pointer-events-none"></div>
+
+                <!-- Main 3D Glassmorphic App Icon -->
+                <div class="w-44 h-44 sm:w-48 sm:h-48 splash-glass-box flex items-center justify-center relative animate-splash-icon p-4">
+                    <!-- Inner Gloss Highlight -->
+                    <div class="absolute inset-1.5 rounded-[36px] border border-white/25 pointer-events-none" style="background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 45%);"></div>
+
+                    <!-- Detailed 3D-Style SVG Illustration (Exam Paper + Checkmarks + Graduation Cap + Pencil) -->
+                    <svg class="w-36 h-36 sm:w-40 sm:h-40 drop-shadow-[0_12px_16px_rgba(0,0,0,0.4)]" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Soft Shadow Behind Document -->
+                        <rect x="44" y="48" width="96" height="122" rx="12" fill="rgba(0,0,0,0.22)" />
+                        
+                        <!-- White Exam Sheet Base -->
+                        <path d="M40 54 C40 47.3726 45.3726 42 52 42 H128 C134.627 42 140 47.3726 140 54 V142 L118 164 H52 C45.3726 164 40 158.627 40 152 V54 Z" fill="url(#paperGrad)"/>
+                        
+                        <!-- Curled Bottom-Right Page Corner -->
+                        <path d="M118 164 V148 C118 144.686 120.686 142 124 142 H140 L118 164 Z" fill="#cbd5e1"/>
+
+                        <!-- Checkboxes & Lines Row 1 -->
+                        <rect x="53" y="78" width="16" height="16" rx="4" fill="#047857"/>
+                        <path d="M57 86.5 L60 89.5 L65.5 83" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect x="76" y="80" width="46" height="4.5" rx="2.25" fill="#94a3b8"/>
+                        <rect x="76" y="88" width="34" height="4" rx="2" fill="#cbd5e1"/>
+
+                        <!-- Checkboxes & Lines Row 2 -->
+                        <rect x="53" y="104" width="16" height="16" rx="4" fill="#047857"/>
+                        <path d="M57 112.5 L60 115.5 L65.5 109" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect x="76" y="106" width="46" height="4.5" rx="2.25" fill="#94a3b8"/>
+                        <rect x="76" y="114" width="38" height="4" rx="2" fill="#cbd5e1"/>
+
+                        <!-- Checkboxes & Lines Row 3 -->
+                        <rect x="53" y="130" width="16" height="16" rx="4" fill="#047857"/>
+                        <path d="M57 138.5 L60 141.5 L65.5 135" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect x="76" y="132" width="40" height="4.5" rx="2.25" fill="#94a3b8"/>
+                        <rect x="76" y="140" width="28" height="4" rx="2" fill="#cbd5e1"/>
+
+                        <!-- Shadow Under Graduation Cap -->
+                        <ellipse cx="90" cy="54" rx="34" ry="8" fill="rgba(0,0,0,0.22)"/>
+
+                        <!-- Graduation Cap (Mortarboard) Base Skullcap -->
+                        <path d="M68 42 V54 C68 60 112 60 112 54 V42 Z" fill="url(#capBaseGrad)"/>
+                        <!-- Graduation Cap Top Diamond -->
+                        <polygon points="90,18 134,34 90,50 46,34" fill="url(#capTopGrad)" stroke="#34d399" stroke-width="0.8" stroke-opacity="0.5"/>
+                        <!-- Center Cap Button -->
+                        <ellipse cx="90" cy="34" rx="4" ry="2.2" fill="#064e3b"/>
+                        <!-- Golden Tassel -->
+                        <path d="M90 34 L123 38 V58" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M120 64 L123 55 L126 64 Z" fill="#f59e0b"/>
+                        <circle cx="123" cy="56" r="2.2" fill="#fde68a"/>
+
+                        <!-- 3D Angled Emerald & Gold Pencil -->
+                        <g transform="translate(136, 122) rotate(38)">
+                            <!-- Pencil Drop Shadow -->
+                            <rect x="-5" y="-36" width="18" height="78" rx="4" fill="rgba(0,0,0,0.28)" transform="translate(-3, 4)"/>
+                            <!-- Pencil Body (Emerald Green) -->
+                            <rect x="-7" y="-32" width="14" height="62" fill="url(#pencilBodyGrad)"/>
+                            <rect x="-2" y="-32" width="4" height="62" fill="#059669" fill-opacity="0.6"/>
+                            <!-- Gold Ferrule Band -->
+                            <rect x="-7" y="-42" width="14" height="10" fill="url(#goldBandGrad)"/>
+                            <line x1="-7" y1="-37" x2="7" y2="-37" stroke="#b45309" stroke-width="1"/>
+                            <!-- Cream Eraser Top -->
+                            <path d="M-7 -42 V-48 C-7 -51.5 7 -51.5 7 -48 V-42 Z" fill="#fde68a"/>
+                            <!-- Wooden Cone Tip -->
+                            <polygon points="-7,30 7,30 0,48" fill="#fcd34d"/>
+                            <!-- Dark Green/Graphite Lead Point -->
+                            <polygon points="-2.8,41 2.8,41 0,48" fill="#064e3b"/>
+                        </g>
+
+                        <defs>
+                            <linearGradient id="paperGrad" x1="40" y1="42" x2="140" y2="164" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#ffffff"/>
+                                <stop offset="100%" stop-color="#e2e8f0"/>
+                            </linearGradient>
+                            <linearGradient id="capTopGrad" x1="46" y1="18" x2="134" y2="50" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#059669"/>
+                                <stop offset="50%" stop-color="#065f46"/>
+                                <stop offset="100%" stop-color="#022c22"/>
+                            </linearGradient>
+                            <linearGradient id="capBaseGrad" x1="68" y1="42" x2="112" y2="58" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#064e3b"/>
+                                <stop offset="50%" stop-color="#047857"/>
+                                <stop offset="100%" stop-color="#022c22"/>
+                            </linearGradient>
+                            <linearGradient id="pencilBodyGrad" x1="-7" y1="0" x2="7" y2="0" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#10b981"/>
+                                <stop offset="50%" stop-color="#047857"/>
+                                <stop offset="100%" stop-color="#064e3b"/>
+                            </linearGradient>
+                            <linearGradient id="goldBandGrad" x1="-7" y1="-37" x2="7" y2="-37" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#fef08a"/>
+                                <stop offset="50%" stop-color="#f59e0b"/>
+                                <stop offset="100%" stop-color="#b45309"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
             </div>
 
-            <h1 class="text-xl sm:text-2xl font-extrabold tracking-wide mb-2 text-teal-50">
+            <!-- Main Arabic Title: منصة الأستاذ الذكية -->
+            <h1 class="text-3xl sm:text-4xl font-black tracking-wide text-[#fefce8] drop-shadow-[0_4px_10px_rgba(0,0,0,0.45)] mb-4">
                 منصة الأستاذ الذكية
             </h1>
-            <p class="text-teal-200/90 text-xs font-medium mb-6 leading-relaxed">
-                النظام المتكامل لإعداد وتنسيق الأسئلة الامتحانية الرسمية بأعلى معايير الدقة والاحترافية
-            </p>
 
-            <div class="w-52 h-2 bg-slate-800/80 rounded-full overflow-hidden border border-teal-500/30 p-0.5">
-                <div class="h-full bg-gradient-to-r from-amber-400 via-teal-300 to-emerald-400 rounded-full splash-progress"></div>
+            <!-- Golden Glowing Divider Line with Center Diamond -->
+            <div class="relative w-64 sm:w-72 h-5 flex items-center justify-center mb-3 animate-gold-glow">
+                <div class="w-full h-[2px] bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
+                <div class="absolute w-3.5 h-3.5 bg-amber-300 rotate-45 shadow-[0_0_12px_#fde047]"></div>
             </div>
-            <span class="mt-2.5 text-[11px] text-teal-300/80 font-medium">جاري تهيئة بيئة العمل الآمنة...</span>
+
+            <!-- Subtitle: أنشئ أسئلتك بسهولة -->
+            <p class="text-[#fef9c3]/95 text-lg sm:text-xl font-bold tracking-wide drop-shadow">
+                أنشئ أسئلتك بسهولة
+            </p>
         </div>
     </div>
 
-    <!-- 2. AUTHENTICATION SCREEN (Compact & Balanced for All Devices) -->
+    <!-- 2. AUTHENTICATION SCREEN (مع خيار تحديد معلم أو مدرس) -->
     <div id="authScreen" class="hidden min-h-screen w-full py-8 px-4 flex flex-col items-center justify-center bg-gradient-to-b from-teal-50/60 via-slate-50 to-slate-100">
         <div class="w-full max-w-3xl my-auto">
             <!-- Header -->
@@ -251,11 +431,11 @@
                     </div>
                 </div>
 
-                <!-- Window 2: Register -->
+                <!-- Window 2: Register (مع اختيار معلم أو مدرس) -->
                 <div id="registerWindow" class="hidden sm:flex bg-white rounded-2xl shadow-md border border-slate-200/80 p-5 flex-col justify-between relative overflow-hidden">
                     <div class="absolute top-0 right-0 left-0 h-1.5 bg-gradient-to-r from-amber-500 to-orange-500"></div>
                     <div>
-                        <div class="flex items-center gap-2.5 mb-4">
+                        <div class="flex items-center gap-2.5 mb-3.5">
                             <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-sm">
                                 <i class="fa-solid fa-user-plus"></i>
                             </div>
@@ -269,9 +449,26 @@
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-700 mb-1">اسم الأستاذ الثلاثي أو اللقب العلمي</label>
                                 <div class="relative">
-                                    <input type="text" id="regName" placeholder="مثال: أ. محمد علي الكوفي"
+                                    <input type="text" id="regName" placeholder="مثال: محمد علي الكوفي"
                                         class="w-full px-3 py-2 pr-8 rounded-xl border border-slate-200 bg-slate-50/60 focus:bg-white focus:border-amber-500 outline-none transition text-xs">
                                     <i class="fa-regular fa-user absolute right-3 top-2.5 text-xs text-slate-400"></i>
+                                </div>
+                            </div>
+
+                            <!-- اختيار الصفة: معلم أو مدرس -->
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-700 mb-1">هل أنت معلم أم مدرس؟</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button type="button" id="regRoleMudarris" onclick="selectRegisterRole('مدرس')"
+                                        class="py-2 px-3 rounded-xl border-2 border-amber-500 bg-amber-50 text-amber-900 font-extrabold text-xs transition flex items-center justify-center gap-1.5">
+                                        <i class="fa-solid fa-chalkboard-user"></i>
+                                        <span>مدرس</span>
+                                    </button>
+                                    <button type="button" id="regRoleMuallim" onclick="selectRegisterRole('معلم')"
+                                        class="py-2 px-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 font-bold text-xs transition flex items-center justify-center gap-1.5">
+                                        <i class="fa-solid fa-user-graduate"></i>
+                                        <span>معلم</span>
+                                    </button>
                                 </div>
                             </div>
 
@@ -304,14 +501,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Security Footnote -->
-            <div class="mt-4 text-center">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-200/70 text-slate-600 text-[11px] font-semibold">
-                    <i class="fa-solid fa-shield-halved text-teal-700"></i>
-                    نظام الحماية مفعل: جلسة واحدة نشطة لكل حساب
-                </span>
-            </div>
         </div>
     </div>
 
@@ -326,7 +515,7 @@
                         <i class="fa-solid fa-file-pen text-sm"></i>
                     </div>
                     <div>
-                        <h1 class="text-xs sm:text-sm font-extrabold text-slate-800 leading-tight">منصة الأسئلة الامتحانية</h1>
+                        <h1 class="text-xs sm:text-sm font-extrabold text-slate-800 leading-tight">منصة الأستاذ الذكية</h1>
                         <p id="headerSubStatus" class="text-[11px] text-slate-500 font-semibold">مرحباً بك أستاذنا الفاضل</p>
                     </div>
                 </div>
@@ -339,94 +528,104 @@
         <!-- MAIN CONTENT AREA -->
         <main class="flex-1 max-w-4xl w-full mx-auto p-3 sm:p-5 pb-16">
 
-            <!-- SECTION 1: EXAM TYPES SELECTION -->
+            <!-- SECTION 1: EXAM TYPES SELECTION (أزرار متساوية وأنيقة باسم الزر فقط بدون وصف) -->
             <section id="sectionExamTypes" class="space-y-3">
                 <div class="flex items-center justify-between px-1 mb-1">
-                    <div>
-                        <h2 class="text-sm sm:text-base font-extrabold text-slate-800">اختر نوع الأسئلة الامتحانية</h2>
-                        <p class="text-[11px] text-slate-500">اضغط على نوع الامتحان للبدء بكتابة وتنسيق الأسئلة</p>
-                    </div>
+                    <h2 class="text-sm sm:text-base font-extrabold text-slate-800">اختر نوع الأسئلة الامتحانية</h2>
                 </div>
 
-                <!-- 4 Compact Exam Type Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- 4 Equal-Sized Clean Buttons (Title + Icon + Lock Badge Only) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     
                     <!-- Type 1: Daily Exam -->
-                    <button onclick="openExamBuilder('daily')" class="group text-right bg-white hover:bg-teal-50/40 rounded-2xl p-4 border border-slate-200 hover:border-teal-500 shadow-2xs hover:shadow-sm transition-all flex items-start gap-3.5">
-                        <div class="w-11 h-11 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center text-lg font-bold shrink-0 group-hover:scale-105 transition">
-                            <i class="fa-solid fa-calendar-day"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center justify-between gap-2">
-                                <h3 class="text-sm sm:text-base font-extrabold text-slate-800">امتحان يومي</h3>
-                                <span class="exam-lock-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 flex items-center gap-1 shrink-0">
-                                    <i class="fa-solid fa-lock text-amber-600"></i> مقفل
-                                </span>
+                    <button onclick="openExamBuilder('daily')" class="group h-14 bg-white hover:bg-teal-50/50 rounded-xl px-4 border border-slate-200 hover:border-teal-500 shadow-2xs transition-all flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <div class="w-9 h-9 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center text-sm font-bold shrink-0 group-hover:scale-105 transition">
+                                <i class="fa-solid fa-calendar-day"></i>
                             </div>
-                            <span class="block text-[10px] font-bold text-sky-600 mt-0.5">المستوى الأول • عملي ومرتب</span>
-                            <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">
-                                تنسيق أنيق ومباشر للاختبارات اليومية السريعة بإطار رسمي نظيف.
-                            </p>
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-800 truncate">امتحان يومي</span>
                         </div>
+                        <span class="exam-lock-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 flex items-center gap-1 shrink-0">
+                            <i class="fa-solid fa-lock text-amber-600"></i> مقفل
+                        </span>
                     </button>
 
                     <!-- Type 2: Weekly Exam -->
-                    <button onclick="openExamBuilder('weekly')" class="group text-right bg-white hover:bg-teal-50/40 rounded-2xl p-4 border border-slate-200 hover:border-teal-500 shadow-2xs hover:shadow-sm transition-all flex items-start gap-3.5">
-                        <div class="w-11 h-11 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-lg font-bold shrink-0 group-hover:scale-105 transition">
-                            <i class="fa-solid fa-calendar-week"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center justify-between gap-2">
-                                <h3 class="text-sm sm:text-base font-extrabold text-slate-800">امتحان أسبوعي</h3>
-                                <span class="exam-lock-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 flex items-center gap-1 shrink-0">
-                                    <i class="fa-solid fa-lock text-amber-600"></i> مقفل
-                                </span>
+                    <button onclick="openExamBuilder('weekly')" class="group h-14 bg-white hover:bg-teal-50/50 rounded-xl px-4 border border-slate-200 hover:border-teal-500 shadow-2xs transition-all flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <div class="w-9 h-9 rounded-lg bg-teal-100 text-teal-700 flex items-center justify-center text-sm font-bold shrink-0 group-hover:scale-105 transition">
+                                <i class="fa-solid fa-calendar-week"></i>
                             </div>
-                            <span class="block text-[10px] font-bold text-teal-600 mt-0.5">المستوى الثاني • ترتيب احترافي</span>
-                            <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">
-                                إطار مزدوج احترافي مع ترويسة ثلاثية مقسمة بدقة للأسئلة والدرجات.
-                            </p>
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-800 truncate">امتحان أسبوعي</span>
                         </div>
+                        <span class="exam-lock-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 flex items-center gap-1 shrink-0">
+                            <i class="fa-solid fa-lock text-amber-600"></i> مقفل
+                        </span>
                     </button>
 
                     <!-- Type 3: Monthly Exam -->
-                    <button onclick="openExamBuilder('monthly')" class="group text-right bg-white hover:bg-indigo-50/40 rounded-2xl p-4 border border-slate-200 hover:border-indigo-500 shadow-2xs hover:shadow-sm transition-all flex items-start gap-3.5">
-                        <div class="w-11 h-11 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-lg font-bold shrink-0 group-hover:scale-105 transition">
-                            <i class="fa-solid fa-calendar-check"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center justify-between gap-2">
-                                <h3 class="text-sm sm:text-base font-extrabold text-slate-800">امتحان شهري</h3>
-                                <span class="exam-lock-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 flex items-center gap-1 shrink-0">
-                                    <i class="fa-solid fa-lock text-amber-600"></i> مقفل
-                                </span>
+                    <button onclick="openExamBuilder('monthly')" class="group h-14 bg-white hover:bg-indigo-50/50 rounded-xl px-4 border border-slate-200 hover:border-indigo-500 shadow-2xs transition-all flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <div class="w-9 h-9 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm font-bold shrink-0 group-hover:scale-105 transition">
+                                <i class="fa-solid fa-calendar-check"></i>
                             </div>
-                            <span class="block text-[10px] font-bold text-indigo-600 mt-0.5">المستوى الثالث • احترافية عالية</span>
-                            <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">
-                                تصميم رسمي للامتحانات الشهرية مع حقل اسم الطالب والشعبة وتنسيق متكامل.
-                            </p>
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-800 truncate">امتحان شهري</span>
                         </div>
+                        <span class="exam-lock-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 flex items-center gap-1 shrink-0">
+                            <i class="fa-solid fa-lock text-amber-600"></i> مقفل
+                        </span>
                     </button>
 
                     <!-- Type 4: Comprehensive Exam -->
-                    <button onclick="openExamBuilder('comprehensive')" class="group text-right bg-gradient-to-br from-amber-50/50 via-white to-amber-50/30 hover:from-amber-50 rounded-2xl p-4 border border-amber-300 hover:border-amber-500 shadow-2xs hover:shadow-sm transition-all flex items-start gap-3.5">
-                        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-white flex items-center justify-center text-lg font-bold shadow-xs shrink-0 group-hover:scale-105 transition">
-                            <i class="fa-solid fa-crown"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center justify-between gap-2">
-                                <h3 class="text-sm sm:text-base font-extrabold text-slate-900">امتحان شامل / نصف ونهاية السنة</h3>
-                                <span class="exam-lock-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 flex items-center gap-1 shrink-0">
-                                    <i class="fa-solid fa-lock text-amber-600"></i> مقفل
-                                </span>
+                    <button onclick="openExamBuilder('comprehensive')" class="group h-14 bg-gradient-to-r from-amber-50/60 via-white to-amber-50/40 hover:from-amber-50 rounded-xl px-4 border border-amber-300 hover:border-amber-500 shadow-2xs transition-all flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 text-white flex items-center justify-center text-sm font-bold shadow-2xs shrink-0 group-hover:scale-105 transition">
+                                <i class="fa-solid fa-crown"></i>
                             </div>
-                            <span class="block text-[10px] font-bold text-amber-700 mt-0.5">المستوى الرابع • تصميم وزاري فخم</span>
-                            <p class="text-[11px] text-slate-600 mt-1 leading-relaxed">
-                                التصميم الرسمي الكامل لامتحانات نصف السنة وآخر السنة مطابق للنماذج المعتمدة.
-                            </p>
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-900 truncate">امتحان شامل / نصف ونهاية السنة</span>
                         </div>
+                        <span class="exam-lock-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 flex items-center gap-1 shrink-0">
+                            <i class="fa-solid fa-lock text-amber-600"></i> مقفل
+                        </span>
                     </button>
                 </div>
+            </section>
+
+            <!-- SECTION: EXAM HISTORY (سجل الأسئلة في الوسط) -->
+            <section id="sectionExamHistory" class="hidden space-y-3">
+                <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-2xs space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-lg bg-teal-50 text-teal-700 flex items-center justify-center text-sm font-bold">
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                            </div>
+                            <h2 class="text-sm sm:text-base font-extrabold text-slate-800">سجل الأسئلة المحفوظة</h2>
+                        </div>
+                        <span id="historyCountBadge" class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-extrabold">0</span>
+                    </div>
+
+                    <!-- Search & Filter by Exam Type Bar -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div class="relative">
+                            <input type="text" id="historySearchInput" oninput="renderExamHistoryList()" placeholder="ابحث حسب نوع الامتحان أو المادة أو المدرسة..."
+                                class="w-full px-3 py-2 pr-8 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-teal-600 outline-none text-xs font-bold">
+                            <i class="fa-solid fa-magnifying-glass absolute right-3 top-2.5 text-xs text-slate-400"></i>
+                        </div>
+                        <div>
+                            <select id="historyTypeFilter" onchange="renderExamHistoryList()"
+                                class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-teal-600 outline-none text-xs font-extrabold text-slate-700">
+                                <option value="all">جميع أنواع الامتحانات</option>
+                                <option value="daily">امتحان يومي</option>
+                                <option value="weekly">امتحان أسبوعي</option>
+                                <option value="monthly">امتحان شهري</option>
+                                <option value="comprehensive">امتحان شامل / نصف ونهاية السنة</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saved Exams List Container -->
+                <div id="examHistoryContainer" class="space-y-2.5"></div>
             </section>
 
             <!-- SECTION: EXAM BUILDER -->
@@ -453,7 +652,7 @@
                     </div>
                 </div>
 
-                <!-- TOP 3 HEADER FIELDS -->
+                <!-- TOP 3 HEADER FIELDS + EXAM NOTE BELOW STUDENT NAME LINE -->
                 <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs space-y-3">
                     <div class="flex items-center gap-2 border-b border-slate-100 pb-2">
                         <span class="w-6 h-6 rounded-md bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-xs">1</span>
@@ -502,6 +701,15 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Exam Note Field (يظهر أسفل خط اسم الطالب وقبل السؤال الأول مباشرة) -->
+                    <div class="bg-amber-50/60 p-3 rounded-xl border border-amber-200/90">
+                        <label class="block text-[11px] font-extrabold text-amber-900 mb-1">
+                            <i class="fa-solid fa-circle-info ml-1 text-amber-600"></i> ملاحظة أسفل خط اسم الطالب (تظهر بحجم صغير ومرتب قبل السؤال الأول)
+                        </label>
+                        <input type="text" id="headerExamNote" value="ملاحظة: الإجابة عن خمسة أسئلة فقط" placeholder="مثال: ملاحظة: الإجابة عن خمسة أسئلة فقط (اتركه فارغاً لإخفائه)"
+                            class="w-full px-3 py-1.5 rounded-lg border border-amber-300 bg-white focus:border-teal-600 outline-none text-xs font-bold text-slate-800">
+                    </div>
                 </div>
 
                 <!-- QUESTIONS LIST SECTION -->
@@ -531,7 +739,7 @@
                     </div>
                 </div>
 
-                <!-- BOTTOM TEACHER NAME & SAVE BUTTON -->
+                <!-- BOTTOM TEACHER NAME, ASSISTANT TEACHER NAME & SAVE BUTTON -->
                 <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs space-y-3">
                     <div class="flex items-center gap-2 border-b border-slate-100 pb-2">
                         <span class="w-6 h-6 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xs">3</span>
@@ -540,18 +748,24 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-[11px] font-extrabold text-slate-700 mb-1">اسم مدرس المادة (يظهر أسفل الورقة)</label>
+                            <label id="footerTeacherLabel" class="block text-[11px] font-extrabold text-slate-700 mb-1">اسم مدرس المادة (الجهة اليسرى أسفل الورقة)</label>
                             <input type="text" id="footerTeacherName" placeholder="مثال: أ. زينب عبد الله"
                                 class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-teal-600 outline-none text-xs font-bold">
                         </div>
                         <div>
-                            <button onclick="saveAndGenerateExam()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-teal-700 to-emerald-600 hover:from-teal-800 hover:to-emerald-700 text-white font-extrabold text-xs shadow-md shadow-teal-700/20 transition flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-file-circle-check"></i>
-                                <span>حفظ ومعاينة ورقة الأسئلة (A4)</span>
-                            </button>
+                            <label id="footerAssistantLabel" class="block text-[11px] font-extrabold text-slate-700 mb-1">اسم مساعد الأستاذ (الجهة اليمنى المقابلة - اختياري)</label>
+                            <input type="text" id="footerAssistantName" placeholder="اتركه فارغاً إذا لم يوجد مساعد"
+                                class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-teal-600 outline-none text-xs font-bold">
                         </div>
+                    </div>
+
+                    <div class="pt-1">
+                        <button onclick="saveAndGenerateExam()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-teal-700 to-emerald-600 hover:from-teal-800 hover:to-emerald-700 text-white font-extrabold text-xs shadow-md shadow-teal-700/20 transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-file-circle-check"></i>
+                            <span>حفظ ومعاينة ورقة الأسئلة (A4)</span>
+                        </button>
                     </div>
                 </div>
             </section>
@@ -610,7 +824,7 @@
                 </div>
             </section>
 
-            <!-- SECTION 2: MY ACCOUNT -->
+            <!-- SECTION 2: MY ACCOUNT (أزرار متساوية باسم الزر فقط + تعديل الاسم بالقلم + حذف مربع جلسة واحدة) -->
             <section id="sectionAccount" class="hidden space-y-3">
                 
                 <!-- Compact Profile Card -->
@@ -620,78 +834,72 @@
                             <i class="fa-solid fa-user-tie"></i>
                         </div>
                         <div>
-                            <div class="flex items-center justify-center sm:justify-start gap-1.5">
+                            <div class="flex items-center justify-center sm:justify-start gap-1.5 flex-wrap">
                                 <h2 id="profileNameDisplay" class="text-base font-extrabold text-slate-800">الأستاذ</h2>
+                                <!-- زر القلم لتعديل اسم الأستاذ -->
+                                <button onclick="openEditNameModal()" title="تعديل الاسم" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-teal-100 text-slate-600 hover:text-teal-700 flex items-center justify-center text-xs transition">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <span id="profileRoleBadge" class="px-2 py-0.5 rounded-full bg-teal-50 text-teal-800 text-[10px] font-extrabold border border-teal-200">
+                                    مدرس
+                                </span>
                                 <span id="ownerCrownBadge" class="hidden px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-extrabold border border-amber-300">
                                     <i class="fa-solid fa-crown text-amber-600 ml-0.5"></i>المالك
                                 </span>
                             </div>
-                            <p id="profileEmailDisplay" class="text-xs text-slate-500 font-medium" dir="ltr">teacher@gmail.com</p>
+                            <p id="profileEmailDisplay" class="text-xs text-slate-500 font-medium mt-0.5" dir="ltr">teacher@gmail.com</p>
                             <div class="mt-1 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-teal-50 text-teal-800 text-[11px] font-bold border border-teal-200">
                                 <span class="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse"></span>
                                 <span id="profileStatusText">حالة الحساب: غير مشترك</span>
                             </div>
                         </div>
                     </div>
-
-                    <div class="text-center sm:text-left bg-slate-50 px-3 py-2 rounded-xl border border-slate-200/80">
-                        <span class="block text-[10px] text-slate-400 font-bold">حماية الجلسة النشطة</span>
-                        <span class="text-[11px] font-extrabold text-slate-700 flex items-center gap-1 mt-0.5">
-                            <i class="fa-solid fa-shield-check text-emerald-600"></i> جهاز واحد متصل حالياً
-                        </span>
-                    </div>
                 </div>
 
-                <!-- 4 Compact Action Buttons -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- 4 Compact Equal-Sized Action Buttons (باسم الزر فقط بدون وصف) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     
                     <!-- Button 1: Request 1 Free Trial -->
-                    <button onclick="handleFreeTrialButtonClick()" class="bg-white hover:bg-teal-50/40 p-3.5 rounded-2xl border border-slate-200 hover:border-teal-500 shadow-2xs transition flex items-center gap-3 text-right">
-                        <div class="w-10 h-10 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-base shrink-0">
-                            <i class="fa-solid fa-gift"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <h3 class="text-xs sm:text-sm font-extrabold text-slate-800">طلب تجربة مجانية واحدة</h3>
-                            <p id="trialBtnSubtext" class="text-[11px] text-slate-500 mt-0.5 truncate">تجربة الأسئلة لمرة واحدة مجاناً بعد موافقة الإدارة</p>
+                    <button onclick="handleFreeTrialButtonClick()" class="h-13 bg-white hover:bg-teal-50/40 px-4 py-3 rounded-xl border border-slate-200 hover:border-teal-500 shadow-2xs transition flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-lg bg-teal-100 text-teal-700 flex items-center justify-center text-sm shrink-0">
+                                <i class="fa-solid fa-gift"></i>
+                            </div>
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-800">طلب تجربة مجانية واحدة</span>
                         </div>
                         <i class="fa-solid fa-chevron-left text-slate-400 text-xs"></i>
                     </button>
 
                     <!-- Button 2: Subscribe with Code -->
-                    <button onclick="openSubscriptionModal()" class="bg-white hover:bg-amber-50/40 p-3.5 rounded-2xl border border-slate-200 hover:border-amber-500 shadow-2xs transition flex items-center gap-3 text-right">
-                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-base shrink-0">
-                            <i class="fa-solid fa-key"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <h3 class="text-xs sm:text-sm font-extrabold text-slate-800">اشتراك</h3>
-                            <p class="text-[11px] text-slate-500 mt-0.5 truncate">إدخال كود الاشتراك الدائم لفتح جميع أنواع الأسئلة</p>
+                    <button onclick="openSubscriptionModal()" class="h-13 bg-white hover:bg-amber-50/40 px-4 py-3 rounded-xl border border-slate-200 hover:border-amber-500 shadow-2xs transition flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center text-sm shrink-0">
+                                <i class="fa-solid fa-key"></i>
+                            </div>
+                            <span class="text-xs sm:text-sm font-extrabold text-slate-800">اشتراك</span>
                         </div>
                         <i class="fa-solid fa-chevron-left text-slate-400 text-xs"></i>
                     </button>
 
                     <!-- Button 3: Owner Control Panel -->
-                    <button id="btnOwnerDashboard" onclick="openOwnerDashboard()" class="hidden bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white p-3.5 rounded-2xl border border-amber-400/80 shadow-sm transition items-center gap-3 text-right">
-                        <div class="w-10 h-10 rounded-xl bg-amber-400/20 text-amber-300 border border-amber-400/40 flex items-center justify-center text-base shrink-0">
-                            <i class="fa-solid fa-sliders"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center gap-1.5">
-                                <h3 class="text-xs sm:text-sm font-extrabold text-amber-300">لوحة تحكم المالك</h3>
-                                <span id="ownerPendingCounter" class="px-1.5 py-0.2 rounded-full bg-rose-500 text-white text-[10px] font-bold">0</span>
+                    <button id="btnOwnerDashboard" onclick="openOwnerDashboard()" class="hidden h-13 bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white px-4 py-3 rounded-xl border border-amber-400/80 shadow-sm transition items-center justify-between gap-3">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-lg bg-amber-400/20 text-amber-300 border border-amber-400/40 flex items-center justify-center text-sm shrink-0">
+                                <i class="fa-solid fa-sliders"></i>
                             </div>
-                            <p class="text-[11px] text-slate-300 mt-0.5 truncate">إدارة الطلبات المجانية وأكواد الاشتراك</p>
+                            <span class="text-xs sm:text-sm font-extrabold text-amber-300">لوحة تحكم المالك</span>
+                            <span id="ownerPendingCounter" class="px-1.5 py-0.2 rounded-full bg-rose-500 text-white text-[10px] font-bold">0</span>
                         </div>
                         <i class="fa-solid fa-chevron-left text-amber-300 text-xs"></i>
                     </button>
 
                     <!-- Button 4: Logout -->
-                    <button onclick="handleLogout()" class="bg-white hover:bg-rose-50/50 p-3.5 rounded-2xl border border-slate-200 hover:border-rose-400 shadow-2xs transition flex items-center gap-3 text-right">
-                        <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-base shrink-0">
-                            <i class="fa-solid fa-power-off"></i>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <h3 class="text-xs sm:text-sm font-extrabold text-rose-700">تسجيل الخروج</h3>
-                            <p class="text-[11px] text-slate-500 mt-0.5 truncate">إنهاء الجلسة الحالية بأمان من هذا الجهاز</p>
+                    <button onclick="handleLogout()" class="h-13 bg-white hover:bg-rose-50/50 px-4 py-3 rounded-xl border border-slate-200 hover:border-rose-400 shadow-2xs transition flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center text-sm shrink-0">
+                                <i class="fa-solid fa-power-off"></i>
+                            </div>
+                            <span class="text-xs sm:text-sm font-extrabold text-rose-700">تسجيل الخروج</span>
                         </div>
                         <i class="fa-solid fa-chevron-left text-rose-400 text-xs"></i>
                     </button>
@@ -718,9 +926,6 @@
                             <span id="hubPendingBadge" class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-rose-600 text-white text-[10px] font-extrabold flex items-center justify-center shadow">0</span>
                         </div>
                         <h3 class="text-base font-extrabold text-slate-800">الطلبات المجانية</h3>
-                        <p class="text-xs text-slate-500 mt-1 max-w-xs">
-                            مراجعة طلبات الأساتذة للحصول على تجربة مجانية واحدة مع القبول أو الرفض الفوري
-                        </p>
                     </button>
 
                     <!-- Square 2: Create Subscription Code -->
@@ -729,9 +934,6 @@
                             <i class="fa-solid fa-key"></i>
                         </div>
                         <h3 class="text-base font-extrabold text-slate-800">إنشاء كود اشتراك</h3>
-                        <p class="text-xs text-slate-500 mt-1 max-w-xs">
-                            توليد أكواد اشتراك دائمة لحساب واحد فقط مع متابعة التفعيل أو تعطيل الكود
-                        </p>
                     </button>
                 </div>
             </section>
@@ -775,22 +977,26 @@
 
         </main>
 
-        <!-- COMPACT BOTTOM NAVIGATION BAR -->
+        <!-- COMPACT 3-BUTTON BOTTOM NAVIGATION BAR (نوع الأسئلة | سجل الأسئلة | حسابي) -->
         <nav class="fixed bottom-0 right-0 left-0 z-30 bg-white/95 backdrop-blur border-t border-slate-200 shadow-md">
-            <div class="max-w-sm mx-auto grid grid-cols-2 gap-2 px-3 py-1.5">
-                <button onclick="showSection('examTypes')" id="navBtnExams" class="py-1.5 px-3 rounded-xl flex items-center justify-center gap-1.5 bg-teal-50 text-teal-800 font-extrabold transition">
-                    <i class="fa-solid fa-layer-group text-sm"></i>
-                    <span class="text-xs">نوع الأسئلة</span>
+            <div class="max-w-md mx-auto grid grid-cols-3 gap-1.5 px-3 py-1.5">
+                <button onclick="showSection('examTypes')" id="navBtnExams" class="py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 bg-teal-50 text-teal-800 font-extrabold transition">
+                    <i class="fa-solid fa-layer-group text-xs sm:text-sm"></i>
+                    <span class="text-[11px] sm:text-xs">نوع الأسئلة</span>
                 </button>
-                <button onclick="showSection('account')" id="navBtnAccount" class="py-1.5 px-3 rounded-xl flex items-center justify-center gap-1.5 text-slate-500 hover:bg-slate-50 font-bold transition">
-                    <i class="fa-solid fa-circle-user text-sm"></i>
-                    <span class="text-xs">حسابي</span>
+                <button onclick="showSection('examHistory')" id="navBtnHistory" class="py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 text-slate-500 hover:bg-slate-50 font-bold transition">
+                    <i class="fa-solid fa-clock-rotate-left text-xs sm:text-sm"></i>
+                    <span class="text-[11px] sm:text-xs">سجل الأسئلة</span>
+                </button>
+                <button onclick="showSection('account')" id="navBtnAccount" class="py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 text-slate-500 hover:bg-slate-50 font-bold transition">
+                    <i class="fa-solid fa-circle-user text-xs sm:text-sm"></i>
+                    <span class="text-[11px] sm:text-xs">حسابي</span>
                 </button>
             </div>
         </nav>
     </div>
 
-    <!-- 4. FULL-SCREEN WORD-LIKE QUESTION EDITOR MODAL (بأزرار علوية مرتبة تفتح وتغلق عند الضغط) -->
+    <!-- 4. FULL-SCREEN WORD-LIKE QUESTION EDITOR MODAL -->
     <div id="fullScreenQuestionEditorModal" class="hidden fixed inset-0 z-50 bg-slate-100 flex flex-col">
         
         <!-- Top Bar: Question Title + Done ("تم") Button -->
@@ -849,7 +1055,7 @@
                 </button>
             </div>
 
-            <!-- COLLAPSIBLE PANEL 1: FONT FAMILY (يفتح عند الضغط على زر نوع الخط ويختفي عند الضغط مرة ثانية) -->
+            <!-- COLLAPSIBLE PANEL 1: FONT FAMILY -->
             <div id="panelToolFont" class="hidden max-w-4xl mx-auto mt-2 p-3 rounded-2xl bg-slate-50 border border-teal-200 shadow-md">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-[11px] font-extrabold text-teal-800">اختر نوع خط السؤال (يُطبق فوراً أمامك):</span>
@@ -857,12 +1063,10 @@
                         <i class="fa-solid fa-xmark ml-0.5"></i> إغلاق
                     </button>
                 </div>
-                <div id="fsFontButtonsGrid" class="grid grid-cols-1 sm:grid-cols-5 gap-2">
-                    <!-- Populated dynamically by renderFsFontButtons() -->
-                </div>
+                <div id="fsFontButtonsGrid" class="grid grid-cols-1 sm:grid-cols-5 gap-2"></div>
             </div>
 
-            <!-- COLLAPSIBLE PANEL 2: FONT COLOR (يفتح عند الضغط على زر لون الخط ويختفي عند الضغط مرة ثانية) -->
+            <!-- COLLAPSIBLE PANEL 2: FONT COLOR -->
             <div id="panelToolColor" class="hidden max-w-4xl mx-auto mt-2 p-3 rounded-2xl bg-slate-50 border border-teal-200 shadow-md">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-[11px] font-extrabold text-teal-800">اختر لون خط السؤال (يُطبق فوراً أمامك):</span>
@@ -880,10 +1084,9 @@
                 </div>
             </div>
 
-            <!-- COLLAPSIBLE PANEL 3: SYMBOLS & QUICK BRANCHES (يفتح عند الضغط على زر الرموز ويختفي عند الضغط مرة ثانية) -->
+            <!-- COLLAPSIBLE PANEL 3: SYMBOLS & QUICK BRANCHES -->
             <div id="panelToolSymbols" class="hidden max-w-4xl mx-auto mt-2 p-3 rounded-2xl bg-slate-50 border border-amber-200 shadow-md space-y-2.5">
                 <div class="flex flex-wrap items-center justify-between gap-2">
-                    <!-- Quick Structure Insert Buttons -->
                     <div class="flex flex-wrap items-center gap-1">
                         <span class="text-[10px] font-extrabold text-slate-500 ml-1">إدراج سريع:</span>
                         <button type="button" onclick="insertSymbolIntoFsEditor('\nأ/ ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">فرع أ/</button>
@@ -892,7 +1095,7 @@
                         <button type="button" onclick="insertSymbolIntoFsEditor('\n١- ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">١-</button>
                         <button type="button" onclick="insertSymbolIntoFsEditor('\n٢- ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">٢-</button>
                         <button type="button" onclick="insertSymbolIntoFsEditor(' ﴿  ﴾ ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">﴿ آية ﴾</button>
-                        <button type="button" onclick="insertSymbolIntoFsEditor(' (          ) ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">( فراغ )</button>
+                        <button type="button" onclick="insertSymbolIntoFsEditor(' (           ) ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">( فراغ )</button>
                     </div>
                     <button type="button" onclick="toggleEditorToolPanel('symbols')" class="text-[11px] font-bold text-slate-400 hover:text-rose-600">
                         <i class="fa-solid fa-xmark ml-0.5"></i> إغلاق
@@ -916,12 +1119,10 @@
                 </div>
 
                 <!-- Symbols Grid -->
-                <div id="symbolsGridContainer" class="flex flex-wrap items-center gap-1.5 max-h-32 overflow-y-auto p-1.5 bg-white rounded-xl border border-slate-200" dir="ltr">
-                    <!-- Populated by JS -->
-                </div>
+                <div id="symbolsGridContainer" class="flex flex-wrap items-center gap-1.5 max-h-32 overflow-y-auto p-1.5 bg-white rounded-xl border border-slate-200" dir="ltr"></div>
             </div>
 
-            <!-- COLLAPSIBLE PANEL 4: GRADE & SECTION HEADING (الدرجة والعنوان الفرعي للسؤال) -->
+            <!-- COLLAPSIBLE PANEL 4: GRADE & SECTION HEADING -->
             <div id="panelToolMeta" class="hidden max-w-4xl mx-auto mt-2 p-3 rounded-2xl bg-slate-50 border border-teal-200 shadow-md">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-[11px] font-extrabold text-teal-800">تخصيص درجة السؤال والعنوان الفرعي (اختياري):</span>
@@ -946,10 +1147,9 @@
             </div>
         </div>
 
-        <!-- Spacious Word-Style Writing Canvas (مساحة مريحة وواسعة لكتابة السؤال) -->
+        <!-- Spacious Word-Style Writing Canvas -->
         <div class="flex-1 p-2.5 sm:p-5 overflow-y-auto flex justify-center bg-slate-200/60" onclick="closeAllEditorToolPanelsOnCanvasClick()">
             <div class="w-full max-w-4xl bg-white rounded-2xl shadow-md border border-slate-300 flex flex-col overflow-hidden" onclick="event.stopPropagation()">
-                <!-- Live Preview Header Strip inside the Canvas -->
                 <div class="px-4 py-2 bg-slate-50 border-b border-slate-200 flex items-center justify-between text-xs font-bold text-slate-600">
                     <div class="flex items-center gap-2">
                         <span id="fsCanvasQuestionPrefix" class="text-teal-800 font-extrabold text-sm">س1/</span>
@@ -961,7 +1161,6 @@
                     </button>
                 </div>
 
-                <!-- Main Full-Screen Textarea where Font & Color apply immediately -->
                 <textarea id="fsEditorTextarea"
                     onfocus="closeAllEditorToolPanelsOnCanvasClick()"
                     oninput="liveSyncFromFullScreenEditor()"
@@ -971,7 +1170,54 @@
         </div>
     </div>
 
-    <!-- 5. FREE TRIAL CONFIRMATION MODAL -->
+    <!-- 5. EDIT TEACHER NAME MODAL (نافذة تعديل الاسم) -->
+    <div id="editNameModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-slate-200 text-center space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-xl mx-auto">
+                <i class="fa-solid fa-user-pen"></i>
+            </div>
+            <h3 class="text-base font-extrabold text-slate-800">تعديل الاسم</h3>
+            <div>
+                <input type="text" id="editNameInput" placeholder="اكتب اسمك الجديد..."
+                    class="w-full px-3 py-2.5 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:border-teal-600 outline-none text-center text-xs font-extrabold">
+            </div>
+            <div class="flex items-center gap-2 pt-1">
+                <button onclick="saveEditedTeacherName()" class="flex-1 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-extrabold text-xs shadow-sm transition">
+                    حفظ الاسم
+                </button>
+                <button onclick="closeEditNameModal()" class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+                    إلغاء
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. TEACHER ROLE SELECTION MODAL FOR EXISTING ACCOUNTS (نافذة اختيار معلم أو مدرس للحسابات السابقة) -->
+    <div id="rolePromptModal" class="hidden fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-slate-200 text-center space-y-4">
+            <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl mx-auto">
+                <i class="fa-solid fa-chalkboard-user"></i>
+            </div>
+            <div>
+                <h3 class="text-base font-extrabold text-slate-800">تحديد الصفة التربوية</h3>
+                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                    يرجى اختيار صفتك التربوية ليتم اعتمادها تلقائياً أسفل أوراق الأسئلة الامتحانية:
+                </p>
+            </div>
+            <div class="grid grid-cols-2 gap-2.5">
+                <button onclick="saveMissingTeacherRole('مدرس')" class="py-3 px-4 rounded-xl border-2 border-teal-600 bg-teal-50 hover:bg-teal-600 hover:text-white text-teal-900 font-extrabold text-xs transition flex flex-col items-center gap-1.5">
+                    <i class="fa-solid fa-chalkboard-user text-lg"></i>
+                    <span>مدرس (مدرس المادة)</span>
+                </button>
+                <button onclick="saveMissingTeacherRole('معلم')" class="py-3 px-4 rounded-xl border-2 border-amber-500 bg-amber-50 hover:bg-amber-500 hover:text-white text-amber-900 font-extrabold text-xs transition flex flex-col items-center gap-1.5">
+                    <i class="fa-solid fa-user-graduate text-lg"></i>
+                    <span>معلم (معلم المادة)</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. FREE TRIAL CONFIRMATION MODAL -->
     <div id="freeTrialModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-slate-200 text-center space-y-3">
             <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-xl mx-auto">
@@ -992,7 +1238,7 @@
         </div>
     </div>
 
-    <!-- 6. SUBSCRIPTION CODE MODAL -->
+    <!-- 8. SUBSCRIPTION CODE MODAL -->
     <div id="subscriptionModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-slate-200 text-center space-y-3">
             <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl mx-auto">
@@ -1017,7 +1263,7 @@
         </div>
     </div>
 
-    <!-- 7. CUSTOM MESSAGE / ALERT MODAL -->
+    <!-- 9. CUSTOM MESSAGE / ALERT MODAL -->
     <div id="customMessageModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-xs w-full p-5 shadow-2xl border border-slate-200 text-center space-y-3">
             <div id="msgModalIcon" class="w-11 h-11 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-lg mx-auto">
@@ -1035,7 +1281,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, updateDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // ============================================================================
         // 1. ANTI-COPY / ANTI-PASTE / ANTI-TAMPER PROTECTION (With Free Scrolling)
@@ -1088,10 +1334,15 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // LocalStorage Keys for Persistent Auto-Login on the Same Device
+        const LS_SAVED_EMAIL_KEY = 'smart_teacher_saved_email_v2';
+        const LS_DEVICE_FP_KEY = 'smart_teacher_hw_fp_v2';
+
         // State Variables
         let firebaseUser = null;
         let currentTeacher = null;
-        let currentSessionToken = null;
+        let currentHardwareFingerprint = null;
+        let selectedRegisterRole = 'مدرس'; // Default role during registration
         let unsubscribeTeacherDoc = null;
         let unsubscribeOwnerUsers = null;
         let unsubscribeOwnerCodes = null;
@@ -1103,13 +1354,45 @@
         let selectedExamType = 'daily';
         let examDirection = 'rtl';
         let questionsList = [];
+        let currentEditingHistoryId = null;
         let activeEditorQuestionIndex = 0;
         let currentSymbolsCategory = 'math';
-        let activeEditorToolPanel = null; // 'font' | 'color' | 'symbols' | 'meta' | null
+        let activeEditorToolPanel = null;
         let autoFitSinglePage = false;
 
         // ============================================================================
-        // 3. SCIENTIFIC & ACADEMIC SYMBOLS DICTIONARY
+        // 3. HARDWARE-LEVEL DEVICE FINGERPRINTING (Cross-Browser Same-Device Recognition)
+        // ============================================================================
+        // Generates a deterministic fingerprint based on physical device hardware traits
+        // (screen resolution, pixel ratio, touch points, OS platform family, timezone, color depth)
+        // so the same phone/computer is recognized even across Chrome/Safari or after closing the app.
+        async function getHardwareDeviceFingerprint() {
+            const screenW = Math.max(window.screen.width || 0, window.screen.height || 0);
+            const screenH = Math.min(window.screen.width || 0, window.screen.height || 0);
+            const dpr = Number(window.devicePixelRatio || 1).toFixed(2);
+            const touchPoints = navigator.maxTouchPoints || 0;
+            const colorDepth = window.screen.colorDepth || 24;
+            const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+
+            // Extract OS Family (iOS, Android, Windows, Mac, Linux) independent of browser name
+            const ua = navigator.userAgent || '';
+            let osFamily = 'OtherOS';
+            if (/iPhone|iPad|iPod/i.test(ua)) osFamily = 'iOS';
+            else if (/Android/i.test(ua)) osFamily = 'Android';
+            else if (/Mac OS X|Macintosh/i.test(ua)) osFamily = 'MacOS';
+            else if (/Windows/i.test(ua)) osFamily = 'Windows';
+            else if (/Linux/i.test(ua)) osFamily = 'Linux';
+
+            const rawHardwareString = `HW_${osFamily}_${screenW}x${screenH}_DPR${dpr}_TP${touchPoints}_CD${colorDepth}_TZ${tz}`;
+            const fpHash = await hashString(rawHardwareString);
+            try {
+                localStorage.setItem(LS_DEVICE_FP_KEY, fpHash);
+            } catch (e) {}
+            return fpHash;
+        }
+
+        // ============================================================================
+        // 4. SCIENTIFIC & ACADEMIC SYMBOLS DICTIONARY
         // ============================================================================
         const SCIENTIFIC_SYMBOLS = {
             math: [
@@ -1161,7 +1444,7 @@
         ];
 
         // ============================================================================
-        // 4. HELPER UTILITIES & CRYPTOGRAPHIC HASHING
+        // 5. HELPER UTILITIES & CRYPTOGRAPHIC HASHING
         // ============================================================================
         async function hashString(str) {
             const msgBuffer = new TextEncoder().encode(str + "_SMART_SALT_2026");
@@ -1187,7 +1470,19 @@
         }
 
         function getCodeDocRef(codeStr) {
-            return doc(db, 'artifacts', appId, 'public', 'data', 'exam_app_codes', codeStr.trim().toUpperCase());
+            return doc(db, 'artifacts', appId, 'public', 'data', 'exam_app_codes', normalizeSubscriptionCode(codeStr));
+        }
+
+        // Normalize subscription code to prevent false "expired" errors due to spaces or hyphen variations
+        function normalizeSubscriptionCode(raw) {
+            if (!raw) return '';
+            let clean = String(raw).trim().toUpperCase().replace(/\s+/g, '').replace(/[ـ–—−]/g, '-');
+            // If user typed EXMXXXXXXXX without dashes, format it as EXM-XXXX-XXXX
+            const alnumOnly = clean.replace(/[^A-Z0-9]/g, '');
+            if (alnumOnly.length === 11 && alnumOnly.startsWith('EXM')) {
+                clean = `EXM-${alnumOnly.slice(3, 7)}-${alnumOnly.slice(7, 11)}`;
+            }
+            return clean;
         }
 
         window.showCustomMessage = function(title, body, type = 'info') {
@@ -1218,9 +1513,11 @@
         };
 
         // ============================================================================
-        // 5. BOOTSTRAP & SPLASH SCREEN TRANSITION
+        // 6. BOOTSTRAP, SPLASH SCREEN & AUTOMATIC PERSISTENT LOGIN
         // ============================================================================
         async function initAppAuth() {
+            currentHardwareFingerprint = await getHardwareDeviceFingerprint();
+
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
@@ -1232,14 +1529,44 @@
                 console.error("Auth init error:", err);
             }
 
+            // Check if teacher is already logged in on this device
+            let autoLoggedUser = null;
+            try {
+                const savedEmail = localStorage.getItem(LS_SAVED_EMAIL_KEY);
+                if (savedEmail && firebaseUser) {
+                    const userRef = getUserDocRef(savedEmail);
+                    const snap = await getDoc(userRef);
+                    if (snap.exists()) {
+                        const userData = snap.data();
+                        // Verify if the stored device fingerprint on the account matches this device's hardware fingerprint
+                        if (!userData.activeDeviceFingerprint || userData.activeDeviceFingerprint === currentHardwareFingerprint) {
+                            if (userData.activeDeviceFingerprint !== currentHardwareFingerprint) {
+                                await updateDoc(userRef, { activeDeviceFingerprint: currentHardwareFingerprint });
+                                userData.activeDeviceFingerprint = currentHardwareFingerprint;
+                            }
+                            autoLoggedUser = userData;
+                        } else {
+                            // Another physical device logged in while this device was closed
+                            localStorage.removeItem(LS_SAVED_EMAIL_KEY);
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error("Auto-login check error:", e);
+            }
+
             setTimeout(() => {
                 const splash = document.getElementById('splashScreen');
                 splash.classList.add('opacity-0');
                 setTimeout(() => {
                     splash.classList.add('hidden');
-                    document.getElementById('authScreen').classList.remove('hidden');
+                    if (autoLoggedUser) {
+                        enterApplication(autoLoggedUser);
+                    } else {
+                        document.getElementById('authScreen').classList.remove('hidden');
+                    }
                 }, 500);
-            }, 2300);
+            }, 2400);
         }
 
         onAuthStateChanged(auth, (u) => {
@@ -1250,8 +1577,22 @@
         window.addEventListener('resize', adjustA4PreviewScale);
 
         // ============================================================================
-        // 6. TEACHER LOGIN, REGISTRATION & SINGLE-DEVICE SESSION GUARD
+        // 7. TEACHER LOGIN, REGISTRATION, ROLE SELECTION & DEVICE GUARD
         // ============================================================================
+        window.selectRegisterRole = function(role) {
+            selectedRegisterRole = role;
+            const btnMudarris = document.getElementById('regRoleMudarris');
+            const btnMuallim = document.getElementById('regRoleMuallim');
+
+            if (role === 'مدرس') {
+                btnMudarris.className = "py-2 px-3 rounded-xl border-2 border-amber-500 bg-amber-50 text-amber-900 font-extrabold text-xs transition flex items-center justify-center gap-1.5";
+                btnMuallim.className = "py-2 px-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 font-bold text-xs transition flex items-center justify-center gap-1.5";
+            } else {
+                btnMuallim.className = "py-2 px-3 rounded-xl border-2 border-amber-500 bg-amber-50 text-amber-900 font-extrabold text-xs transition flex items-center justify-center gap-1.5";
+                btnMudarris.className = "py-2 px-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 font-bold text-xs transition flex items-center justify-center gap-1.5";
+            }
+        };
+
         window.switchAuthTab = function(mode) {
             const loginWin = document.getElementById('loginWindow');
             const regWin = document.getElementById('registerWindow');
@@ -1306,24 +1647,32 @@
                     return;
                 }
 
+                if (!currentHardwareFingerprint) {
+                    currentHardwareFingerprint = await getHardwareDeviceFingerprint();
+                }
+
                 const passwordHash = await hashString(password);
-                const newSessionId = crypto.randomUUID();
                 const isOwnerAccount = (email === OWNER_EMAIL.toLowerCase());
 
                 const newUserObj = {
                     name: name,
                     email: email,
+                    teacherRole: selectedRegisterRole || 'مدرس',
                     passwordHash: passwordHash,
-                    activeSessionId: newSessionId,
+                    activeDeviceFingerprint: currentHardwareFingerprint,
                     isSubscribed: isOwnerAccount ? true : false,
                     subscriptionCode: isOwnerAccount ? 'OWNER-MASTER' : '',
                     trialStatus: 'none',
                     trialRequestedAt: 0,
+                    savedExams: [],
                     createdAt: Date.now()
                 };
 
                 await setDoc(userRef, newUserObj);
-                currentSessionToken = newSessionId;
+                try {
+                    localStorage.setItem(LS_SAVED_EMAIL_KEY, email);
+                } catch (e) {}
+
                 enterApplication(newUserObj);
             } catch (err) {
                 console.error("Register error:", err);
@@ -1373,16 +1722,21 @@
                     return;
                 }
 
-                const newSessionId = crypto.randomUUID();
-                currentSessionToken = newSessionId;
+                if (!currentHardwareFingerprint) {
+                    currentHardwareFingerprint = await getHardwareDeviceFingerprint();
+                }
 
                 const isOwnerAccount = (email === OWNER_EMAIL.toLowerCase());
                 const updatedFields = {
-                    activeSessionId: newSessionId,
+                    activeDeviceFingerprint: currentHardwareFingerprint,
                     ...(isOwnerAccount ? { isSubscribed: true } : {})
                 };
 
                 await updateDoc(userRef, updatedFields);
+                try {
+                    localStorage.setItem(LS_SAVED_EMAIL_KEY, email);
+                } catch (e) {}
+
                 enterApplication({ ...userData, ...updatedFields });
             } catch (err) {
                 console.error("Login error:", err);
@@ -1399,7 +1753,13 @@
             document.getElementById('authScreen').classList.add('hidden');
             document.getElementById('appContainer').classList.remove('hidden');
 
-            document.getElementById('footerTeacherName').value = `أ. ${userObj.name}`;
+            const cleanName = userObj.name.startsWith('أ.') ? userObj.name : `أ. ${userObj.name}`;
+            document.getElementById('footerTeacherName').value = cleanName;
+
+            // Check if existing account has not selected 'معلم' or 'مدرس' yet
+            if (!userObj.teacherRole) {
+                document.getElementById('rolePromptModal').classList.remove('hidden');
+            }
 
             if (unsubscribeTeacherDoc) unsubscribeTeacherDoc();
             const userRef = getUserDocRef(userObj.email);
@@ -1408,13 +1768,19 @@
                 if (!docSnap.exists()) return;
                 const liveData = docSnap.data();
 
-                if (liveData.activeSessionId && currentSessionToken && liveData.activeSessionId !== currentSessionToken) {
+                // Only log out if a DIFFERENT physical device logs into the account
+                if (
+                    liveData.activeDeviceFingerprint &&
+                    currentHardwareFingerprint &&
+                    liveData.activeDeviceFingerprint !== currentHardwareFingerprint
+                ) {
                     forceLogoutDueToAnotherDevice();
                     return;
                 }
 
                 currentTeacher = liveData;
                 refreshAccountUI();
+                renderExamHistoryList();
             }, (err) => {
                 console.error("Live teacher listener error:", err);
             });
@@ -1424,8 +1790,23 @@
             }
 
             refreshAccountUI();
+            renderExamHistoryList();
             showSection('examTypes');
         }
+
+        window.saveMissingTeacherRole = async function(chosenRole) {
+            if (!currentTeacher) return;
+            document.getElementById('rolePromptModal').classList.add('hidden');
+            currentTeacher.teacherRole = chosenRole;
+            refreshAccountUI();
+
+            try {
+                const userRef = getUserDocRef(currentTeacher.email);
+                await updateDoc(userRef, { teacherRole: chosenRole });
+            } catch (err) {
+                console.error("Save role error:", err);
+            }
+        };
 
         function forceLogoutDueToAnotherDevice() {
             if (unsubscribeTeacherDoc) { unsubscribeTeacherDoc(); unsubscribeTeacherDoc = null; }
@@ -1433,7 +1814,9 @@
             if (unsubscribeOwnerCodes) { unsubscribeOwnerCodes(); unsubscribeOwnerCodes = null; }
 
             currentTeacher = null;
-            currentSessionToken = null;
+            try {
+                localStorage.removeItem(LS_SAVED_EMAIL_KEY);
+            } catch (e) {}
 
             document.getElementById('fullScreenQuestionEditorModal').classList.add('hidden');
             document.getElementById('appContainer').classList.add('hidden');
@@ -1441,7 +1824,7 @@
 
             showCustomMessage(
                 "تم تسجيل الدخول من جهاز آخر!",
-                "تم فتح حسابك على جهاز آخر، وبموجب نظام الحماية (جلسة واحدة لكل حساب) تم تسجيل خروجك تلقائياً من هذا الجهاز.",
+                "تم فتح حسابك على جهاز آخر مختلف، وبموجب نظام الحماية تم تسجيل خروجك تلقائياً من هذا الجهاز.",
                 "warning"
             );
         }
@@ -1452,7 +1835,9 @@
             if (unsubscribeOwnerCodes) { unsubscribeOwnerCodes(); unsubscribeOwnerCodes = null; }
 
             currentTeacher = null;
-            currentSessionToken = null;
+            try {
+                localStorage.removeItem(LS_SAVED_EMAIL_KEY);
+            } catch (e) {}
 
             document.getElementById('loginPassword').value = '';
             document.getElementById('fullScreenQuestionEditorModal').classList.add('hidden');
@@ -1460,8 +1845,43 @@
             document.getElementById('authScreen').classList.remove('hidden');
         };
 
+        // Edit Teacher Name Functions
+        window.openEditNameModal = function() {
+            if (!currentTeacher) return;
+            document.getElementById('editNameInput').value = currentTeacher.name || '';
+            document.getElementById('editNameModal').classList.remove('hidden');
+            setTimeout(() => document.getElementById('editNameInput').focus(), 60);
+        };
+
+        window.closeEditNameModal = function() {
+            document.getElementById('editNameModal').classList.add('hidden');
+        };
+
+        window.saveEditedTeacherName = async function() {
+            if (!currentTeacher) return;
+            const newName = document.getElementById('editNameInput').value.trim();
+            if (!newName) {
+                showCustomMessage("تنبيه", "يرجى كتابة الاسم قبل الحفظ.", "warning");
+                return;
+            }
+
+            closeEditNameModal();
+            try {
+                const userRef = getUserDocRef(currentTeacher.email);
+                await updateDoc(userRef, { name: newName });
+                currentTeacher.name = newName;
+                const cleanName = newName.startsWith('أ.') ? newName : `أ. ${newName}`;
+                document.getElementById('footerTeacherName').value = cleanName;
+                refreshAccountUI();
+                showCustomMessage("تم التحديث", "تم تعديل اسمك وحفظه بنجاح.", "success");
+            } catch (err) {
+                console.error("Update name error:", err);
+                showCustomMessage("خطأ", "تعذر تحديث الاسم حالياً، حاول مرة أخرى.", "error");
+            }
+        };
+
         // ============================================================================
-        // 7. ACCESS CONTROL & ACCOUNT STATUS REFRESH
+        // 8. ACCESS CONTROL & ACCOUNT STATUS REFRESH
         // ============================================================================
         function hasExamAccess() {
             if (!currentTeacher) return false;
@@ -1471,13 +1891,29 @@
             return false;
         }
 
+        function getTeacherRoleTitle() {
+            if (currentTeacher && currentTeacher.teacherRole === 'معلم') {
+                return 'معلم المادة';
+            }
+            return 'مدرس المادة';
+        }
+
         function refreshAccountUI() {
             if (!currentTeacher) return;
 
             const isOwner = currentTeacher.email.toLowerCase() === OWNER_EMAIL.toLowerCase();
+            const roleWord = currentTeacher.teacherRole === 'معلم' ? 'معلم' : 'مدرس';
+
             document.getElementById('profileNameDisplay').textContent = currentTeacher.name;
             document.getElementById('profileEmailDisplay').textContent = currentTeacher.email;
             document.getElementById('headerSubStatus').textContent = `أهلاً بك، ${currentTeacher.name}`;
+            document.getElementById('profileRoleBadge').textContent = roleWord;
+
+            // Update builder labels according to teacherRole (معلم المادة or مدرس المادة)
+            const footerLabel = document.getElementById('footerTeacherLabel');
+            if (footerLabel) {
+                footerLabel.textContent = `اسم ${getTeacherRoleTitle()} (الجهة اليسرى أسفل الورقة)`;
+            }
 
             const ownerBtn = document.getElementById('btnOwnerDashboard');
             const ownerCrown = document.getElementById('ownerCrownBadge');
@@ -1493,14 +1929,12 @@
 
             const topBadge = document.getElementById('accessBadgeTop');
             const profileStatus = document.getElementById('profileStatusText');
-            const trialSubtext = document.getElementById('trialBtnSubtext');
             const lockBadges = document.querySelectorAll('.exam-lock-badge');
 
             if (isOwner || currentTeacher.isSubscribed) {
                 topBadge.className = "px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300";
                 topBadge.innerHTML = '<i class="fa-solid fa-circle-check ml-1"></i> اشتراك دائمي';
                 profileStatus.textContent = isOwner ? "حالة الحساب: مالك المنصة (وصول كامل)" : "حالة الحساب: مشترك دائمي مفعل";
-                trialSubtext.textContent = "حسابك مفعل بالكامل ولا يحتاج لتجربة مجانية";
 
                 lockBadges.forEach(b => {
                     b.className = "exam-lock-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 flex items-center gap-1 shrink-0";
@@ -1510,7 +1944,6 @@
                 topBadge.className = "px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-amber-100 text-amber-800 border border-amber-300";
                 topBadge.innerHTML = '<i class="fa-solid fa-gift ml-1"></i> تجربة مجانية (1)';
                 profileStatus.textContent = "حالة الحساب: لديك تجربة مجانية واحدة متاحة الآن";
-                trialSubtext.textContent = "تمت الموافقة! يمكنك الآن إنشاء أسئلة لمرة واحدة مجاناً";
 
                 lockBadges.forEach(b => {
                     b.className = "exam-lock-badge px-2 py-0.5 rounded-full text-[10px] font-bold bg-teal-100 text-teal-800 flex items-center gap-1 shrink-0";
@@ -1522,16 +1955,10 @@
 
                 if (currentTeacher.trialStatus === 'pending') {
                     profileStatus.textContent = "حالة الحساب: بانتظار موافقة الإدارة على التجربة المجانية";
-                    trialSubtext.textContent = "تم إرسال طلبك للإدارة، انتظر الموافقة";
                 } else if (currentTeacher.trialStatus === 'used') {
                     profileStatus.textContent = "حالة الحساب: انتهت التجربة المجانية (يتطلب اشتراك)";
-                    trialSubtext.textContent = "لقد استهلكت التجربة المجانية الواحدة، يرجى الاشتراك بكود";
-                } else if (currentTeacher.trialStatus === 'rejected') {
-                    profileStatus.textContent = "حالة الحساب: غير مشترك";
-                    trialSubtext.textContent = "تم رفض الطلب السابق، يمكنك الاشتراك بكود تفعيل";
                 } else {
                     profileStatus.textContent = "حالة الحساب: غير مشترك";
-                    trialSubtext.textContent = "تجربة الأسئلة لمرة واحدة مجاناً بعد موافقة الإدارة";
                 }
 
                 lockBadges.forEach(b => {
@@ -1542,11 +1969,12 @@
         }
 
         // ============================================================================
-        // 8. NAVIGATION & FREE TRIAL / SUBSCRIPTION CODE FLOWS
+        // 9. NAVIGATION & FREE TRIAL / SUBSCRIPTION CODE FLOWS
         // ============================================================================
         window.showSection = function(sectionName) {
             const sections = [
                 'sectionExamTypes',
+                'sectionExamHistory',
                 'sectionExamBuilder',
                 'sectionExamPreview',
                 'sectionAccount',
@@ -1557,16 +1985,26 @@
             sections.forEach(id => document.getElementById(id).classList.add('hidden'));
 
             const navExams = document.getElementById('navBtnExams');
+            const navHistory = document.getElementById('navBtnHistory');
             const navAccount = document.getElementById('navBtnAccount');
+
+            const inactiveClass = "py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 text-slate-500 hover:bg-slate-50 font-bold transition";
+            const activeClass = "py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 bg-teal-50 text-teal-800 font-extrabold transition";
+
+            navExams.className = inactiveClass;
+            navHistory.className = inactiveClass;
+            navAccount.className = inactiveClass;
 
             if (sectionName === 'examTypes') {
                 document.getElementById('sectionExamTypes').classList.remove('hidden');
-                navExams.className = "py-1.5 px-3 rounded-xl flex items-center justify-center gap-1.5 bg-teal-50 text-teal-800 font-extrabold transition";
-                navAccount.className = "py-1.5 px-3 rounded-xl flex items-center justify-center gap-1.5 text-slate-500 hover:bg-slate-50 font-bold transition";
+                navExams.className = activeClass;
+            } else if (sectionName === 'examHistory') {
+                document.getElementById('sectionExamHistory').classList.remove('hidden');
+                navHistory.className = activeClass;
+                renderExamHistoryList();
             } else if (sectionName === 'account') {
                 document.getElementById('sectionAccount').classList.remove('hidden');
-                navAccount.className = "py-1.5 px-3 rounded-xl flex items-center justify-center gap-1.5 bg-teal-50 text-teal-800 font-extrabold transition";
-                navExams.className = "py-1.5 px-3 rounded-xl flex items-center justify-center gap-1.5 text-slate-500 hover:bg-slate-50 font-bold transition";
+                navAccount.className = activeClass;
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
@@ -1626,7 +2064,7 @@
 
         window.activateSubscriptionCode = async function() {
             if (!currentTeacher) return;
-            const rawCode = document.getElementById('subscriptionCodeInput').value.trim().toUpperCase();
+            const rawCode = normalizeSubscriptionCode(document.getElementById('subscriptionCodeInput').value);
 
             if (!rawCode) {
                 showCustomMessage("أدخل الكود", "يرجى كتابة كود الاشتراك في الحقل المخصص.", "warning");
@@ -1638,19 +2076,22 @@
                 const codeSnap = await getDoc(codeRef);
 
                 if (!codeSnap.exists()) {
-                    showCustomMessage("منتهي الصلاحية", "هذا الكود غير صحيح أو منتهي الصلاحية.", "error");
+                    showCustomMessage("الكود غير موجود", "يرجى التأكد من كتابة أحرف وأرقام الكود بشكل صحيح.", "error");
                     return;
                 }
 
                 const codeData = codeSnap.data();
 
                 if (codeData.status === 'disabled') {
-                    showCustomMessage("منتهي الصلاحية", "هذا الكود تم تعطيله من قبل الإدارة وهو منتهي الصلاحية.", "error");
+                    showCustomMessage("منتهي الصلاحية", "هذا الكود تم إلغاؤه من قبل الإدارة.", "error");
                     return;
                 }
 
-                if (codeData.status === 'active' && codeData.usedByEmail !== currentTeacher.email) {
-                    showCustomMessage("منتهي الصلاحية", "هذا الكود مستخدم مسبقاً لحساب آخر وهو منتهي الصلاحية (الكود صالح لحساب واحد فقط).", "error");
+                const usedBy = (codeData.usedByEmail || '').trim().toLowerCase();
+                const myEmail = (currentTeacher.email || '').trim().toLowerCase();
+
+                if (codeData.status === 'active' && usedBy && usedBy !== myEmail) {
+                    showCustomMessage("مستخدم مسبقاً", "هذا الكود مستخدم مسبقاً لحساب أستاذ آخر (الكود صالح لحساب واحد فقط).", "error");
                     return;
                 }
 
@@ -1676,7 +2117,7 @@
         };
 
         // ============================================================================
-        // 9. OWNER CONTROL PANEL
+        // 10. OWNER CONTROL PANEL (مع الحذف النهائي للأكواد المعطلة الحالية والسابقة)
         // ============================================================================
         function startOwnerRealtimeListeners() {
             if (unsubscribeOwnerUsers) unsubscribeOwnerUsers();
@@ -1690,7 +2131,15 @@
 
             unsubscribeOwnerCodes = onSnapshot(getCodesCollection(), (snap) => {
                 allCodesCache = [];
-                snap.forEach(d => allCodesCache.push(d.data()));
+                snap.forEach(d => {
+                    const data = d.data();
+                    // Auto-delete any previously disabled code so it is permanently removed
+                    if (data.status === 'disabled') {
+                        deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'exam_app_codes', d.id)).catch(() => {});
+                    } else {
+                        allCodesCache.push(data);
+                    }
+                });
                 renderOwnerCodesUI();
             }, (err) => console.error("Owner codes listener error:", err));
         }
@@ -1700,7 +2149,7 @@
                 showCustomMessage("غير مصرح", "هذه اللوحة مخصصة لمالك التطبيق فقط.", "error");
                 return;
             }
-            const sections = ['sectionExamTypes', 'sectionExamBuilder', 'sectionExamPreview', 'sectionAccount', 'sectionOwnerRequests', 'sectionOwnerCodes'];
+            const sections = ['sectionExamTypes', 'sectionExamHistory', 'sectionExamBuilder', 'sectionExamPreview', 'sectionAccount', 'sectionOwnerRequests', 'sectionOwnerCodes'];
             sections.forEach(id => document.getElementById(id).classList.add('hidden'));
             document.getElementById('sectionOwnerHub').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1832,7 +2281,8 @@
             const container = document.getElementById('ownerCodesList');
             if (!container) return;
 
-            const sorted = [...allCodesCache].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            const activeAndUnusedCodes = allCodesCache.filter(c => c.status !== 'disabled');
+            const sorted = [...activeAndUnusedCodes].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
             if (sorted.length === 0) {
                 container.innerHTML = `
@@ -1851,8 +2301,6 @@
                     statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-extrabold">غير مفعل</span>`;
                 } else if (item.status === 'active') {
                     statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-extrabold">مفعل للأستاذ (${escapeHtml(item.usedByName || item.usedByEmail)})</span>`;
-                } else if (item.status === 'disabled') {
-                    statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700 text-[11px] font-extrabold">معطل (ملغي)</span>`;
                 }
 
                 html += `
@@ -1870,11 +2318,10 @@
                                 <i class="fa-regular fa-copy"></i>
                                 <span>نسخ الكود</span>
                             </button>
-                            <button onclick="disableSubscriptionCode('${escapeHtml(item.code)}', '${escapeHtml(item.usedByEmail || '')}')" 
-                                ${item.status === 'disabled' ? 'disabled' : ''}
-                                class="flex-1 py-2 px-3 rounded-xl ${item.status === 'disabled' ? 'bg-slate-100 text-slate-400 cursor-not-allowed' : 'bg-rose-50 hover:bg-rose-100 text-rose-700'} font-extrabold text-xs transition flex items-center justify-center gap-1.5">
-                                <i class="fa-solid fa-ban"></i>
-                                <span>${item.status === 'disabled' ? 'تم تعطيل الكود' : 'تعطيل الكود'}</span>
+                            <button onclick="disableAndDeleteSubscriptionCode('${escapeHtml(item.code)}', '${escapeHtml(item.usedByEmail || '')}')" 
+                                class="flex-1 py-2 px-3 rounded-xl bg-rose-50 hover:bg-rose-600 text-rose-700 hover:text-white font-extrabold text-xs transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-trash-can"></i>
+                                <span>تعطيل وحذف الكود</span>
                             </button>
                         </div>
                     </div>
@@ -1897,32 +2344,154 @@
             showCustomMessage("تم نسخ الكود", `تم نسخ الكود (${codeStr}) بنجاح، يمكنك إرساله للأستاذ الآن.`, "success");
         };
 
-        window.disableSubscriptionCode = async function(codeStr, usedByEmail) {
+        // Permanently deletes the code from Firestore and revokes subscription from the associated user
+        window.disableAndDeleteSubscriptionCode = async function(codeStr, usedByEmail) {
             try {
-                const codeRef = getCodeDocRef(codeStr);
-                await updateDoc(codeRef, { status: 'disabled' });
-
                 if (usedByEmail) {
                     const userRef = getUserDocRef(usedByEmail);
-                    await updateDoc(userRef, { isSubscribed: false });
+                    await updateDoc(userRef, { isSubscribed: false, subscriptionCode: '' }).catch(() => {});
                 }
+                const codeRef = getCodeDocRef(codeStr);
+                await deleteDoc(codeRef);
 
-                showCustomMessage("تم تعطيل الكود", "تم تعطيل الكود بنجاح وإيقاف اشتراك الأستاذ المرتبط به فوراً.", "warning");
+                showCustomMessage("تم حذف الكود", "تم تعطيل وحذف الكود نهائياً من القائمة وإيقاف اشتراك الحساب المرتبط به.", "warning");
             } catch (err) {
-                console.error("Disable code error:", err);
+                console.error("Delete code error:", err);
             }
         };
 
         // ============================================================================
-        // 10. EXAM BUILDER ENGINE & FULL-SCREEN WORD-STYLE QUESTION EDITOR
+        // 11. EXAM HISTORY (سجل الأسئلة المحفوظة: عرض، بحث، تعديل، حذف)
         // ============================================================================
         const EXAM_TYPE_LABELS = {
             daily: 'امتحان يومي',
             weekly: 'امتحان أسبوعي',
             monthly: 'امتحان شهري',
-            comprehensive: 'امتحان نصف السنة / شامل'
+            comprehensive: 'امتحان شامل / نصف ونهاية السنة'
         };
 
+        window.renderExamHistoryList = function() {
+            const container = document.getElementById('examHistoryContainer');
+            const badge = document.getElementById('historyCountBadge');
+            if (!container || !currentTeacher) return;
+
+            const savedExams = Array.isArray(currentTeacher.savedExams) ? currentTeacher.savedExams : [];
+            const searchQuery = (document.getElementById('historySearchInput')?.value || '').trim().toLowerCase();
+            const typeFilter = document.getElementById('historyTypeFilter')?.value || 'all';
+
+            const filtered = savedExams.filter(ex => {
+                const matchesType = (typeFilter === 'all') || (ex.type === typeFilter);
+                const typeLabel = EXAM_TYPE_LABELS[ex.type] || '';
+                const combinedText = `${typeLabel} ${ex.examTitle || ''} ${ex.examSubject || ''} ${ex.schoolName || ''} ${ex.examClass || ''}`.toLowerCase();
+                const matchesQuery = !searchQuery || combinedText.includes(searchQuery);
+                return matchesType && matchesQuery;
+            }).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+
+            if (badge) badge.textContent = `${filtered.length} أسئلة`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white rounded-2xl p-8 text-center border border-slate-200 shadow-2xs">
+                        <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center text-xl mx-auto mb-2.5">
+                            <i class="fa-regular fa-folder-open"></i>
+                        </div>
+                        <p class="text-xs sm:text-sm font-extrabold text-slate-700">لا توجد أسئلة محفوظة تطابق البحث</p>
+                        <p class="text-[11px] text-slate-400 mt-1">كل ورقة أسئلة تقوم بحفظها ومعاينتها ستظهر هنا تلقائياً لتتمكن من تعديلها أو حذفها.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(item => {
+                const typeBadgeLabel = EXAM_TYPE_LABELS[item.type] || 'امتحان';
+                const dateStr = item.updatedAt ? new Date(item.updatedAt).toLocaleDateString('ar-IQ') : '';
+                const qCount = Array.isArray(item.questions) ? item.questions.length : 0;
+
+                return `
+                    <div class="bg-white rounded-2xl p-4 border border-slate-200 hover:border-teal-500 shadow-2xs transition flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                        <div class="space-y-1">
+                            <div class="flex flex-wrap items-center gap-1.5">
+                                <span class="px-2.5 py-0.5 rounded-lg bg-teal-50 text-teal-800 border border-teal-200 text-[10px] font-extrabold">
+                                    ${escapeHtml(typeBadgeLabel)}
+                                </span>
+                                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-bold">
+                                    ${qCount} أسئلة
+                                </span>
+                                ${dateStr ? `<span class="text-[10px] text-slate-400 font-semibold">${dateStr}</span>` : ''}
+                            </div>
+                            <h4 class="text-xs sm:text-sm font-extrabold text-slate-800">
+                                ${escapeHtml(item.examTitle || typeBadgeLabel)} - ${escapeHtml(item.examSubject || 'بدون مادة')}
+                            </h4>
+                            <p class="text-[11px] text-slate-500 font-semibold">
+                                ${escapeHtml(item.schoolName || '')} • ${escapeHtml(item.examClass || '')}
+                            </p>
+                        </div>
+
+                        <div class="flex items-center gap-2 w-full sm:w-auto shrink-0">
+                            <button onclick="loadExamFromHistory('${escapeHtml(item.id)}')" class="flex-1 sm:flex-initial px-3.5 py-2 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-xs font-extrabold transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <span>تعديل / فتح</span>
+                            </button>
+                            <button onclick="deleteExamFromHistory('${escapeHtml(item.id)}')" class="px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-600 text-rose-700 hover:text-white text-xs font-extrabold transition flex items-center justify-center gap-1">
+                                <i class="fa-solid fa-trash-can"></i>
+                                <span>حذف</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        window.loadExamFromHistory = function(examId) {
+            if (!currentTeacher || !Array.isArray(currentTeacher.savedExams)) return;
+            const found = currentTeacher.savedExams.find(x => x.id === examId);
+            if (!found) return;
+
+            currentEditingHistoryId = found.id;
+            selectedExamType = found.type || 'monthly';
+            examDirection = found.dir || 'rtl';
+
+            document.getElementById('builderExamTypeBadge').textContent = EXAM_TYPE_LABELS[selectedExamType];
+            document.getElementById('headerSchoolName').value = found.schoolName || '';
+            document.getElementById('headerExamTitle').value = found.examTitle || '';
+            document.getElementById('headerAcademicYear').value = found.academicYear || 'للعام الدراسي ٢٠٢٦ - ٢٠٢٧';
+            document.getElementById('headerClass').value = found.examClass || '';
+            document.getElementById('headerSubject').value = found.examSubject || '';
+            document.getElementById('headerTime').value = found.examTime || '';
+            document.getElementById('headerTotalMark').value = found.totalMark || '';
+            document.getElementById('headerExamNote').value = found.examNote !== undefined ? found.examNote : 'ملاحظة: الإجابة عن خمسة أسئلة فقط';
+            document.getElementById('footerTeacherName').value = found.teacherName || '';
+            document.getElementById('footerAssistantName').value = found.assistantName || '';
+
+            questionsList = (found.questions || []).map(q => ({ ...q, id: q.id || crypto.randomUUID() }));
+            if (questionsList.length === 0) {
+                questionsList = [{ id: crypto.randomUUID(), sectionTitle: '', text: '', grade: '٢٠ درجة', color: '#0f172a', font: 'font-amiri' }];
+            }
+
+            setExamDirection(examDirection);
+
+            document.getElementById('sectionExamHistory').classList.add('hidden');
+            document.getElementById('sectionExamBuilder').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.deleteExamFromHistory = async function(examId) {
+            if (!currentTeacher || !Array.isArray(currentTeacher.savedExams)) return;
+            const updatedList = currentTeacher.savedExams.filter(x => x.id !== examId);
+            currentTeacher.savedExams = updatedList;
+            renderExamHistoryList();
+
+            try {
+                const userRef = getUserDocRef(currentTeacher.email);
+                await updateDoc(userRef, { savedExams: updatedList });
+            } catch (err) {
+                console.error("Delete exam history error:", err);
+            }
+        };
+
+        // ============================================================================
+        // 12. EXAM BUILDER ENGINE & FULL-SCREEN WORD-STYLE QUESTION EDITOR
+        // ============================================================================
         window.openExamBuilder = function(type) {
             if (!hasExamAccess()) {
                 showCustomMessage(
@@ -1933,13 +2502,12 @@
                 return;
             }
 
+            currentEditingHistoryId = null;
             selectedExamType = type;
             document.getElementById('builderExamTypeBadge').textContent = EXAM_TYPE_LABELS[type];
 
             const titleInput = document.getElementById('headerExamTitle');
-            if (!titleInput.value.trim()) {
-                titleInput.value = EXAM_TYPE_LABELS[type];
-            }
+            titleInput.value = EXAM_TYPE_LABELS[type];
 
             if (questionsList.length === 0) {
                 questionsList = Array.from({ length: 5 }, () => ({
@@ -1981,7 +2549,6 @@
             renderQuestionFields();
         };
 
-        // Render compact Question Cards that open the Full-Screen Editor when clicked
         function renderQuestionFields() {
             const container = document.getElementById('questionsContainer');
             document.getElementById('questionsCountBadge').textContent = `${questionsList.length} أسئلة`;
@@ -1999,13 +2566,11 @@
 
                 html += `
                     <div class="bg-slate-50 rounded-xl p-3 border border-slate-200/90 hover:border-teal-500 transition space-y-2" dir="${examDirection}">
-                        <!-- Top Row: Question Badge + Delete Button + Active Style Info + Grade Input -->
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <div class="flex items-center gap-1.5">
                                 <span class="px-2.5 py-0.5 rounded-lg bg-teal-700 text-white text-[11px] font-extrabold">
                                     ${qLabel}
                                 </span>
-                                <!-- Delete Button Above Question -->
                                 <button type="button" onclick="deleteQuestionField(${idx})"
                                     class="px-2 py-0.5 rounded-lg bg-rose-100 hover:bg-rose-600 text-rose-700 hover:text-white text-[11px] font-extrabold transition flex items-center gap-1">
                                     <i class="fa-solid fa-trash-can text-[10px]"></i>
@@ -2023,7 +2588,6 @@
                             </div>
                         </div>
 
-                        <!-- Clickable Question Field Box that launches Full-Screen Word-Like Editor -->
                         <div onclick="openFullScreenQuestionEditor(${idx})"
                             style="color: ${hasText ? q.color : '#64748b'};"
                             class="w-full min-h-[58px] p-3 rounded-xl border border-slate-300 bg-white hover:bg-teal-50/20 hover:border-teal-500 cursor-pointer transition flex items-start justify-between gap-2 ${q.font}">
@@ -2041,7 +2605,7 @@
         }
 
         // ============================================================================
-        // 11. FULL-SCREEN QUESTION EDITOR WITH TOGGLEABLE POPOVER PANELS
+        // 13. FULL-SCREEN QUESTION EDITOR WITH TOGGLEABLE POPOVER PANELS
         // ============================================================================
         window.openFullScreenQuestionEditor = function(idx) {
             activeEditorQuestionIndex = idx;
@@ -2054,7 +2618,6 @@
                 : `Question ${idx + 1} Editor (Q${idx + 1})`;
             document.getElementById('fsCanvasQuestionPrefix').textContent = isRtl ? `س${idx + 1}/` : `Q${idx + 1}:`;
 
-            // Populate fields
             const textarea = document.getElementById('fsEditorTextarea');
             const gradeInput = document.getElementById('fsEditorGrade');
             const secInput = document.getElementById('fsEditorSectionTitle');
@@ -2066,21 +2629,17 @@
             secInput.value = q.sectionTitle || '';
             customColor.value = q.color || '#0f172a';
 
-            // Close all tool panels initially so the writing canvas is super clean and spacious
             closeAllEditorToolPanelsOnCanvasClick();
 
-            // Apply live font and color immediately to the full-screen editor textarea
             applyLiveFormattingToTextarea();
             renderFsFontButtons();
             renderFsColorSwatches();
             switchSymbolsTab(currentSymbolsCategory);
 
-            // Show Full-Screen Modal
             document.getElementById('fullScreenQuestionEditorModal').classList.remove('hidden');
             setTimeout(() => textarea.focus(), 80);
         };
 
-        // Toggle any of the 4 top tool panels (Click once to open, click again to hide)
         window.toggleEditorToolPanel = function(panelName) {
             const panels = {
                 font: document.getElementById('panelToolFont'),
@@ -2103,7 +2662,6 @@
 
             const isAlreadyOpen = (activeEditorToolPanel === panelName);
 
-            // Reset all panels & buttons
             Object.keys(panels).forEach(k => {
                 if (panels[k]) panels[k].classList.add('hidden');
                 if (buttons[k]) {
@@ -2166,11 +2724,9 @@
             if (!q) return;
             const textarea = document.getElementById('fsEditorTextarea');
 
-            // Apply selected font class immediately
             ARABIC_FONTS.forEach(f => textarea.classList.remove(f.id));
             textarea.classList.add(q.font || 'font-amiri');
 
-            // Apply color immediately
             textarea.style.color = q.color || '#0f172a';
             const dot = document.getElementById('activeColorIndicatorDot');
             if (dot) dot.style.backgroundColor = q.color || '#0f172a';
@@ -2306,7 +2862,7 @@
         };
 
         // ============================================================================
-        // 12. SAVE & GENERATE OFFICIAL IRAQI A4 EXAM PAPER (Dynamic Font & Zero Empty Space)
+        // 14. SAVE TO HISTORY & GENERATE OFFICIAL IRAQI A4 EXAM PAPER
         // ============================================================================
         function toArabicNumerals(num) {
             const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
@@ -2332,13 +2888,48 @@
 
             // Consume one-time free trial if applicable
             const isOwner = currentTeacher.email.toLowerCase() === OWNER_EMAIL.toLowerCase();
-            if (!isOwner && !currentTeacher.isSubscribed && currentTeacher.trialStatus === 'approved') {
-                try {
-                    const userRef = getUserDocRef(currentTeacher.email);
-                    await updateDoc(userRef, { trialStatus: 'used' });
-                } catch (err) {
-                    console.error("Consume trial error:", err);
+            const trialUpdate = (!isOwner && !currentTeacher.isSubscribed && currentTeacher.trialStatus === 'approved')
+                ? { trialStatus: 'used' }
+                : {};
+
+            // Save or Update Exam in Teacher's History (سجل الأسئلة)
+            const examRecord = {
+                id: currentEditingHistoryId || crypto.randomUUID(),
+                type: selectedExamType,
+                dir: examDirection,
+                schoolName: document.getElementById('headerSchoolName').value.trim() || 'ثانوية الرافدين',
+                examTitle: document.getElementById('headerExamTitle').value.trim() || EXAM_TYPE_LABELS[selectedExamType],
+                academicYear: document.getElementById('headerAcademicYear').value.trim() || 'للعام الدراسي ٢٠٢٦ - ٢٠٢٧',
+                examClass: document.getElementById('headerClass').value.trim() || 'السادس العلمي',
+                examSubject: document.getElementById('headerSubject').value.trim() || 'التربية الإسلامية',
+                examTime: document.getElementById('headerTime').value.trim() || 'ساعتان',
+                totalMark: document.getElementById('headerTotalMark').value.trim() || '١٠٠',
+                examNote: document.getElementById('headerExamNote').value.trim(),
+                teacherName: document.getElementById('footerTeacherName').value.trim() || `أ. ${currentTeacher ? currentTeacher.name : ''}`,
+                assistantName: document.getElementById('footerAssistantName').value.trim(),
+                questions: filledQuestions,
+                updatedAt: Date.now()
+            };
+
+            currentEditingHistoryId = examRecord.id;
+
+            try {
+                const existingExams = Array.isArray(currentTeacher.savedExams) ? [...currentTeacher.savedExams] : [];
+                const idx = existingExams.findIndex(e => e.id === examRecord.id);
+                if (idx >= 0) {
+                    existingExams[idx] = examRecord;
+                } else {
+                    existingExams.unshift(examRecord);
                 }
+                currentTeacher.savedExams = existingExams;
+
+                const userRef = getUserDocRef(currentTeacher.email);
+                await updateDoc(userRef, {
+                    savedExams: existingExams,
+                    ...trialUpdate
+                });
+            } catch (err) {
+                console.error("Save exam history error:", err);
             }
 
             buildAndRenderOfficialExamSheet();
@@ -2358,7 +2949,9 @@
             const examSubject = document.getElementById('headerSubject').value.trim() || 'التربية الإسلامية';
             const examTime = document.getElementById('headerTime').value.trim() || 'ساعتان';
             const totalMark = document.getElementById('headerTotalMark').value.trim() || '١٠٠';
+            const examNote = document.getElementById('headerExamNote').value.trim();
             const teacherName = document.getElementById('footerTeacherName').value.trim() || `أ. ${currentTeacher ? currentTeacher.name : ''}`;
+            const assistantName = document.getElementById('footerAssistantName').value.trim();
 
             const filledQuestions = questionsList.filter(q => q.text.trim() !== '');
 
@@ -2372,7 +2965,9 @@
                 examSubject,
                 examTime,
                 totalMark,
+                examNote,
                 teacherName,
+                assistantName,
                 questions: filledQuestions
             });
 
@@ -2393,7 +2988,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        // Responsive Scaling so the 794px A4 Sheet fits inside any Mobile/Tablet/Laptop screen
         function adjustA4PreviewScale() {
             const viewport = document.getElementById('a4PreviewViewport');
             const scaleContainer = document.getElementById('a4ScaleContainer');
@@ -2423,7 +3017,6 @@
             sheet.className = `exam-paper-base shadow-xl mx-auto ${tierClasses[data.type]}`;
             sheet.setAttribute('dir', data.dir);
 
-            // Calculate Dynamic Font Sizes & Line Heights based on Question Count (4, 5, 6, 7) and Total Lines
             const qCount = data.questions.length;
             const totalLines = data.questions.reduce((acc, q) => {
                 const lines = q.text.trim().split('\n').filter(l => l.trim() !== '').length;
@@ -2488,7 +3081,6 @@
                     secTitleFontSize = '16px';
                     lineHeightVal = '1.68';
                 } else {
-                    // 7 or more questions
                     mainFontSize = totalLines <= 18 ? '17.5px' : '15.5px';
                     subFontSize = totalLines <= 18 ? '16.5px' : '14.5px';
                     quoteFontSize = totalLines <= 18 ? '18.5px' : '16.5px';
@@ -2500,24 +3092,26 @@
 
             const bismillah = isRtl ? 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ' : 'In the Name of Allah, the Most Gracious, the Most Merciful';
 
-            // 1. Top 3-Column Iraqi Official Header (shrink-0 so it stays crisp at the top)
+            // Small, subtle Exam Note right below the Student Name border line and before Q1
+            const examNoteHtml = data.examNote
+                ? `<div class="pt-1 pb-0.5 text-center text-[12px] font-extrabold text-slate-800">( ${escapeHtml(data.examNote)} )</div>`
+                : '';
+
+            // 1. Top 3-Column Iraqi Official Header + Student Name Row + Subtle Note Below Line
             const headerHtml = `
                 <div class="shrink-0">
                     <div class="border-b-2 border-slate-900 pb-3 mb-2">
                         <div class="grid grid-cols-3 items-start gap-2 text-slate-900">
-                            <!-- Right Column: School Name -->
                             <div class="pt-3 font-extrabold text-sm leading-relaxed">
                                 <p>${escapeHtml(data.schoolName)}</p>
                             </div>
 
-                            <!-- Center Column: Bismillah + Exam Title + Academic Year -->
                             <div class="text-center space-y-0.5">
                                 <div class="font-amiri text-xl font-bold tracking-wide">${bismillah}</div>
                                 <h2 class="text-base font-extrabold text-slate-950">${escapeHtml(data.examTitle)}</h2>
                                 <p class="text-xs font-extrabold text-slate-800">${escapeHtml(data.academicYear)}</p>
                             </div>
 
-                            <!-- Left Column: Class, Subject, Time, Total Mark -->
                             <div class="${isRtl ? 'text-right pr-10' : 'text-left pl-10'} text-xs font-extrabold space-y-0.5 leading-snug">
                                 <p>${isRtl ? 'الصف:' : 'Class:'} ${escapeHtml(data.examClass)}</p>
                                 <p>${isRtl ? 'المادة:' : 'Subject:'} ${escapeHtml(data.examSubject)}</p>
@@ -2528,14 +3122,17 @@
                     </div>
 
                     <!-- Student Name & Section Row -->
-                    <div class="border-b-2 border-slate-800 pb-2 mb-1 flex items-center justify-between text-xs font-extrabold text-slate-900">
+                    <div class="border-b-2 border-slate-800 pb-2 flex items-center justify-between text-xs font-extrabold text-slate-900">
                         <div class="flex-1">${isRtl ? 'اسم الطالب:' : 'Student Name:'} ......................................................................................</div>
                         <div class="w-48">${isRtl ? 'الشعبة:' : 'Section:'} .....................................</div>
                     </div>
+
+                    <!-- Subtle Note Below Student Name Line -->
+                    ${examNoteHtml}
                 </div>
             `;
 
-            // 2. Questions List (Flex-1 container that distributes all questions proportionally so ZERO blank space remains at the bottom)
+            // 2. Questions List
             let questionsHtml = `<div class="flex-1 flex flex-col justify-between divide-y divide-slate-400/85 my-1" style="line-height: ${lineHeightVal};">`;
 
             data.questions.forEach((q, idx) => {
@@ -2549,7 +3146,6 @@
                 const firstLine = lines[0] || '';
                 const restLines = lines.slice(1).filter(l => l.trim() !== '');
 
-                // Weight the flex-grow of each question block slightly by its line count so multi-branch questions get proportional room
                 const blockFlexWeight = Math.max(1, 0.85 + (restLines.length * 0.35) + (q.sectionTitle ? 0.25 : 0)).toFixed(2);
 
                 let subLinesHtml = '';
@@ -2566,7 +3162,7 @@
                 }
 
                 questionsHtml += `
-                    <div class="flex flex-col justify-center py-2.5 ${q.font}" style="color: ${q.color}; flex: ${blockFlexWeight} 1 0%;">
+                    <div class="flex flex-col justify-center py-2 ${q.font}" style="color: ${q.color}; flex: ${blockFlexWeight} 1 0%;">
                         ${sectionHeadingHtml}
                         <div class="flex items-start justify-between gap-4">
                             <div class="flex-1">
@@ -2583,15 +3179,35 @@
             });
             questionsHtml += `</div>`;
 
-            // 3. Official Footer (shrink-0 at the very bottom)
+            // 3. Official Footer (معلم المادة أو مدرس المادة على اليسار + مساعد الأستاذ على الجهة المقابلة اليمنى)
             const wishesText = isRtl ? 'مع تمنياتنا لكم بالنجاح والموفقية' : 'Best Wishes for Success';
-            const teacherTitleLabel = isRtl ? 'مدرس المادة' : 'Subject Teacher';
+            const roleArabicTitle = getTeacherRoleTitle(); // 'معلم المادة' or 'مدرس المادة'
+            const teacherTitleLabel = isRtl ? roleArabicTitle : 'Subject Teacher';
+            const assistantRoleLabel = isRtl
+                ? (currentTeacher && currentTeacher.teacherRole === 'معلم' ? 'معلم المادة المساعد' : 'مدرس المادة المساعد')
+                : 'Assistant Teacher';
+
+            const assistantBlockHtml = data.assistantName
+                ? `
+                    <div class="${isRtl ? 'text-right pr-4' : 'text-left pl-4'} space-y-0.5">
+                        <div class="text-center inline-block">
+                            <p>${assistantRoleLabel}</p>
+                            <p>${escapeHtml(data.assistantName)}</p>
+                        </div>
+                    </div>
+                `
+                : `<div></div>`;
 
             const footerHtml = `
                 <div class="shrink-0 pt-3 border-t-2 border-slate-800">
                     <div class="grid grid-cols-3 items-end text-xs sm:text-sm font-extrabold text-slate-900">
-                        <div></div>
+                        <!-- Opposite Side (Right in RTL): Assistant Teacher -->
+                        ${assistantBlockHtml}
+
+                        <!-- Center: Wishes -->
                         <div class="text-center pb-1.5">${wishesText}</div>
+
+                        <!-- Main Teacher Side (Left in RTL): معلم المادة أو مدرس المادة -->
                         <div class="${isRtl ? 'text-left pl-4' : 'text-right pr-4'} space-y-0.5">
                             <div class="text-center inline-block">
                                 <p>${teacherTitleLabel}</p>
@@ -2610,7 +3226,7 @@
         }
 
         // ============================================================================
-        // 13. HIGH-RES DIRECT IMAGE (PNG) & A4 PDF DOWNLOAD
+        // 15. HIGH-RES DIRECT IMAGE (PNG) & A4 PDF DOWNLOAD
         // ============================================================================
         async function captureFullScaleSheetCanvas() {
             const sheet = document.getElementById('printableExamSheet');
