@@ -44,12 +44,13 @@
             box-sizing: border-box;
         }
 
-        /* Allow typing inside inputs/textareas while keeping copy/paste blocked via JS */
-        input, textarea, select {
+        /* Allow full text selection, copy, cut, and paste ONLY inside editable fields */
+        input, textarea, select, [contenteditable="true"] {
             -webkit-user-select: text !important;
             -moz-user-select: text !important;
             -ms-user-select: text !important;
             user-select: text !important;
+            -webkit-touch-callout: default !important;
         }
 
         /* Smooth & Unrestricted Vertical Scrolling across all devices */
@@ -139,7 +140,7 @@
             color: #0f172a;
             width: 794px;
             min-height: 1122px;
-            padding: 26px 34px;
+            padding: 22px 34px 26px 34px;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -170,6 +171,20 @@
             border: 4px double #0f172a;
             outline: 1.5px solid #0f172a;
             outline-offset: -7px;
+        }
+
+        /* Exam Math & Data Table Styling inside A4 Sheet */
+        .exam-inline-table {
+            border-collapse: collapse;
+            margin: 6px 0;
+            width: auto;
+            min-width: 240px;
+        }
+        .exam-inline-table td, .exam-inline-table th {
+            border: 1.5px solid #0f172a;
+            padding: 3px 12px;
+            text-align: center;
+            font-weight: 800;
         }
 
         /* Responsive A4 Preview Scaling Wrapper */
@@ -663,7 +678,7 @@
                     </div>
                 </div>
 
-                <!-- TOP 3 HEADER FIELDS + EXAM NOTE BELOW STUDENT NAME LINE -->
+                <!-- TOP 3 HEADER FIELDS + OPTIONAL STUDENT NAME TOGGLE + EXAM NOTE -->
                 <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs space-y-3">
                     <div class="flex items-center gap-2 border-b border-slate-100 pb-2">
                         <span class="w-6 h-6 rounded-md bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-xs">1</span>
@@ -713,10 +728,25 @@
                         </div>
                     </div>
 
+                    <!-- Optional Student Name & Section Toggle (فوق ملاحظة عدد الأسئلة مباشرة) -->
+                    <div class="bg-teal-50/60 p-3 rounded-xl border border-teal-200/90 flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-user-check text-teal-700 text-sm"></i>
+                            <div>
+                                <span class="block text-xs font-extrabold text-teal-950">إظهار سطر (اسم الطالب والشعبة) في الورقة</span>
+                                <span class="block text-[10px] text-teal-700 font-semibold">يمكنك تفعيله ليظهر أعلى الأسئلة أو إيقافه لإخفائه من الورقة</span>
+                            </div>
+                        </div>
+                        <label class="inline-flex items-center cursor-pointer shrink-0">
+                            <input type="checkbox" id="toggleStudentNameLine" checked class="sr-only peer">
+                            <div class="w-10 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all relative peer-checked:bg-teal-700"></div>
+                        </label>
+                    </div>
+
                     <!-- Exam Note Field -->
                     <div class="bg-amber-50/60 p-3 rounded-xl border border-amber-200/90">
                         <label class="block text-[11px] font-extrabold text-amber-900 mb-1">
-                            <i class="fa-solid fa-circle-info ml-1 text-amber-600"></i> ملاحظة أسفل خط اسم الطالب (تظهر بحجم صغير ومرتب قبل السؤال الأول)
+                            <i class="fa-solid fa-circle-info ml-1 text-amber-600"></i> ملاحظة الإجابة عن الأسئلة (تظهر بحجم صغير ومرتب قبل السؤال الأول)
                         </label>
                         <input type="text" id="headerExamNote" value="ملاحظة: الإجابة عن خمسة أسئلة فقط" placeholder="مثال: ملاحظة: الإجابة عن خمسة أسئلة فقط (اتركه فارغاً لإخفائه)"
                             class="w-full px-3 py-1.5 rounded-lg border border-amber-300 bg-white focus:border-teal-600 outline-none text-xs font-bold text-slate-800">
@@ -818,7 +848,7 @@
                     </div>
                 </div>
 
-                <!-- Bottom Action Buttons (حفظ صورة | حفظ PDF فقط بدون زر طباعة) -->
+                <!-- Bottom Action Buttons (حفظ صورة | حفظ PDF فقط) -->
                 <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm grid grid-cols-2 gap-2.5">
                     <button onclick="downloadExamAsImage()" id="btnDownloadImg" class="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-extrabold transition flex items-center justify-center gap-1.5">
                         <i class="fa-solid fa-image text-teal-700"></i>
@@ -913,7 +943,7 @@
                 </div>
             </section>
 
-            <!-- OWNER CONTROL PANEL MAIN (مع إضافة زر "إضافة شرح") -->
+            <!-- OWNER CONTROL PANEL MAIN (مع زر "إضافة شرح") -->
             <section id="sectionOwnerHub" class="hidden space-y-4">
                 <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
                     <button onclick="showSection('account')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
@@ -1136,28 +1166,37 @@
                 </div>
             </div>
 
-            <!-- COLLAPSIBLE PANEL 3: SYMBOLS & QUICK BRANCHES -->
+            <!-- COLLAPSIBLE PANEL 3: SYMBOLS, MATH FRACTIONS/EXPONENTS/ARROWS/TABLES & QUICK BRANCHES -->
             <div id="panelToolSymbols" class="hidden max-w-4xl mx-auto mt-2 p-3 rounded-2xl bg-slate-50 border border-amber-200 shadow-md space-y-2.5">
+                <!-- Quick Branches & Ready Tables Bar -->
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <div class="flex flex-wrap items-center gap-1">
                         <span class="text-[10px] font-extrabold text-slate-500 ml-1">إدراج سريع:</span>
-                        <button type="button" onclick="insertSymbolIntoFsEditor('\nأ/ ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">فرع أ/</button>
-                        <button type="button" onclick="insertSymbolIntoFsEditor('\nب/ ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">فرع ب/</button>
-                        <button type="button" onclick="insertSymbolIntoFsEditor('\nج/ ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">فرع ج/</button>
-                        <button type="button" onclick="insertSymbolIntoFsEditor('\n١- ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">١-</button>
-                        <button type="button" onclick="insertSymbolIntoFsEditor('\n٢- ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">٢-</button>
-                        <button type="button" onclick="insertSymbolIntoFsEditor(' ﴿  ﴾ ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">﴿ آية ﴾</button>
-                        <button type="button" onclick="insertSymbolIntoFsEditor(' (            ) ')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">( فراغ )</button>
+                        <button type="button" onclick="insertSymbolIntoFsEditor('\nأ/ ')" class="px-2 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">فرع أ/</button>
+                        <button type="button" onclick="insertSymbolIntoFsEditor('\nب/ ')" class="px-2 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">فرع ب/</button>
+                        <button type="button" onclick="insertSymbolIntoFsEditor('\nج/ ')" class="px-2 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">فرع ج/</button>
+                        <button type="button" onclick="insertSymbolIntoFsEditor('\n١- ')" class="px-2 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">١-</button>
+                        <button type="button" onclick="insertSymbolIntoFsEditor('\n٢- ')" class="px-2 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">٢-</button>
+                        <button type="button" onclick="insertSymbolIntoFsEditor(' ﴿  ﴾ ')" class="px-2 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">﴿ آية ﴾</button>
+                        <button type="button" onclick="insertSymbolIntoFsEditor(' (            ) ')" class="px-2 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">( فراغ )</button>
+                        <button type="button" onclick="insertReadyMathTable('ar')" class="px-2.5 py-1 rounded-lg bg-amber-100 hover:bg-amber-600 hover:text-white text-amber-900 text-[11px] font-extrabold border border-amber-300 transition flex items-center gap-1">
+                            <i class="fa-solid fa-table-cells text-[10px]"></i>
+                            <span>جدول رياضيات</span>
+                        </button>
+                        <button type="button" onclick="insertReadyMathTable('xy')" class="px-2.5 py-1 rounded-lg bg-teal-100 hover:bg-teal-700 hover:text-white text-teal-900 text-[11px] font-extrabold border border-teal-300 transition flex items-center gap-1">
+                            <i class="fa-solid fa-table text-[10px]"></i>
+                            <span>جدول (س ، ص)</span>
+                        </button>
                     </div>
                     <button type="button" onclick="toggleEditorToolPanel('symbols')" class="text-[11px] font-bold text-slate-400 hover:text-rose-600">
                         <i class="fa-solid fa-xmark ml-0.5"></i> إغلاق
                     </button>
                 </div>
 
-                <!-- Scientific Categories Tabs -->
+                <!-- Main Scientific Categories Tabs -->
                 <div class="flex flex-wrap items-center gap-1.5 pt-1 border-t border-slate-200/80">
                     <button type="button" onclick="switchSymbolsTab('math')" id="symTabMath" class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-teal-700 text-white transition">
-                        <i class="fa-solid fa-calculator ml-1"></i> الرياضيات
+                        <i class="fa-solid fa-calculator ml-1"></i> الرياضيات الشامل
                     </button>
                     <button type="button" onclick="switchSymbolsTab('chem')" id="symTabChem" class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition">
                         <i class="fa-solid fa-flask ml-1"></i> الكيمياء
@@ -1170,8 +1209,8 @@
                     </button>
                 </div>
 
-                <!-- Symbols Grid -->
-                <div id="symbolsGridContainer" class="flex flex-wrap items-center gap-1.5 max-h-32 overflow-y-auto p-1.5 bg-white rounded-xl border border-slate-200" dir="ltr"></div>
+                <!-- Organized Symbols Grid Container -->
+                <div id="symbolsGridContainer" class="max-h-52 overflow-y-auto p-2 bg-white rounded-xl border border-slate-200 space-y-2"></div>
             </div>
 
             <!-- COLLAPSIBLE PANEL 4: GRADE & SECTION HEADING -->
@@ -1216,7 +1255,7 @@
                 <textarea id="fsEditorTextarea"
                     onfocus="closeAllEditorToolPanelsOnCanvasClick()"
                     oninput="liveSyncFromFullScreenEditor()"
-                    placeholder="اكتب نص السؤال وفروعه هنا بكل راحة... اضغط على الأزرار في الأعلى لتغيير الخط أو اللون أو إدراج الرموز وسيتم تطبيقها فوراً أمامك."
+                    placeholder="اكتب نص السؤال وفروعه هنا بكل راحة... يمكنك النسخ واللصق داخل الحقل، أو الضغط على الأزرار في الأعلى لتغيير الخط أو اللون أو إدراج الكسور والأسس والأسهم والجداول."
                     class="flex-1 w-full p-4 sm:p-6 outline-none resize-none text-xl sm:text-2xl font-bold leading-relaxed font-amiri"></textarea>
             </div>
         </div>
@@ -1336,27 +1375,92 @@
         import { getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // ============================================================================
-        // 1. ANTI-COPY / ANTI-PASTE / ANTI-TAMPER PROTECTION (With Free Scrolling)
+        // 1. SMART COPY / PASTE / CUT PROTECTION (مسموح فقط داخل حقول الكتابة)
         // ============================================================================
         const OWNER_EMAIL = "mslmalmyaly223@gmail.com";
         let allowInternalCopy = false;
 
-        document.addEventListener('contextmenu', (e) => e.preventDefault());
+        function isEditableField(el) {
+            if (!el) return false;
+            const tag = el.tagName ? el.tagName.toUpperCase() : '';
+            if (tag === 'INPUT' || tag === 'TEXTAREA') return true;
+            if (el.isContentEditable) return true;
+            if (el.closest && el.closest('input, textarea, [contenteditable="true"]')) return true;
+            return false;
+        }
+
+        // Allow right-click / long-press context menu ONLY inside editable input/textarea fields
+        document.addEventListener('contextmenu', (e) => {
+            if (isEditableField(e.target)) return;
+            e.preventDefault();
+        });
+
+        // Allow copying ONLY from editable input/textarea fields or internal owner code copy
         document.addEventListener('copy', (e) => {
-            if (!allowInternalCopy) {
+            if (allowInternalCopy || isEditableField(e.target) || isEditableField(document.activeElement)) {
+                return;
+            }
+            e.preventDefault();
+            showCustomMessage("ممنوع النسخ", "يُسمح بنسخ النصوص من داخل حقول الكتابة فقط، ويُمنع نسخ محتوى المنصة.", "warning");
+        });
+
+        // Allow cutting ONLY inside editable input/textarea fields
+        document.addEventListener('cut', (e) => {
+            if (isEditableField(e.target) || isEditableField(document.activeElement)) {
+                return;
+            }
+            e.preventDefault();
+        });
+
+        // Allow pasting & clean formatting ONLY inside editable input/textarea fields
+        document.addEventListener('paste', (e) => {
+            const target = isEditableField(e.target) ? e.target : (isEditableField(document.activeElement) ? document.activeElement : null);
+            if (!target) {
                 e.preventDefault();
-                showCustomMessage("ممنوع النسخ", "نظام الحماية يمنع النسخ واللصق داخل التطبيق للحفاظ على حقوق المنصة.", "warning");
+                showCustomMessage("ممنوع اللصق هنا", "يمكنك لصق النصوص داخل حقول الكتابة فقط.", "warning");
+                return;
+            }
+
+            // Clean up pasted text neatly (normalize line breaks and remove weird invisible control characters)
+            const clipboardData = e.clipboardData || window.clipboardData;
+            if (clipboardData) {
+                const pastedText = clipboardData.getData('text/plain');
+                if (pastedText && (target.tagName === 'TEXTAREA' || target.tagName === 'INPUT')) {
+                    e.preventDefault();
+                    const cleanedText = pastedText
+                        .replace(/\r\n/g, '\n')
+                        .replace(/\r/g, '\n')
+                        .replace(/[ \t]+\n/g, '\n')
+                        .replace(/\n{3,}/g, '\n\n');
+
+                    const start = target.selectionStart ?? target.value.length;
+                    const end = target.selectionEnd ?? target.value.length;
+                    const before = target.value.substring(0, start);
+                    const after = target.value.substring(end);
+
+                    target.value = before + cleanedText + after;
+                    const newCursor = start + cleanedText.length;
+                    target.setSelectionRange(newCursor, newCursor);
+                    target.dispatchEvent(new Event('input', { bubbles: true }));
+                }
             }
         });
-        document.addEventListener('cut', (e) => e.preventDefault());
-        document.addEventListener('paste', (e) => {
-            e.preventDefault();
-            showCustomMessage("ممنوع اللصق", "الرجاء كتابة الأسئلة أو الكود يدوياً؛ خاصية النسخ واللصق معطلة لأغراض الأمان.", "warning");
-        });
+
         document.addEventListener('dragstart', (e) => e.preventDefault());
 
         document.addEventListener('keydown', (e) => {
-            if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0', 'c', 'v', 'x', 'u', 's'].includes(e.key.toLowerCase())) {
+            const key = e.key.toLowerCase();
+            const inInput = isEditableField(e.target) || isEditableField(document.activeElement);
+
+            // Allow Ctrl/Cmd + C, V, X, A, Z when inside an input/textarea
+            if ((e.ctrlKey || e.metaKey) && ['c', 'v', 'x', 'a', 'z', 'y'].includes(key)) {
+                if (inInput) return;
+                e.preventDefault();
+                return;
+            }
+
+            // Prevent page zoom or source inspection shortcuts
+            if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0', 'u', 's'].includes(key)) {
                 e.preventDefault();
             }
             if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase()))) {
@@ -1442,17 +1546,72 @@
         }
 
         // ============================================================================
-        // 4. SCIENTIFIC & ACADEMIC SYMBOLS DICTIONARY
+        // 4. ORGANIZED MATH & SCIENTIFIC SYMBOLS DICTIONARY (مع الأسس والكسور والأسهم والجداول)
         // ============================================================================
+        const MATH_SYMBOL_GROUPS = [
+            {
+                title: '١. الأرقام الصغيرة للأسس والبسط (توضع فوق الحرف أو الرقم أو فوق خط الكسر ⁄)',
+                items: [
+                    '⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹',
+                    '⁺', '⁻', '⁼', '⁽', '⁾', 'ⁿ', 'ˣ', 'ʸ', 'ᵃ', 'ᵇ', 'ᶜ', 'ᵐ'
+                ]
+            },
+            {
+                title: '٢. الأرقام الصغيرة السفلية للمقام والأدلة (توضع تحت الحرف أو تحت خط الكسر ⁄)',
+                items: [
+                    '₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉',
+                    '₊', '₋', '₌', '₍', '₎', 'ₓ', 'ₙ', 'ₘ', 'ₐ', 'ₑ'
+                ]
+            },
+            {
+                title: '٣. الكسور الجاهزة وخط الكسر والقسمة (يمكنك تركيب أي كسر مثل ⁵⁄₇ باستخدام ⁄)',
+                items: [
+                    '⁄', '÷', '/', '½', '⅓', '⅔', '¼', '¾',
+                    '⅕', '⅖', '⅗', '⅘', '⅙', '⅚', '⅛', '⅜', '⅝', '⅞',
+                    '¹⁄₂', '¹⁄₃', '²⁄₃', '¹⁄₄', '³⁄₄', '¹⁄₅', '¹⁄₁₀', 'ᵃ⁄ᵇ', 'ˣ⁄ᵧ', '(   )/(   )'
+                ]
+            },
+            {
+                title: '٤. الأسهم والاتجاهات والمعادلات السهمية (مثل أسهم السؤال الثالث وفروعه)',
+                items: [
+                    '→', '←', '↔', '⇒', '⇐', '⇔',
+                    '↑', '↓', '↕', '↗', '↘', '↙', '↖',
+                    '⟶', '⟵', '⟷', '⟹', '⟸', '⟺', '↦', '⇌'
+                ]
+            },
+            {
+                title: '٥. العمليات الحسابية والجذور والعلاقات المقارنة',
+                items: [
+                    '+', '−', '×', '÷', '±', '∓', '=', '≠', '≈', '≡',
+                    '<', '>', '≤', '≥', '≪', '≫', '∝', '√', '∛', '∜',
+                    '√(   )', '∛(   )', '%', '‰', '∞', 'π', '∴', '∵', '∶', '∷'
+                ]
+            },
+            {
+                title: '٦. المجموعات والفترات والمنطق والهندسة',
+                items: [
+                    '∈', '∉', '⊂', '⊃', '⊆', '⊇', '⊄', '∪', '∩', '∅',
+                    '∀', '∃', '∄', '¬', '∧', '∨', 'ℕ', 'ℤ', 'ℚ', 'ℝ', 'ℂ',
+                    '∠', '⊥', '∥', '△', '□', '◯', '°', '′', '″', '≅', '∼'
+                ]
+            },
+            {
+                title: '٧. الدوال والتفاضل والتكامل والأقواس الرياضية',
+                items: [
+                    '∑', '∏', '∫', '∬', '∮', '∆', '∇', '∂',
+                    'f(x)', 'g(x)', 'y=', 'd/dx', 'dy/dx', 'lim', 'sin(', 'cos(', 'tan(',
+                    'sec(', 'csc(', 'cot(', 'log(', 'ln(', '|x|', '( )', '[ ]', '{ }', '⟨ ⟩'
+                ]
+            },
+            {
+                title: '٨. رموز الجداول وتقسيم الأعمدة (أو اضغط زر "جدول رياضيات" بالأعلى لإدراج جدول كامل)',
+                items: [
+                    '|', '│', '─', '┌', '┬', '┐', '├', '┼', '┤', '└', '┴', '┘', '═', '║', '╬'
+                ]
+            }
+        ];
+
         const SCIENTIFIC_SYMBOLS = {
-            math: [
-                '√', '∛', '²', '³', '⁴', 'ⁿ', 'π', '∞',
-                '±', '×', '÷', '≠', '≈', '≡', '≤', '≥',
-                '∑', '∫', '∆', '∇', '∈', '∉', '⊂', '⊆',
-                '∪', '∩', '∅', '∀', '∃', '∴', '∵', '∠',
-                '⊥', '∥', '°', '⇒', '⇔', '→', 'sin(', 'cos(',
-                'tan(', 'log(', 'ln(', 'lim', 'd/dx', 'f(x)', '|x|', '[ ]'
-            ],
             chem: [
                 '→', '⇌', '↑', '↓', 'Δ', '°C', 'K', 'atm',
                 '₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇',
@@ -1836,7 +1995,6 @@
                 console.error("Live teacher listener error:", err);
             });
 
-            // Start real-time tutorials listener for all users (for the orange ticker bar page)
             startTutorialsRealtimeListener();
 
             if (userObj.email.toLowerCase() === OWNER_EMAIL.toLowerCase()) {
@@ -2069,7 +2227,6 @@
             navHistory.className = inactiveClass;
             navAccount.className = inactiveClass;
 
-            // Show the moving orange ticker bar across the 3 main sections: (نوع الأسئلة / سجل الأسئلة / حسابي)
             setOrangeTickerVisible(true);
 
             if (sectionName === 'examTypes') {
@@ -2682,6 +2839,7 @@
             document.getElementById('headerSubject').value = found.examSubject || '';
             document.getElementById('headerTime').value = found.examTime || '';
             document.getElementById('headerTotalMark').value = found.totalMark || '';
+            document.getElementById('toggleStudentNameLine').checked = found.showStudentNameLine !== false;
             document.getElementById('headerExamNote').value = found.examNote !== undefined ? found.examNote : 'ملاحظة: الإجابة عن خمسة أسئلة فقط';
             document.getElementById('footerTeacherName').value = found.teacherName || '';
             document.getElementById('footerAssistantName').value = found.assistantName || '';
@@ -2828,7 +2986,7 @@
         }
 
         // ============================================================================
-        // 14. FULL-SCREEN QUESTION EDITOR WITH TOGGLEABLE POPOVER PANELS
+        // 14. FULL-SCREEN QUESTION EDITOR WITH ORGANIZED MATH SYMBOLS & TABLES
         // ============================================================================
         window.openFullScreenQuestionEditor = function(idx) {
             activeEditorQuestionIndex = idx;
@@ -3032,14 +3190,48 @@
                 }
             });
 
-            const symbols = SCIENTIFIC_SYMBOLS[category] || [];
             const grid = document.getElementById('symbolsGridContainer');
-            grid.innerHTML = symbols.map(sym => `
-                <button type="button" onclick="insertSymbolIntoFsEditor('${sym.replace(/'/g, "\\'")}')"
-                    class="py-1 px-2.5 rounded-lg bg-slate-50 hover:bg-teal-600 hover:text-white border border-slate-200 font-mono text-xs font-bold text-slate-800 transition shadow-2xs">
-                    ${sym}
-                </button>
-            `).join('');
+
+            if (category === 'math') {
+                grid.setAttribute('dir', 'rtl');
+                grid.innerHTML = MATH_SYMBOL_GROUPS.map(group => `
+                    <div class="bg-slate-50/80 p-2 rounded-xl border border-slate-200/80 space-y-1.5">
+                        <div class="text-[10px] font-extrabold text-teal-800 px-1">${group.title}</div>
+                        <div class="flex flex-wrap items-center gap-1.5" dir="ltr">
+                            ${group.items.map(sym => `
+                                <button type="button" onclick="insertSymbolIntoFsEditor('${sym.replace(/\\/g, "\\\\").replace(/'/g, "\\'")}')"
+                                    class="py-1 px-2.5 rounded-lg bg-white hover:bg-teal-600 hover:text-white border border-slate-200 font-mono text-xs font-extrabold text-slate-800 transition shadow-2xs">
+                                    ${sym}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                grid.setAttribute('dir', 'ltr');
+                const symbols = SCIENTIFIC_SYMBOLS[category] || [];
+                grid.innerHTML = `
+                    <div class="flex flex-wrap items-center gap-1.5">
+                        ${symbols.map(sym => `
+                            <button type="button" onclick="insertSymbolIntoFsEditor('${sym.replace(/\\/g, "\\\\").replace(/'/g, "\\'")}')"
+                                class="py-1 px-2.5 rounded-lg bg-slate-50 hover:bg-teal-600 hover:text-white border border-slate-200 font-mono text-xs font-bold text-slate-800 transition shadow-2xs">
+                                ${sym}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+        };
+
+        // Insert ready-made math table into question editor (renders as a real bordered table on the A4 sheet!)
+        window.insertReadyMathTable = function(mode) {
+            let tableTemplate = '';
+            if (mode === 'xy') {
+                tableTemplate = `\n| س | ١ | ٢ | ٣ | ٤ |\n| ص |   |   |   |   |\n`;
+            } else {
+                tableTemplate = `\n| القيمة | أ | ب | ج | د |\n| العدد | ١٠ | ٢٠ | ٣٠ | ٤٠ |\n`;
+            }
+            insertSymbolIntoFsEditor(tableTemplate);
         };
 
         window.insertSymbolIntoFsEditor = function(symbolStr) {
@@ -3085,7 +3277,7 @@
         };
 
         // ============================================================================
-        // 15. SAVE TO HISTORY & GENERATE OFFICIAL IRAQI A4 EXAM PAPER (بدون البسملة)
+        // 15. SAVE TO HISTORY & GENERATE OFFICIAL IRAQI A4 EXAM PAPER
         // ============================================================================
         function toArabicNumerals(num) {
             const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
@@ -3114,6 +3306,8 @@
                 ? { trialStatus: 'used' }
                 : {};
 
+            const showStudentNameLine = document.getElementById('toggleStudentNameLine').checked;
+
             const examRecord = {
                 id: currentEditingHistoryId || crypto.randomUUID(),
                 type: selectedExamType,
@@ -3125,6 +3319,7 @@
                 examSubject: document.getElementById('headerSubject').value.trim() || 'التربية الإسلامية',
                 examTime: document.getElementById('headerTime').value.trim() || 'ساعتان',
                 totalMark: document.getElementById('headerTotalMark').value.trim() || '١٠٠',
+                showStudentNameLine: showStudentNameLine,
                 examNote: document.getElementById('headerExamNote').value.trim(),
                 teacherName: document.getElementById('footerTeacherName').value.trim() || `أ. ${currentTeacher ? currentTeacher.name : ''}`,
                 assistantName: document.getElementById('footerAssistantName').value.trim(),
@@ -3171,6 +3366,7 @@
             const examSubject = document.getElementById('headerSubject').value.trim() || 'التربية الإسلامية';
             const examTime = document.getElementById('headerTime').value.trim() || 'ساعتان';
             const totalMark = document.getElementById('headerTotalMark').value.trim() || '١٠٠';
+            const showStudentNameLine = document.getElementById('toggleStudentNameLine').checked;
             const examNote = document.getElementById('headerExamNote').value.trim();
             const teacherName = document.getElementById('footerTeacherName').value.trim() || `أ. ${currentTeacher ? currentTeacher.name : ''}`;
             const assistantName = document.getElementById('footerAssistantName').value.trim();
@@ -3187,6 +3383,7 @@
                 examSubject,
                 examTime,
                 totalMark,
+                showStudentNameLine,
                 examNote,
                 teacherName,
                 assistantName,
@@ -3224,6 +3421,52 @@
             scaleContainer.style.transform = `scale(${scale})`;
             const scaledHeight = sheet.offsetHeight * scale;
             viewport.style.height = `${scaledHeight + 20}px`;
+        }
+
+        // Helper to render sub-lines and automatically convert pipe-table rows (`| س | ١ | ٢ |`) into real bordered HTML tables
+        function renderQuestionSubLinesAndTables(restLines, subFontSize, quoteFontSize) {
+            if (!restLines || restLines.length === 0) return '';
+
+            let html = `<div class="mt-1.5 space-y-1.5 pr-2" style="font-size: ${subFontSize};">`;
+            let i = 0;
+
+            while (i < restLines.length) {
+                const currentTrimmed = restLines[i].trim();
+
+                // Detect pipe table rows: starts and ends with '|' and has at least 2 pipes
+                if (currentTrimmed.startsWith('|') && currentTrimmed.endsWith('|') && currentTrimmed.length > 2) {
+                    const tableRows = [];
+                    while (i < restLines.length) {
+                        const rowStr = restLines[i].trim();
+                        if (rowStr.startsWith('|') && rowStr.endsWith('|') && rowStr.length > 2) {
+                            const cells = rowStr.slice(1, -1).split('|').map(c => c.trim());
+                            tableRows.push(cells);
+                            i++;
+                        } else {
+                            break;
+                        }
+                    }
+
+                    html += `<div class="py-1 overflow-x-auto"><table class="exam-inline-table" style="font-size: ${subFontSize};"><tbody>`;
+                    tableRows.forEach(rowCells => {
+                        html += `<tr>`;
+                        rowCells.forEach(cellText => {
+                            html += `<td>${escapeHtml(cellText) || '&nbsp;&nbsp;&nbsp;'}</td>`;
+                        });
+                        html += `</tr>`;
+                    });
+                    html += `</tbody></table></div>`;
+                } else {
+                    const isCenteredQuote = (currentTrimmed.startsWith('﴿') && currentTrimmed.endsWith('﴾')) || (currentTrimmed.startsWith('«') && currentTrimmed.endsWith('»'));
+                    html += `
+                        <div class="${isCenteredQuote ? 'text-center py-1 font-amiri' : ''} font-bold whitespace-pre-wrap" style="${isCenteredQuote ? `font-size: ${quoteFontSize};` : ''}">${escapeHtml(restLines[i])}</div>
+                    `;
+                    i++;
+                }
+            }
+
+            html += `</div>`;
+            return html;
         }
 
         function renderPrintableSheet(data) {
@@ -3313,21 +3556,39 @@
                 }
             }
 
-            // Small, subtle Exam Note right below the Student Name border line and before Q1
+            // Plain, small, neat "بسم الله الرحمن الرحيم" at the top center of the page (without ornate decorations)
+            const plainBismillah = isRtl ? 'بسم الله الرحمن الرحيم' : 'In the Name of Allah, the Most Gracious, the Most Merciful';
+
+            // Optional Student Name & Section Row
+            const studentNameRowHtml = (data.showStudentNameLine !== false)
+                ? `
+                    <div class="border-b-2 border-slate-800 pb-2 mb-1 flex items-center justify-between text-xs font-extrabold text-slate-900">
+                        <div class="flex-1">${isRtl ? 'اسم الطالب:' : 'Student Name:'} ......................................................................................</div>
+                        <div class="w-48">${isRtl ? 'الشعبة:' : 'Section:'} .....................................</div>
+                    </div>
+                `
+                : '';
+
+            // Small, subtle Exam Note right below the header / student name line and before Q1
             const examNoteHtml = data.examNote
                 ? `<div class="pt-1 pb-0.5 text-center text-[12px] font-extrabold text-slate-800">( ${escapeHtml(data.examNote)} )</div>`
                 : '';
 
-            // 1. Top 3-Column Iraqi Official Header (تم حذف بسم الله الرحمن الرحيم بناءً على الطلب)
+            // 1. Top Iraqi Official Header (مع بسم الله الرحمن الرحيم صغيرة ومرتبة وبدون زخرفة في أعلى الوسط)
             const headerHtml = `
                 <div class="shrink-0">
-                    <div class="border-b-2 border-slate-900 pb-3 mb-2">
+                    <!-- Top-Center Small Plain Bismillah -->
+                    <div class="text-center pb-1.5">
+                        <span class="text-[13px] font-extrabold text-slate-900 tracking-normal">${plainBismillah}</span>
+                    </div>
+
+                    <div class="border-b-2 border-slate-900 pb-2.5 mb-2">
                         <div class="grid grid-cols-3 items-center gap-2 text-slate-900">
                             <div class="font-extrabold text-sm leading-relaxed">
                                 <p>${escapeHtml(data.schoolName)}</p>
                             </div>
 
-                            <div class="text-center space-y-1">
+                            <div class="text-center space-y-0.5">
                                 <h2 class="text-base font-extrabold text-slate-950">${escapeHtml(data.examTitle)}</h2>
                                 <p class="text-xs font-extrabold text-slate-800">${escapeHtml(data.academicYear)}</p>
                             </div>
@@ -3341,13 +3602,10 @@
                         </div>
                     </div>
 
-                    <!-- Student Name & Section Row -->
-                    <div class="border-b-2 border-slate-800 pb-2 flex items-center justify-between text-xs font-extrabold text-slate-900">
-                        <div class="flex-1">${isRtl ? 'اسم الطالب:' : 'Student Name:'} ......................................................................................</div>
-                        <div class="w-48">${isRtl ? 'الشعبة:' : 'Section:'} .....................................</div>
-                    </div>
+                    <!-- Optional Student Name & Section Row -->
+                    ${studentNameRowHtml}
 
-                    <!-- Subtle Note Below Student Name Line -->
+                    <!-- Subtle Note Below Header / Student Name Line -->
                     ${examNoteHtml}
                 </div>
             `;
@@ -3367,19 +3625,7 @@
                 const restLines = lines.slice(1).filter(l => l.trim() !== '');
 
                 const blockFlexWeight = Math.max(1, 0.85 + (restLines.length * 0.35) + (q.sectionTitle ? 0.25 : 0)).toFixed(2);
-
-                let subLinesHtml = '';
-                if (restLines.length > 0) {
-                    subLinesHtml = `<div class="mt-1.5 space-y-1.5 pr-2" style="font-size: ${subFontSize};">`;
-                    restLines.forEach(line => {
-                        const trimmed = line.trim();
-                        const isCenteredQuote = (trimmed.startsWith('﴿') && trimmed.endsWith('﴾')) || (trimmed.startsWith('«') && trimmed.endsWith('»'));
-                        subLinesHtml += `
-                            <div class="${isCenteredQuote ? 'text-center py-1 font-amiri' : ''} font-bold whitespace-pre-wrap" style="${isCenteredQuote ? `font-size: ${quoteFontSize};` : ''}">${escapeHtml(line)}</div>
-                        `;
-                    });
-                    subLinesHtml += `</div>`;
-                }
+                const subLinesHtml = renderQuestionSubLinesAndTables(restLines, subFontSize, quoteFontSize);
 
                 questionsHtml += `
                     <div class="flex flex-col justify-center py-2 ${q.font}" style="color: ${q.color}; flex: ${blockFlexWeight} 1 0%;">
@@ -3441,7 +3687,7 @@
         }
 
         // ============================================================================
-        // 16. HIGH-RES DIRECT IMAGE (PNG) & A4 PDF DOWNLOAD (مضبوطة بالكامل)
+        // 16. HIGH-RES DIRECT IMAGE (PNG) & A4 PDF DOWNLOAD
         // ============================================================================
         async function captureFullScaleSheetCanvas() {
             const sheet = document.getElementById('printableExamSheet');
@@ -3453,12 +3699,10 @@
             const prevViewportOverflow = viewport.style.overflow;
             const savedScrollY = window.scrollY;
 
-            // Ensure all web fonts are loaded before rendering
             if (document.fonts && document.fonts.ready) {
                 try { await document.fonts.ready; } catch (e) {}
             }
 
-            // Temporarily reset scale and scroll so html2canvas captures 100% of the A4 sheet cleanly
             scaleContainer.style.transform = 'none';
             viewport.style.height = 'auto';
             viewport.style.overflow = 'visible';
