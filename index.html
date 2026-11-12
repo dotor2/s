@@ -44,6 +44,7 @@
             box-sizing: border-box;
         }
 
+        /* Allow full text selection, copy, cut, and paste ONLY inside editable fields */
         input, textarea, select, [contenteditable="true"] {
             -webkit-user-select: text !important;
             -moz-user-select: text !important;
@@ -52,6 +53,7 @@
             -webkit-touch-callout: default !important;
         }
 
+        /* Smooth & Unrestricted Vertical Scrolling across all devices */
         html, body {
             font-family: 'Cairo', sans-serif;
             background: #f1f5f9;
@@ -66,12 +68,14 @@
             scroll-behavior: smooth;
         }
 
+        /* 5 Arabic Font Classes for Questions */
         .font-cairo { font-family: 'Cairo', sans-serif; }
         .font-amiri { font-family: 'Amiri', serif; }
         .font-tajawal { font-family: 'Tajawal', sans-serif; }
         .font-almarai { font-family: 'Almarai', sans-serif; }
         .font-kufi { font-family: 'Noto Kufi Arabic', sans-serif; }
 
+        /* Splash Screen Styling & Animations */
         .splash-bg-luxury {
             background:
                 radial-gradient(circle at 88% 8%, rgba(16, 185, 129, 0.42) 0%, rgba(5, 150, 105, 0.12) 32%, transparent 60%),
@@ -114,6 +118,7 @@
         .animate-qmark { animation: floatQuestionMark 4s ease-in-out infinite; }
         .animate-gold-glow { animation: shimmerGoldLine 2.5s ease-in-out infinite; }
 
+        /* Moving Orange Ticker Bar Animation */
         @keyframes tickerMoveRTL {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
@@ -129,6 +134,7 @@
             animation-play-state: paused;
         }
 
+        /* Official A4 Paper Progressive Styles (Full-Height Flex Distribution) */
         .exam-paper-base {
             background: #ffffff;
             color: #0f172a;
@@ -142,84 +148,46 @@
             box-sizing: border-box;
         }
 
-        .exam-tier-daily { border: 2px solid #1e293b; }
-        .exam-tier-weekly { border: 3px double #0f766e; box-shadow: inset 0 0 0 1px #99f6e4; }
-        .exam-tier-monthly { border: 3px solid #0f172a; outline: 1px solid #334155; outline-offset: -6px; }
-        .exam-tier-comprehensive { border: 4px double #0f172a; outline: 1.5px solid #0f172a; outline-offset: -7px; }
+        /* Tier 1: Daily Exam */
+        .exam-tier-daily {
+            border: 2px solid #1e293b;
+        }
 
-        /* Important: Exam inline table styling (looks just like the reference image) */
+        /* Tier 2: Weekly Exam */
+        .exam-tier-weekly {
+            border: 3px double #0f766e;
+            box-shadow: inset 0 0 0 1px #99f6e4;
+        }
+
+        /* Tier 3: Monthly Exam */
+        .exam-tier-monthly {
+            border: 3px solid #0f172a;
+            outline: 1px solid #334155;
+            outline-offset: -6px;
+        }
+
+        /* Tier 4: Comprehensive Exam (Mid-year / Final) */
+        .exam-tier-comprehensive {
+            border: 4px double #0f172a;
+            outline: 1.5px solid #0f172a;
+            outline-offset: -7px;
+        }
+
+        /* Exam Math & Data Table Styling inside A4 Sheet */
         .exam-inline-table {
             border-collapse: collapse;
             margin: 6px 0;
             width: auto;
             min-width: 240px;
-            direction: rtl;
         }
         .exam-inline-table td, .exam-inline-table th {
             border: 1.5px solid #0f172a;
-            padding: 4px 14px;
+            padding: 3px 12px;
             text-align: center;
             font-weight: 800;
-            min-width: 45px;
-        }
-        .exam-inline-table th {
-            background: #f1f5f9;
         }
 
-        /* Proper visual fractions in exam sheet */
-        .exam-frac {
-            display: inline-flex;
-            flex-direction: column;
-            vertical-align: middle;
-            text-align: center;
-            line-height: 1.05;
-            margin: 0 3px;
-            font-weight: 800;
-            position: relative;
-            top: -1px;
-        }
-        .exam-frac .num {
-            border-bottom: 1.6px solid currentColor;
-            padding: 0 4px 1px 4px;
-        }
-        .exam-frac .den {
-            padding: 1px 4px 0 4px;
-        }
-
-        /* Proper superscripts and subscripts for powers and indexes */
-        .exam-sup {
-            display: inline-block;
-            font-size: 0.68em;
-            vertical-align: super;
-            line-height: 1;
-            margin: 0 1px;
-            font-weight: 800;
-        }
-        .exam-sub {
-            display: inline-block;
-            font-size: 0.68em;
-            vertical-align: sub;
-            line-height: 1;
-            margin: 0 1px;
-            font-weight: 800;
-        }
-
-        /* Inline inserted image inside exam sheet */
-        .exam-inline-img-wrap {
-            display: block;
-            margin: 8px auto;
-            text-align: center;
-            max-width: 100%;
-        }
-        .exam-inline-img-wrap img {
-            max-width: 340px;
-            max-height: 220px;
-            border-radius: 8px;
-            border: 1.5px solid #cbd5e1;
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
-            display: inline-block;
-        }
-
+        /* Responsive A4 Preview Scaling Wrapper */
         .a4-preview-viewport {
             width: 100%;
             overflow: hidden;
@@ -232,48 +200,19 @@
             transition: transform 0.2s ease;
         }
 
+        /* Custom Compact Scrollbar */
         ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-
-        /* Thumbnails of images inside question editor */
-        .editor-img-thumb {
-            display: inline-block;
-            position: relative;
-            margin: 4px;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 2px solid #cbd5e1;
-            background: #f8fafc;
-        }
-        .editor-img-thumb img {
-            width: 90px;
-            height: 90px;
-            object-fit: cover;
-            display: block;
-        }
-        .editor-img-thumb .remove-btn {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #dc2626;
-            color: #fff;
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800">
 
     <!-- 1. SPLASH SCREEN -->
     <div id="splashScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center splash-bg-luxury text-white px-5 overflow-hidden transition-opacity duration-500">
+        
+        <!-- Top-Left Decorative Sweeping Curves (Gold & Emerald) -->
         <svg class="absolute top-0 left-0 w-72 sm:w-96 h-72 sm:h-96 pointer-events-none opacity-80" viewBox="0 0 400 400" fill="none">
             <path d="M-20 190 C 90 120, 160 50, 210 -20 L 0 -20 Z" fill="rgba(16, 185, 129, 0.08)"/>
             <path d="M-10 195 C 95 125, 165 55, 215 -15" stroke="#10b981" stroke-width="1.5" stroke-opacity="0.45"/>
@@ -287,6 +226,7 @@
             </defs>
         </svg>
 
+        <!-- Bottom-Right Decorative Sweeping Curves (Gold & Emerald) -->
         <svg class="absolute bottom-0 right-0 w-80 sm:w-[420px] h-80 sm:h-[420px] pointer-events-none opacity-85" viewBox="0 0 400 400" fill="none">
             <path d="M 420 210 C 290 260, 210 330, 165 420 L 420 420 Z" fill="rgba(6, 95, 70, 0.35)"/>
             <path d="M 415 175 C 275 230, 190 310, 140 415" stroke="url(#goldGradBot)" stroke-width="1.6" stroke-opacity="0.8"/>
@@ -300,37 +240,62 @@
             </defs>
         </svg>
 
+        <!-- Center Content Wrapper -->
         <div class="relative flex flex-col items-center justify-center max-w-md w-full text-center z-10">
+            
+            <!-- Floating Background Question Marks & Geometric Accents Around Icon -->
             <div class="relative flex items-center justify-center mb-8">
+                
+                <!-- Left Question Mark "?" -->
                 <span class="absolute -left-20 sm:-left-24 -top-10 text-6xl sm:text-7xl font-extrabold text-emerald-300/20 select-none pointer-events-none animate-qmark" style="font-family: 'Inter', sans-serif;">?</span>
+                
+                <!-- Right Question Mark "?" -->
                 <span class="absolute -right-20 sm:-right-24 top-6 text-6xl sm:text-7xl font-extrabold text-emerald-300/20 select-none pointer-events-none animate-qmark" style="font-family: 'Inter', sans-serif; animation-delay: 1.5s;">?</span>
+
+                <!-- Diagonal Accent Lines & Diamonds (Left & Right) -->
                 <div class="absolute -left-14 top-4 w-12 h-[1px] bg-gradient-to-r from-transparent via-emerald-300/50 to-transparent -rotate-45 pointer-events-none"></div>
                 <div class="absolute -left-16 bottom-6 w-14 h-[1px] bg-gradient-to-r from-transparent via-amber-300/50 to-transparent -rotate-45 pointer-events-none"></div>
                 <div class="absolute -right-16 -top-2 w-16 h-[1px] bg-gradient-to-r from-transparent via-emerald-300/40 to-transparent -rotate-45 pointer-events-none"></div>
+
+                <!-- Left Hollow Gold Diamond -->
                 <div class="absolute -left-11 top-1/2 -translate-y-2 w-3.5 h-3.5 border-2 border-amber-300/85 rotate-45 animate-diamond pointer-events-none"></div>
+
+                <!-- Right Top Solid Gold Diamond -->
                 <div class="absolute -right-10 -top-1 w-3 h-3 bg-amber-200 rotate-45 shadow-[0_0_8px_#fde68a] animate-diamond pointer-events-none" style="animation-delay: 0.7s;"></div>
+
+                <!-- Right Bottom Solid Emerald Diamond -->
                 <div class="absolute -right-10 bottom-4 w-3 h-3 bg-emerald-400/70 rotate-45 animate-diamond pointer-events-none" style="animation-delay: 1.3s;"></div>
+
+                <!-- Top & Bottom Neon Rim Glows on Icon -->
                 <div class="absolute -top-2 w-28 h-3 bg-emerald-300/60 blur-md rounded-full pointer-events-none"></div>
                 <div class="absolute -bottom-2 w-28 h-3 bg-emerald-300/70 blur-md rounded-full pointer-events-none"></div>
 
+                <!-- Main 3D Glassmorphic App Icon -->
                 <div class="w-44 h-44 sm:w-48 sm:h-48 splash-glass-box flex items-center justify-center relative animate-splash-icon p-4">
+                    <!-- Inner Gloss Highlight -->
                     <div class="absolute inset-1.5 rounded-[36px] border border-white/25 pointer-events-none" style="background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 45%);"></div>
+
+                    <!-- Detailed 3D-Style SVG Illustration -->
                     <svg class="w-36 h-36 sm:w-40 sm:h-40 drop-shadow-[0_12px_16px_rgba(0,0,0,0.4)]" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="44" y="48" width="96" height="122" rx="12" fill="rgba(0,0,0,0.22)" />
                         <path d="M40 54 C40 47.3726 45.3726 42 52 42 H128 C134.627 42 140 47.3726 140 54 V142 L118 164 H52 C45.3726 164 40 158.627 40 152 V54 Z" fill="url(#paperGrad)"/>
                         <path d="M118 164 V148 C118 144.686 120.686 142 124 142 H140 L118 164 Z" fill="#cbd5e1"/>
+
                         <rect x="53" y="78" width="16" height="16" rx="4" fill="#047857"/>
                         <path d="M57 86.5 L60 89.5 L65.5 83" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
                         <rect x="76" y="80" width="46" height="4.5" rx="2.25" fill="#94a3b8"/>
                         <rect x="76" y="88" width="34" height="4" rx="2" fill="#cbd5e1"/>
+
                         <rect x="53" y="104" width="16" height="16" rx="4" fill="#047857"/>
                         <path d="M57 112.5 L60 115.5 L65.5 109" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
                         <rect x="76" y="106" width="46" height="4.5" rx="2.25" fill="#94a3b8"/>
                         <rect x="76" y="114" width="38" height="4" rx="2" fill="#cbd5e1"/>
+
                         <rect x="53" y="130" width="16" height="16" rx="4" fill="#047857"/>
                         <path d="M57 138.5 L60 141.5 L65.5 135" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
                         <rect x="76" y="132" width="40" height="4.5" rx="2.25" fill="#94a3b8"/>
                         <rect x="76" y="140" width="28" height="4" rx="2" fill="#cbd5e1"/>
+
                         <ellipse cx="90" cy="54" rx="34" ry="8" fill="rgba(0,0,0,0.22)"/>
                         <path d="M68 42 V54 C68 60 112 60 112 54 V42 Z" fill="url(#capBaseGrad)"/>
                         <polygon points="90,18 134,34 90,50 46,34" fill="url(#capTopGrad)" stroke="#34d399" stroke-width="0.8" stroke-opacity="0.5"/>
@@ -338,6 +303,7 @@
                         <path d="M90 34 L123 38 V58" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M120 64 L123 55 L126 64 Z" fill="#f59e0b"/>
                         <circle cx="123" cy="56" r="2.2" fill="#fde68a"/>
+
                         <g transform="translate(136, 122) rotate(38)">
                             <rect x="-5" y="-36" width="18" height="78" rx="4" fill="rgba(0,0,0,0.28)" transform="translate(-3, 4)"/>
                             <rect x="-7" y="-32" width="14" height="62" fill="url(#pencilBodyGrad)"/>
@@ -348,6 +314,7 @@
                             <polygon points="-7,30 7,30 0,48" fill="#fcd34d"/>
                             <polygon points="-2.8,41 2.8,41 0,48" fill="#064e3b"/>
                         </g>
+
                         <defs>
                             <linearGradient id="paperGrad" x1="40" y1="42" x2="140" y2="164" gradientUnits="userSpaceOnUse">
                                 <stop offset="0%" stop-color="#ffffff"/>
@@ -378,15 +345,18 @@
                 </div>
             </div>
 
+            <!-- Main Arabic Title -->
             <h1 class="text-3xl sm:text-4xl font-black tracking-wide text-[#fefce8] drop-shadow-[0_4px_10px_rgba(0,0,0,0.45)] mb-4">
                 منصة الأستاذ الذكية
             </h1>
 
+            <!-- Golden Glowing Divider Line with Center Diamond -->
             <div class="relative w-64 sm:w-72 h-5 flex items-center justify-center mb-3 animate-gold-glow">
                 <div class="w-full h-[2px] bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
                 <div class="absolute w-3.5 h-3.5 bg-amber-300 rotate-45 shadow-[0_0_12px_#fde047]"></div>
             </div>
 
+            <!-- Subtitle -->
             <p class="text-[#fef9c3]/95 text-lg sm:text-xl font-bold tracking-wide drop-shadow">
                 أنشئ أسئلتك بسهولة
             </p>
@@ -396,6 +366,7 @@
     <!-- 2. AUTHENTICATION SCREEN -->
     <div id="authScreen" class="hidden min-h-screen w-full py-8 px-4 flex flex-col items-center justify-center bg-gradient-to-b from-teal-50/60 via-slate-50 to-slate-100">
         <div class="w-full max-w-3xl my-auto">
+            <!-- Header -->
             <div class="text-center mb-5">
                 <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-teal-700 text-white shadow-md shadow-teal-700/20 mb-2">
                     <i class="fa-solid fa-graduation-cap text-xl"></i>
@@ -403,6 +374,7 @@
                 <h2 class="text-lg sm:text-xl font-extrabold text-slate-800">بوابة الأساتذة المعتمدة</h2>
                 <p class="text-slate-500 text-xs mt-0.5">سجّل دخولك أو أنشئ حساباً جديداً للبدء بتصميم الأسئلة الامتحانية</p>
                 
+                <!-- Mobile Mode Switcher Pill -->
                 <div class="inline-flex sm:hidden bg-slate-200/80 p-1 rounded-xl mt-3">
                     <button onclick="switchAuthTab('login')" id="tabBtnLogin" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-white text-teal-800 shadow-xs transition">
                         تسجيل الدخول
@@ -413,7 +385,10 @@
                 </div>
             </div>
 
+            <!-- Two Distinct Windows Side-by-Side on Desktop, Tabbed on Mobile -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-stretch">
+                
+                <!-- Window 1: Login -->
                 <div id="loginWindow" class="bg-white rounded-2xl shadow-md border border-slate-200/80 p-5 flex flex-col justify-between relative overflow-hidden">
                     <div class="absolute top-0 right-0 left-0 h-1.5 bg-gradient-to-r from-teal-600 to-emerald-500"></div>
                     <div>
@@ -457,6 +432,7 @@
                     </div>
                 </div>
 
+                <!-- Window 2: Register -->
                 <div id="registerWindow" class="hidden sm:flex bg-white rounded-2xl shadow-md border border-slate-200/80 p-5 flex-col justify-between relative overflow-hidden">
                     <div class="absolute top-0 right-0 left-0 h-1.5 bg-gradient-to-r from-amber-500 to-orange-500"></div>
                     <div>
@@ -480,6 +456,7 @@
                                 </div>
                             </div>
 
+                            <!-- اختيار الصفة: معلم أو مدرس -->
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-700 mb-1">هل أنت معلم أم مدرس؟</label>
                                 <div class="grid grid-cols-2 gap-2">
@@ -528,9 +505,10 @@
         </div>
     </div>
 
-    <!-- 3. MAIN APP CONTAINER -->
+    <!-- 3. MAIN APPLICATION CONTAINER -->
     <div id="appContainer" class="hidden min-h-screen flex flex-col pb-24">
         
+        <!-- Compact Top App Header -->
         <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200 px-3 sm:px-5 py-2.5 shadow-2xs">
             <div class="max-w-4xl mx-auto flex items-center justify-between">
                 <div class="flex items-center gap-2.5">
@@ -548,6 +526,7 @@
             </div>
         </header>
 
+        <!-- MOVING ORANGE TICKER BAR (يظهر أسفل رأس الصفحة في الأقسام الثلاثة: نوع الأسئلة / سجل الأسئلة / حسابي) -->
         <div id="orangeTickerBar" onclick="openTutorialsViewerPage()"
             class="w-full bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600 hover:from-orange-700 hover:to-orange-700 text-white py-2 px-3 shadow-sm cursor-pointer overflow-hidden border-b border-orange-700/30 select-none transition">
             <div class="max-w-4xl mx-auto overflow-hidden whitespace-nowrap">
@@ -557,6 +536,7 @@
             </div>
         </div>
 
+        <!-- MAIN CONTENT AREA -->
         <main class="flex-1 max-w-4xl w-full mx-auto p-3 sm:p-5 pb-16">
 
             <!-- SECTION 1: EXAM TYPES SELECTION -->
@@ -565,7 +545,10 @@
                     <h2 class="text-sm sm:text-base font-extrabold text-slate-800">اختر نوع الأسئلة الامتحانية</h2>
                 </div>
 
+                <!-- 4 Equal-Sized Clean Buttons -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    
+                    <!-- Type 1: Daily Exam -->
                     <button onclick="openExamBuilder('daily')" class="group h-14 bg-white hover:bg-teal-50/50 rounded-xl px-4 border border-slate-200 hover:border-teal-500 shadow-2xs transition-all flex items-center justify-between gap-3">
                         <div class="flex items-center gap-3 min-w-0">
                             <div class="w-9 h-9 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center text-sm font-bold shrink-0 group-hover:scale-105 transition">
@@ -578,6 +561,7 @@
                         </span>
                     </button>
 
+                    <!-- Type 2: Weekly Exam -->
                     <button onclick="openExamBuilder('weekly')" class="group h-14 bg-white hover:bg-teal-50/50 rounded-xl px-4 border border-slate-200 hover:border-teal-500 shadow-2xs transition-all flex items-center justify-between gap-3">
                         <div class="flex items-center gap-3 min-w-0">
                             <div class="w-9 h-9 rounded-lg bg-teal-100 text-teal-700 flex items-center justify-center text-sm font-bold shrink-0 group-hover:scale-105 transition">
@@ -590,6 +574,7 @@
                         </span>
                     </button>
 
+                    <!-- Type 3: Monthly Exam -->
                     <button onclick="openExamBuilder('monthly')" class="group h-14 bg-white hover:bg-indigo-50/50 rounded-xl px-4 border border-slate-200 hover:border-indigo-500 shadow-2xs transition-all flex items-center justify-between gap-3">
                         <div class="flex items-center gap-3 min-w-0">
                             <div class="w-9 h-9 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm font-bold shrink-0 group-hover:scale-105 transition">
@@ -602,6 +587,7 @@
                         </span>
                     </button>
 
+                    <!-- Type 4: Comprehensive Exam -->
                     <button onclick="openExamBuilder('comprehensive')" class="group h-14 bg-gradient-to-r from-amber-50/60 via-white to-amber-50/40 hover:from-amber-50 rounded-xl px-4 border border-amber-300 hover:border-amber-500 shadow-2xs transition-all flex items-center justify-between gap-3">
                         <div class="flex items-center gap-3 min-w-0">
                             <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 text-white flex items-center justify-center text-sm font-bold shadow-2xs shrink-0 group-hover:scale-105 transition">
@@ -616,6 +602,7 @@
                 </div>
             </section>
 
+            <!-- SECTION: TUTORIALS & APP INSTALL LINKS PAGE (تفتح عند الضغط على الشريط البرتقالي المتحرك) -->
             <section id="sectionTutorialsViewer" class="hidden space-y-3">
                 <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
                     <button onclick="showSection('examTypes')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
@@ -630,6 +617,7 @@
                 <div id="tutorialsButtonsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5"></div>
             </section>
 
+            <!-- SECTION: EXAM HISTORY -->
             <section id="sectionExamHistory" class="hidden space-y-3">
                 <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-2xs space-y-3">
                     <div class="flex items-center justify-between">
@@ -642,6 +630,7 @@
                         <span id="historyCountBadge" class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-extrabold">0</span>
                     </div>
 
+                    <!-- Search & Filter by Exam Type Bar -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         <div class="relative">
                             <input type="text" id="historySearchInput" oninput="renderExamHistoryList()" placeholder="ابحث حسب نوع الامتحان أو المادة أو المدرسة..."
@@ -661,10 +650,13 @@
                     </div>
                 </div>
 
+                <!-- Saved Exams List Container -->
                 <div id="examHistoryContainer" class="space-y-2.5"></div>
             </section>
 
+            <!-- SECTION: EXAM BUILDER -->
             <section id="sectionExamBuilder" class="hidden space-y-4">
+                <!-- Top Navigation & Direction Toggle -->
                 <div class="flex flex-wrap items-center justify-between gap-2 bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
                     <button onclick="closeExamBuilder()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
                         <i class="fa-solid fa-arrow-right text-[10px]"></i>
@@ -675,6 +667,7 @@
                         امتحان شهري
                     </span>
 
+                    <!-- Direction Switcher: Arabic RTL vs English LTR -->
                     <div class="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg border border-slate-200">
                         <button onclick="setExamDirection('rtl')" id="dirBtnRtl" class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-teal-700 text-white shadow-2xs transition">
                             عربي (RTL)
@@ -685,6 +678,7 @@
                     </div>
                 </div>
 
+                <!-- TOP 3 HEADER FIELDS + OPTIONAL STUDENT NAME TOGGLE + EXAM NOTE -->
                 <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs space-y-3">
                     <div class="flex items-center gap-2 border-b border-slate-100 pb-2">
                         <span class="w-6 h-6 rounded-md bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-xs">1</span>
@@ -694,6 +688,7 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <!-- Field 1: School Name -->
                         <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/80 space-y-1.5">
                             <label class="block text-[11px] font-extrabold text-teal-800">
                                 <i class="fa-solid fa-school ml-1"></i> الحقل الأول: اسم المدرسة
@@ -702,6 +697,7 @@
                                 class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white focus:border-teal-600 outline-none text-xs font-bold">
                         </div>
 
+                        <!-- Field 2: Exam Title & Academic Year -->
                         <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/80 space-y-1.5">
                             <label class="block text-[11px] font-extrabold text-teal-800">
                                 <i class="fa-solid fa-award ml-1"></i> الحقل الثاني: عنوان الامتحان والعام الدراسي
@@ -714,6 +710,7 @@
                             </div>
                         </div>
 
+                        <!-- Field 3: Class / Subject / Time / Total Mark -->
                         <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/80 space-y-1.5">
                             <label class="block text-[11px] font-extrabold text-teal-800">
                                 <i class="fa-solid fa-layer-group ml-1"></i> الحقل الثالث: (الصف / المادة / الوقت / الدرجة)
@@ -731,6 +728,7 @@
                         </div>
                     </div>
 
+                    <!-- Optional Student Name & Section Toggle (فوق ملاحظة عدد الأسئلة مباشرة) -->
                     <div class="bg-teal-50/60 p-3 rounded-xl border border-teal-200/90 flex items-center justify-between gap-3">
                         <div class="flex items-center gap-2">
                             <i class="fa-solid fa-user-check text-teal-700 text-sm"></i>
@@ -745,6 +743,7 @@
                         </label>
                     </div>
 
+                    <!-- Exam Note Field -->
                     <div class="bg-amber-50/60 p-3 rounded-xl border border-amber-200/90">
                         <label class="block text-[11px] font-extrabold text-amber-900 mb-1">
                             <i class="fa-solid fa-circle-info ml-1 text-amber-600"></i> ملاحظة الإجابة عن الأسئلة (تظهر بحجم صغير ومرتب قبل السؤال الأول)
@@ -754,6 +753,7 @@
                     </div>
                 </div>
 
+                <!-- QUESTIONS LIST SECTION -->
                 <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs space-y-3">
                     <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2">
                         <div class="flex items-center gap-2">
@@ -768,8 +768,10 @@
                         </span>
                     </div>
 
+                    <!-- Dynamic Questions Container -->
                     <div id="questionsContainer" class="space-y-2.5"></div>
 
+                    <!-- Add Question Button -->
                     <div class="pt-1">
                         <button onclick="addNewQuestionField()" class="w-full py-2.5 px-4 rounded-xl border border-dashed border-teal-500 bg-teal-50/50 hover:bg-teal-50 text-teal-800 font-extrabold text-xs transition flex items-center justify-center gap-1.5">
                             <i class="fa-solid fa-circle-plus text-sm text-teal-600"></i>
@@ -778,6 +780,7 @@
                     </div>
                 </div>
 
+                <!-- BOTTOM TEACHER NAME, ASSISTANT TEACHER NAME & SAVE BUTTON -->
                 <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs space-y-3">
                     <div class="flex items-center gap-2 border-b border-slate-100 pb-2">
                         <span class="w-6 h-6 rounded-md bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xs">3</span>
@@ -808,7 +811,9 @@
                 </div>
             </section>
 
+            <!-- GENERATED EXAM PREVIEW & DOWNLOAD VIEW -->
             <section id="sectionExamPreview" class="hidden space-y-3">
+                <!-- Top Preview Header Bar -->
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
                     <div class="p-3 sm:px-4 flex items-center justify-between border-b border-slate-100">
                         <button onclick="backToBuilderFromPreview()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
@@ -821,6 +826,7 @@
                         </div>
                     </div>
 
+                    <!-- Auto-Fit Single Page Toggle Bar -->
                     <div class="px-3 sm:px-4 py-2 bg-teal-50/50 flex items-center justify-between gap-2">
                         <label class="inline-flex items-center cursor-pointer gap-2">
                             <input type="checkbox" id="autoFitSinglePageToggle" onchange="toggleAutoFitPaper(this.checked)" class="sr-only peer">
@@ -833,13 +839,16 @@
                     </div>
                 </div>
 
+                <!-- Scaled A4 Sheet Viewport -->
                 <div id="a4PreviewViewport" class="a4-preview-viewport bg-slate-200/70 rounded-2xl p-2 sm:p-4 border border-slate-300/80">
                     <div id="a4ScaleContainer" class="a4-scale-container">
                         <div id="printableExamSheet" class="exam-paper-base shadow-xl">
+                            <!-- Populated dynamically by saveAndGenerateExam() -->
                         </div>
                     </div>
                 </div>
 
+                <!-- Bottom Action Buttons (حفظ صورة | حفظ PDF فقط) -->
                 <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm grid grid-cols-2 gap-2.5">
                     <button onclick="downloadExamAsImage()" id="btnDownloadImg" class="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-extrabold transition flex items-center justify-center gap-1.5">
                         <i class="fa-solid fa-image text-teal-700"></i>
@@ -852,7 +861,10 @@
                 </div>
             </section>
 
+            <!-- SECTION 2: MY ACCOUNT -->
             <section id="sectionAccount" class="hidden space-y-3">
+                
+                <!-- Compact Profile Card -->
                 <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-3">
                     <div class="flex items-center gap-3 text-center sm:text-right flex-col sm:flex-row">
                         <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-teal-700 to-emerald-500 text-white flex items-center justify-center text-lg font-extrabold shadow-xs">
@@ -861,6 +873,7 @@
                         <div>
                             <div class="flex items-center justify-center sm:justify-start gap-1.5 flex-wrap">
                                 <h2 id="profileNameDisplay" class="text-base font-extrabold text-slate-800">الأستاذ</h2>
+                                <!-- زر القلم لتعديل اسم الأستاذ -->
                                 <button onclick="openEditNameModal()" title="تعديل الاسم" class="w-6 h-6 rounded-lg bg-slate-100 hover:bg-teal-100 text-slate-600 hover:text-teal-700 flex items-center justify-center text-xs transition">
                                     <i class="fa-solid fa-pen"></i>
                                 </button>
@@ -880,7 +893,10 @@
                     </div>
                 </div>
 
+                <!-- 4 Compact Equal-Sized Action Buttons -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    
+                    <!-- Button 1: Request 1 Free Trial -->
                     <button onclick="handleFreeTrialButtonClick()" class="h-13 bg-white hover:bg-teal-50/40 px-4 py-3 rounded-xl border border-slate-200 hover:border-teal-500 shadow-2xs transition flex items-center justify-between gap-3">
                         <div class="flex items-center gap-2.5">
                             <div class="w-8 h-8 rounded-lg bg-teal-100 text-teal-700 flex items-center justify-center text-sm shrink-0">
@@ -891,6 +907,7 @@
                         <i class="fa-solid fa-chevron-left text-slate-400 text-xs"></i>
                     </button>
 
+                    <!-- Button 2: Subscribe with Code -->
                     <button onclick="openSubscriptionModal()" class="h-13 bg-white hover:bg-amber-50/40 px-4 py-3 rounded-xl border border-slate-200 hover:border-amber-500 shadow-2xs transition flex items-center justify-between gap-3">
                         <div class="flex items-center gap-2.5">
                             <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center text-sm shrink-0">
@@ -901,6 +918,7 @@
                         <i class="fa-solid fa-chevron-left text-slate-400 text-xs"></i>
                     </button>
 
+                    <!-- Button 3: Owner Control Panel -->
                     <button id="btnOwnerDashboard" onclick="openOwnerDashboard()" class="hidden h-13 bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white px-4 py-3 rounded-xl border border-amber-400/80 shadow-sm transition items-center justify-between gap-3">
                         <div class="flex items-center gap-2.5">
                             <div class="w-8 h-8 rounded-lg bg-amber-400/20 text-amber-300 border border-amber-400/40 flex items-center justify-center text-sm shrink-0">
@@ -912,6 +930,7 @@
                         <i class="fa-solid fa-chevron-left text-amber-300 text-xs"></i>
                     </button>
 
+                    <!-- Button 4: Logout -->
                     <button onclick="handleLogout()" class="h-13 bg-white hover:bg-rose-50/50 px-4 py-3 rounded-xl border border-slate-200 hover:border-rose-400 shadow-2xs transition flex items-center justify-between gap-3">
                         <div class="flex items-center gap-2.5">
                             <div class="w-8 h-8 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center text-sm shrink-0">
@@ -924,6 +943,7 @@
                 </div>
             </section>
 
+            <!-- OWNER CONTROL PANEL MAIN (مع زر "إضافة شرح") -->
             <section id="sectionOwnerHub" class="hidden space-y-4">
                 <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
                     <button onclick="showSection('account')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
@@ -936,6 +956,7 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <!-- Square 1: Free Trial Requests -->
                     <button onclick="openOwnerRequestsPage()" class="bg-white hover:bg-teal-50/40 rounded-2xl p-6 border border-slate-200 hover:border-teal-600 shadow-xs transition flex flex-col items-center justify-center text-center group">
                         <div class="w-14 h-14 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center text-2xl mb-3 group-hover:scale-105 transition relative">
                             <i class="fa-solid fa-inbox"></i>
@@ -944,6 +965,7 @@
                         <h3 class="text-base font-extrabold text-slate-800">الطلبات المجانية</h3>
                     </button>
 
+                    <!-- Square 2: Create Subscription Code -->
                     <button onclick="openOwnerCodesPage()" class="bg-white hover:bg-amber-50/40 rounded-2xl p-6 border border-slate-200 hover:border-amber-600 shadow-xs transition flex flex-col items-center justify-center text-center group">
                         <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl mb-3 group-hover:scale-105 transition">
                             <i class="fa-solid fa-key"></i>
@@ -951,6 +973,7 @@
                         <h3 class="text-base font-extrabold text-slate-800">إنشاء كود اشتراك</h3>
                     </button>
 
+                    <!-- Square 3: Add Tutorial / Explanation Link (إضافة شرح) -->
                     <button onclick="openOwnerTutorialsPage()" class="bg-white hover:bg-orange-50/40 rounded-2xl p-6 border border-slate-200 hover:border-orange-500 shadow-xs transition flex flex-col items-center justify-center text-center group">
                         <div class="w-14 h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-2xl mb-3 group-hover:scale-105 transition">
                             <i class="fa-solid fa-circle-play"></i>
@@ -960,6 +983,7 @@
                 </div>
             </section>
 
+            <!-- OWNER SUB-PAGE 1: FREE TRIAL REQUESTS -->
             <section id="sectionOwnerRequests" class="hidden space-y-3">
                 <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
                     <button onclick="openOwnerDashboard()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
@@ -972,6 +996,7 @@
                 <div id="ownerRequestsList" class="space-y-2.5"></div>
             </section>
 
+            <!-- OWNER SUB-PAGE 2: SUBSCRIPTION CODES -->
             <section id="sectionOwnerCodes" class="hidden space-y-3">
                 <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
                     <button onclick="openOwnerDashboard()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
@@ -995,6 +1020,7 @@
                 <div id="ownerCodesList" class="space-y-2.5"></div>
             </section>
 
+            <!-- OWNER SUB-PAGE 3: ADD TUTORIAL / EXPLANATION BUTTONS (إضافة شرح) -->
             <section id="sectionOwnerTutorials" class="hidden space-y-3">
                 <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-2xs">
                     <button onclick="openOwnerDashboard()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
@@ -1004,6 +1030,7 @@
                     <h3 class="text-xs sm:text-sm font-extrabold text-slate-800">إضافة شرح للشريط البرتقالي</h3>
                 </div>
 
+                <!-- Two Fields Form: Button Name & Button Link + Save -->
                 <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs space-y-3">
                     <div>
                         <label class="block text-[11px] font-extrabold text-slate-700 mb-1">الحقل الأول: اسم الزر</label>
@@ -1026,11 +1053,13 @@
                     </div>
                 </div>
 
+                <!-- Existing Tutorial Buttons List for Owner Management -->
                 <div id="ownerTutorialsList" class="space-y-2.5"></div>
             </section>
 
         </main>
 
+        <!-- COMPACT 3-BUTTON BOTTOM NAVIGATION BAR (نوع الأسئلة | سجل الأسئلة | حسابي) -->
         <nav class="fixed bottom-0 right-0 left-0 z-30 bg-white/95 backdrop-blur border-t border-slate-200 shadow-md">
             <div class="max-w-md mx-auto grid grid-cols-3 gap-1.5 px-3 py-1.5">
                 <button onclick="showSection('examTypes')" id="navBtnExams" class="py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 bg-teal-50 text-teal-800 font-extrabold transition">
@@ -1052,6 +1081,7 @@
     <!-- 4. FULL-SCREEN WORD-LIKE QUESTION EDITOR MODAL -->
     <div id="fullScreenQuestionEditorModal" class="hidden fixed inset-0 z-50 bg-slate-100 flex flex-col">
         
+        <!-- Top Bar: Question Title + Done ("تم") Button -->
         <div class="bg-slate-900 text-white px-3 sm:px-5 py-2.5 flex items-center justify-between gap-2 shadow-sm shrink-0">
             <div class="flex items-center gap-2">
                 <span class="w-7 h-7 rounded-lg bg-teal-500/20 border border-teal-400/40 text-teal-300 flex items-center justify-center text-xs font-extrabold">
@@ -1070,43 +1100,47 @@
             </button>
         </div>
 
+        <!-- Clean 4-Button Toggle Bar -->
         <div class="bg-white border-b border-slate-200 px-2.5 sm:px-5 py-2 shadow-2xs shrink-0 relative z-20">
-            <div class="max-w-4xl mx-auto grid grid-cols-5 gap-1.5 sm:gap-2.5">
+            <div class="max-w-4xl mx-auto grid grid-cols-4 gap-1.5 sm:gap-2.5">
+                
+                <!-- Button 1: Font Family Toggle -->
                 <button type="button" id="btnToolFont" onclick="toggleEditorToolPanel('font')"
-                    class="py-2 px-1.5 sm:px-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-teal-50/60 text-slate-700 font-extrabold text-[10px] sm:text-xs transition flex items-center justify-center gap-1">
+                    class="py-2 px-2 sm:px-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-teal-50/60 text-slate-700 font-extrabold text-[11px] sm:text-xs transition flex items-center justify-center gap-1.5">
                     <i class="fa-solid fa-font text-teal-700"></i>
                     <span class="truncate">نوع الخط</span>
+                    <i id="iconChevronFont" class="fa-solid fa-chevron-down text-[9px] text-slate-400 transition-transform"></i>
                 </button>
 
+                <!-- Button 2: Font Color Toggle -->
                 <button type="button" id="btnToolColor" onclick="toggleEditorToolPanel('color')"
-                    class="py-2 px-1.5 sm:px-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-teal-50/60 text-slate-700 font-extrabold text-[10px] sm:text-xs transition flex items-center justify-center gap-1">
-                    <span id="activeColorIndicatorDot" class="w-3 h-3 rounded-full border border-slate-300 shrink-0" style="background-color: #0f172a;"></span>
+                    class="py-2 px-2 sm:px-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-teal-50/60 text-slate-700 font-extrabold text-[11px] sm:text-xs transition flex items-center justify-center gap-1.5">
+                    <span id="activeColorIndicatorDot" class="w-3.5 h-3.5 rounded-full border border-slate-300 shrink-0" style="background-color: #0f172a;"></span>
                     <span class="truncate">لون الخط</span>
+                    <i id="iconChevronColor" class="fa-solid fa-chevron-down text-[9px] text-slate-400 transition-transform"></i>
                 </button>
 
+                <!-- Button 3: Symbols & Branches Toggle -->
                 <button type="button" id="btnToolSymbols" onclick="toggleEditorToolPanel('symbols')"
-                    class="py-2 px-1.5 sm:px-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-amber-50/70 text-slate-700 font-extrabold text-[10px] sm:text-xs transition flex items-center justify-center gap-1">
+                    class="py-2 px-2 sm:px-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-amber-50/70 text-slate-700 font-extrabold text-[11px] sm:text-xs transition flex items-center justify-center gap-1.5">
                     <i class="fa-solid fa-square-root-variable text-amber-600"></i>
-                    <span class="truncate">رموز</span>
+                    <span class="truncate">الرموز والأفرع</span>
+                    <i id="iconChevronSymbols" class="fa-solid fa-chevron-down text-[9px] text-slate-400 transition-transform"></i>
                 </button>
 
-                <button type="button" id="btnToolFractions" onclick="toggleEditorToolPanel('fractions')"
-                    class="py-2 px-1.5 sm:px-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50/70 text-slate-700 font-extrabold text-[10px] sm:text-xs transition flex items-center justify-center gap-1">
-                    <i class="fa-solid fa-divide text-indigo-600"></i>
-                    <span class="truncate">كسور وجداول</span>
-                </button>
-
+                <!-- Button 4: Grade & Section Heading Toggle -->
                 <button type="button" id="btnToolMeta" onclick="toggleEditorToolPanel('meta')"
-                    class="py-2 px-1.5 sm:px-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-teal-50/60 text-slate-700 font-extrabold text-[10px] sm:text-xs transition flex items-center justify-center gap-1">
+                    class="py-2 px-2 sm:px-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-teal-50/60 text-slate-700 font-extrabold text-[11px] sm:text-xs transition flex items-center justify-center gap-1.5">
                     <i class="fa-solid fa-award text-teal-700"></i>
-                    <span class="truncate">درجة وعنوان</span>
+                    <span class="truncate">الدرجة والعنوان</span>
+                    <i id="iconChevronMeta" class="fa-solid fa-chevron-down text-[9px] text-slate-400 transition-transform"></i>
                 </button>
             </div>
 
-            <!-- PANEL 1: FONT -->
+            <!-- COLLAPSIBLE PANEL 1: FONT FAMILY -->
             <div id="panelToolFont" class="hidden max-w-4xl mx-auto mt-2 p-3 rounded-2xl bg-slate-50 border border-teal-200 shadow-md">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-[11px] font-extrabold text-teal-800">اختر نوع خط السؤال:</span>
+                    <span class="text-[11px] font-extrabold text-teal-800">اختر نوع خط السؤال (يُطبق فوراً أمامك):</span>
                     <button type="button" onclick="toggleEditorToolPanel('font')" class="text-[11px] font-bold text-slate-400 hover:text-rose-600">
                         <i class="fa-solid fa-xmark ml-0.5"></i> إغلاق
                     </button>
@@ -1114,10 +1148,10 @@
                 <div id="fsFontButtonsGrid" class="grid grid-cols-1 sm:grid-cols-5 gap-2"></div>
             </div>
 
-            <!-- PANEL 2: COLOR -->
+            <!-- COLLAPSIBLE PANEL 2: FONT COLOR -->
             <div id="panelToolColor" class="hidden max-w-4xl mx-auto mt-2 p-3 rounded-2xl bg-slate-50 border border-teal-200 shadow-md">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-[11px] font-extrabold text-teal-800">اختر لون خط السؤال:</span>
+                    <span class="text-[11px] font-extrabold text-teal-800">اختر لون خط السؤال (يُطبق فوراً أمامك):</span>
                     <button type="button" onclick="toggleEditorToolPanel('color')" class="text-[11px] font-bold text-slate-400 hover:text-rose-600">
                         <i class="fa-solid fa-xmark ml-0.5"></i> إغلاق
                     </button>
@@ -1132,8 +1166,9 @@
                 </div>
             </div>
 
-            <!-- PANEL 3: SYMBOLS -->
+            <!-- COLLAPSIBLE PANEL 3: SYMBOLS, MATH FRACTIONS/EXPONENTS/ARROWS/TABLES & QUICK BRANCHES -->
             <div id="panelToolSymbols" class="hidden max-w-4xl mx-auto mt-2 p-3 rounded-2xl bg-slate-50 border border-amber-200 shadow-md space-y-2.5">
+                <!-- Quick Branches & Ready Tables Bar -->
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <div class="flex flex-wrap items-center gap-1">
                         <span class="text-[10px] font-extrabold text-slate-500 ml-1">إدراج سريع:</span>
@@ -1144,15 +1179,24 @@
                         <button type="button" onclick="insertSymbolIntoFsEditor('\n٢- ')" class="px-2 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">٢-</button>
                         <button type="button" onclick="insertSymbolIntoFsEditor(' ﴿  ﴾ ')" class="px-2 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">﴿ آية ﴾</button>
                         <button type="button" onclick="insertSymbolIntoFsEditor(' (            ) ')" class="px-2 py-1 rounded-lg bg-white hover:bg-teal-600 hover:text-white text-slate-700 text-[11px] font-extrabold border border-slate-200 transition">( فراغ )</button>
+                        <button type="button" onclick="insertReadyMathTable('ar')" class="px-2.5 py-1 rounded-lg bg-amber-100 hover:bg-amber-600 hover:text-white text-amber-900 text-[11px] font-extrabold border border-amber-300 transition flex items-center gap-1">
+                            <i class="fa-solid fa-table-cells text-[10px]"></i>
+                            <span>جدول رياضيات</span>
+                        </button>
+                        <button type="button" onclick="insertReadyMathTable('xy')" class="px-2.5 py-1 rounded-lg bg-teal-100 hover:bg-teal-700 hover:text-white text-teal-900 text-[11px] font-extrabold border border-teal-300 transition flex items-center gap-1">
+                            <i class="fa-solid fa-table text-[10px]"></i>
+                            <span>جدول (س ، ص)</span>
+                        </button>
                     </div>
                     <button type="button" onclick="toggleEditorToolPanel('symbols')" class="text-[11px] font-bold text-slate-400 hover:text-rose-600">
                         <i class="fa-solid fa-xmark ml-0.5"></i> إغلاق
                     </button>
                 </div>
 
+                <!-- Main Scientific Categories Tabs -->
                 <div class="flex flex-wrap items-center gap-1.5 pt-1 border-t border-slate-200/80">
                     <button type="button" onclick="switchSymbolsTab('math')" id="symTabMath" class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-teal-700 text-white transition">
-                        <i class="fa-solid fa-calculator ml-1"></i> الرياضيات
+                        <i class="fa-solid fa-calculator ml-1"></i> الرياضيات الشامل
                     </button>
                     <button type="button" onclick="switchSymbolsTab('chem')" id="symTabChem" class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition">
                         <i class="fa-solid fa-flask ml-1"></i> الكيمياء
@@ -1161,91 +1205,15 @@
                         <i class="fa-solid fa-atom ml-1"></i> الفيزياء
                     </button>
                     <button type="button" onclick="switchSymbolsTab('arabic')" id="symTabArabic" class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition">
-                        <i class="fa-solid fa-book-quran ml-1"></i> عربية وأقواس
+                        <i class="fa-solid fa-book-quran ml-1"></i> رموز عربية وأقواس
                     </button>
                 </div>
 
+                <!-- Organized Symbols Grid Container -->
                 <div id="symbolsGridContainer" class="max-h-52 overflow-y-auto p-2 bg-white rounded-xl border border-slate-200 space-y-2"></div>
             </div>
 
-            <!-- PANEL 4: FRACTIONS, TABLES, AND IMAGES -->
-            <div id="panelToolFractions" class="hidden max-w-4xl mx-auto mt-2 p-3 rounded-2xl bg-slate-50 border border-indigo-200 shadow-md space-y-3">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-[11px] font-extrabold text-indigo-800">
-                        <i class="fa-solid fa-wand-magic-sparkles ml-1"></i> إدراج كسور حقيقية، جداول جاهزة، صور
-                    </span>
-                    <button type="button" onclick="toggleEditorToolPanel('fractions')" class="text-[11px] font-bold text-slate-400 hover:text-rose-600">
-                        <i class="fa-solid fa-xmark ml-0.5"></i> إغلاق
-                    </button>
-                </div>
-
-                <!-- Fraction Buttons -->
-                <div>
-                    <div class="text-[11px] font-extrabold text-slate-700 mb-1.5">١. الكسور الجاهزة (تُدرج في السؤال على شكل بسط ومقام):</div>
-                    <div class="flex flex-wrap items-center gap-1.5">
-                        <button type="button" onclick="insertFractionIntoEditor(1,2)" class="px-3 py-2 rounded-lg bg-white hover:bg-indigo-600 hover:text-white border border-slate-200 text-slate-800 font-mono font-extrabold text-sm transition">½</button>
-                        <button type="button" onclick="insertFractionIntoEditor(1,3)" class="px-3 py-2 rounded-lg bg-white hover:bg-indigo-600 hover:text-white border border-slate-200 text-slate-800 font-mono font-extrabold text-sm transition">⅓</button>
-                        <button type="button" onclick="insertFractionIntoEditor(2,3)" class="px-3 py-2 rounded-lg bg-white hover:bg-indigo-600 hover:text-white border border-slate-200 text-slate-800 font-mono font-extrabold text-sm transition">⅔</button>
-                        <button type="button" onclick="insertFractionIntoEditor(1,4)" class="px-3 py-2 rounded-lg bg-white hover:bg-indigo-600 hover:text-white border border-slate-200 text-slate-800 font-mono font-extrabold text-sm transition">¼</button>
-                        <button type="button" onclick="insertFractionIntoEditor(3,4)" class="px-3 py-2 rounded-lg bg-white hover:bg-indigo-600 hover:text-white border border-slate-200 text-slate-800 font-mono font-extrabold text-sm transition">¾</button>
-                        <button type="button" onclick="insertFractionIntoEditor(1,5)" class="px-3 py-2 rounded-lg bg-white hover:bg-indigo-600 hover:text-white border border-slate-200 text-slate-800 font-mono font-extrabold text-sm transition">⅕</button>
-                        <button type="button" onclick="insertFractionIntoEditor(5,7)" class="px-3 py-2 rounded-lg bg-white hover:bg-indigo-600 hover:text-white border border-slate-200 text-slate-800 font-mono font-extrabold text-sm transition">⁵⁄₇</button>
-                    </div>
-                </div>
-
-                <!-- Custom Fraction Input -->
-                <div class="bg-white rounded-xl p-2.5 border border-slate-200">
-                    <div class="text-[11px] font-extrabold text-slate-700 mb-1.5">٢. كسر مخصص (أدخل البسط والمقام ثم اضغط "إدراج كسر"):</div>
-                    <div class="flex items-center gap-1.5 flex-wrap">
-                        <input type="text" id="customFracNum" placeholder="البسط" class="w-20 px-2 py-1.5 rounded-lg border border-slate-300 text-center text-xs font-extrabold outline-none focus:border-indigo-600">
-                        <span class="text-lg font-extrabold text-slate-700">/</span>
-                        <input type="text" id="customFracDen" placeholder="المقام" class="w-20 px-2 py-1.5 rounded-lg border border-slate-300 text-center text-xs font-extrabold outline-none focus:border-indigo-600">
-                        <button type="button" onclick="insertCustomFraction()" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs transition flex items-center gap-1">
-                            <i class="fa-solid fa-plus"></i>
-                            <span>إدراج كسر</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Table Buttons -->
-                <div>
-                    <div class="text-[11px] font-extrabold text-slate-700 mb-1.5">٣. الجداول الجاهزة (تُدرج على شكل جدول بحدود واضحة داخل الورقة):</div>
-                    <div class="flex flex-wrap items-center gap-1.5">
-                        <button type="button" onclick="insertReadyMathTable('xy')" class="px-3 py-2 rounded-lg bg-teal-100 hover:bg-teal-700 hover:text-white text-teal-900 font-extrabold text-xs border border-teal-300 transition flex items-center gap-1">
-                            <i class="fa-solid fa-table text-[10px]"></i>
-                            <span>جدول (س ، ص)</span>
-                        </button>
-                        <button type="button" onclick="insertReadyMathTable('ar')" class="px-3 py-2 rounded-lg bg-amber-100 hover:bg-amber-600 hover:text-white text-amber-900 font-extrabold text-xs border border-amber-300 transition flex items-center gap-1">
-                            <i class="fa-solid fa-table-cells text-[10px]"></i>
-                            <span>جدول (اليوم ، العدد)</span>
-                        </button>
-                        <button type="button" onclick="insertReadyMathTable('empty3x3')" class="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-700 hover:text-white text-slate-800 font-extrabold text-xs border border-slate-300 transition flex items-center gap-1">
-                            <i class="fa-solid fa-table-cells-large text-[10px]"></i>
-                            <span>جدول فارغ ٣×٣</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Image Insertion -->
-                <div class="border-t border-slate-200 pt-2.5">
-                    <div class="text-[11px] font-extrabold text-slate-700 mb-1.5">٤. إدراج صورة من معرض الهاتف/الكمبيوتر (تظهر في الورقة النهائية تلقائياً):</div>
-                    <div class="flex flex-wrap items-center gap-2">
-                        <input type="file" id="imageInsertInput" accept="image/*" onchange="handleQuestionImageUpload(event)" class="hidden">
-                        <button type="button" onclick="document.getElementById('imageInsertInput').click()" class="px-3 py-2 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold text-xs transition flex items-center gap-1.5 shadow-sm">
-                            <i class="fa-solid fa-image"></i>
-                            <span>اختر صورة لرفعها</span>
-                        </button>
-                        <span id="imageUploadStatus" class="text-[11px] text-slate-500 font-bold"></span>
-                    </div>
-                    <div id="imageThumbContainer" class="mt-2 flex flex-wrap items-center"></div>
-                    <p class="text-[10px] text-slate-500 font-semibold mt-1.5 leading-relaxed">
-                        <i class="fa-solid fa-circle-info text-indigo-500"></i>
-                        الصور المرفوعة تظهر تلقائياً في الورقة النهائية أسفل نص السؤال وبحجم جميل ومناسب، ويمكنك حذفها بالضغط على علامة (×).
-                    </p>
-                </div>
-            </div>
-
-            <!-- PANEL 5: META -->
+            <!-- COLLAPSIBLE PANEL 4: GRADE & SECTION HEADING -->
             <div id="panelToolMeta" class="hidden max-w-4xl mx-auto mt-2 p-3 rounded-2xl bg-slate-50 border border-teal-200 shadow-md">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-[11px] font-extrabold text-teal-800">تخصيص درجة السؤال والعنوان الفرعي (اختياري):</span>
@@ -1261,7 +1229,7 @@
                             class="w-full px-3 py-1.5 rounded-xl bg-white border border-slate-300 text-slate-800 text-xs font-extrabold outline-none focus:border-teal-600">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-extrabold text-slate-600 mb-1">عنوان فرعي فوق السؤال (اختياري)</label>
+                        <label class="block text-[10px] font-extrabold text-slate-600 mb-1">عنوان فرعي فوق السؤال (اختياري: التلاوة / الحديث / الإنشاء)</label>
                         <input type="text" id="fsEditorSectionTitle" placeholder="اتركه فارغاً إذا لم يكن هناك عنوان فرعي"
                             oninput="liveSyncFromFullScreenEditor()"
                             class="w-full px-3 py-1.5 rounded-xl bg-white border border-slate-300 text-slate-800 text-xs font-bold outline-none focus:border-teal-600">
@@ -1270,6 +1238,7 @@
             </div>
         </div>
 
+        <!-- Spacious Word-Style Writing Canvas -->
         <div class="flex-1 p-2.5 sm:p-5 overflow-y-auto flex justify-center bg-slate-200/60" onclick="closeAllEditorToolPanelsOnCanvasClick()">
             <div class="w-full max-w-4xl bg-white rounded-2xl shadow-md border border-slate-300 flex flex-col overflow-hidden" onclick="event.stopPropagation()">
                 <div class="px-4 py-2 bg-slate-50 border-b border-slate-200 flex items-center justify-between text-xs font-bold text-slate-600">
@@ -1286,11 +1255,8 @@
                 <textarea id="fsEditorTextarea"
                     onfocus="closeAllEditorToolPanelsOnCanvasClick()"
                     oninput="liveSyncFromFullScreenEditor()"
-                    placeholder="اكتب نص السؤال وفروعه هنا... يمكنك إدراج كسور وجداول وصور من شريط الأدوات بالأعلى."
-                    class="flex-1 w-full p-4 sm:p-6 outline-none resize-none text-xl sm:text-2xl font-bold leading-relaxed font-amiri min-h-[40vh]"></textarea>
-
-                <!-- Preview of the inserted image inside editor -->
-                <div id="fsImagePreviewArea" class="px-4 pb-3"></div>
+                    placeholder="اكتب نص السؤال وفروعه هنا بكل راحة... يمكنك النسخ واللصق داخل الحقل، أو الضغط على الأزرار في الأعلى لتغيير الخط أو اللون أو إدراج الكسور والأسس والأسهم والجداول."
+                    class="flex-1 w-full p-4 sm:p-6 outline-none resize-none text-xl sm:text-2xl font-bold leading-relaxed font-amiri"></textarea>
             </div>
         </div>
     </div>
@@ -1317,7 +1283,7 @@
         </div>
     </div>
 
-    <!-- 6. TEACHER ROLE SELECTION MODAL -->
+    <!-- 6. TEACHER ROLE SELECTION MODAL FOR EXISTING ACCOUNTS -->
     <div id="rolePromptModal" class="hidden fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-slate-200 text-center space-y-4">
             <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl mx-auto">
@@ -1388,7 +1354,7 @@
         </div>
     </div>
 
-    <!-- 9. CUSTOM MESSAGE MODAL -->
+    <!-- 9. CUSTOM MESSAGE / ALERT MODAL -->
     <div id="customMessageModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-xs w-full p-5 shadow-2xl border border-slate-200 text-center space-y-3">
             <div id="msgModalIcon" class="w-11 h-11 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-lg mx-auto">
@@ -1408,6 +1374,9 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // ============================================================================
+        // 1. SMART COPY / PASTE / CUT PROTECTION (مسموح فقط داخل حقول الكتابة)
+        // ============================================================================
         const OWNER_EMAIL = "mslmalmyaly223@gmail.com";
         let allowInternalCopy = false;
 
@@ -1420,22 +1389,30 @@
             return false;
         }
 
+        // Allow right-click / long-press context menu ONLY inside editable input/textarea fields
         document.addEventListener('contextmenu', (e) => {
             if (isEditableField(e.target)) return;
             e.preventDefault();
         });
 
+        // Allow copying ONLY from editable input/textarea fields or internal owner code copy
         document.addEventListener('copy', (e) => {
-            if (allowInternalCopy || isEditableField(e.target) || isEditableField(document.activeElement)) return;
+            if (allowInternalCopy || isEditableField(e.target) || isEditableField(document.activeElement)) {
+                return;
+            }
             e.preventDefault();
             showCustomMessage("ممنوع النسخ", "يُسمح بنسخ النصوص من داخل حقول الكتابة فقط، ويُمنع نسخ محتوى المنصة.", "warning");
         });
 
+        // Allow cutting ONLY inside editable input/textarea fields
         document.addEventListener('cut', (e) => {
-            if (isEditableField(e.target) || isEditableField(document.activeElement)) return;
+            if (isEditableField(e.target) || isEditableField(document.activeElement)) {
+                return;
+            }
             e.preventDefault();
         });
 
+        // Allow pasting & clean formatting ONLY inside editable input/textarea fields
         document.addEventListener('paste', (e) => {
             const target = isEditableField(e.target) ? e.target : (isEditableField(document.activeElement) ? document.activeElement : null);
             if (!target) {
@@ -1443,16 +1420,24 @@
                 showCustomMessage("ممنوع اللصق هنا", "يمكنك لصق النصوص داخل حقول الكتابة فقط.", "warning");
                 return;
             }
+
+            // Clean up pasted text neatly (normalize line breaks and remove weird invisible control characters)
             const clipboardData = e.clipboardData || window.clipboardData;
             if (clipboardData) {
                 const pastedText = clipboardData.getData('text/plain');
                 if (pastedText && (target.tagName === 'TEXTAREA' || target.tagName === 'INPUT')) {
                     e.preventDefault();
-                    const cleanedText = pastedText.replace(/\r\n/g, '\n').replace(/\r/g, '\n').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n');
+                    const cleanedText = pastedText
+                        .replace(/\r\n/g, '\n')
+                        .replace(/\r/g, '\n')
+                        .replace(/[ \t]+\n/g, '\n')
+                        .replace(/\n{3,}/g, '\n\n');
+
                     const start = target.selectionStart ?? target.value.length;
                     const end = target.selectionEnd ?? target.value.length;
                     const before = target.value.substring(0, start);
                     const after = target.value.substring(end);
+
                     target.value = before + cleanedText + after;
                     const newCursor = start + cleanedText.length;
                     target.setSelectionRange(newCursor, newCursor);
@@ -1466,17 +1451,25 @@
         document.addEventListener('keydown', (e) => {
             const key = e.key.toLowerCase();
             const inInput = isEditableField(e.target) || isEditableField(document.activeElement);
+
+            // Allow Ctrl/Cmd + C, V, X, A, Z when inside an input/textarea
             if ((e.ctrlKey || e.metaKey) && ['c', 'v', 'x', 'a', 'z', 'y'].includes(key)) {
                 if (inInput) return;
                 e.preventDefault();
                 return;
             }
-            if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0', 'u', 's'].includes(key)) e.preventDefault();
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase()))) e.preventDefault();
+
+            // Prevent page zoom or source inspection shortcuts
+            if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0', 'u', 's'].includes(key)) {
+                e.preventDefault();
+            }
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase()))) {
+                e.preventDefault();
+            }
         });
 
         // ============================================================================
-        // FIREBASE
+        // 2. FIREBASE INITIALIZATION
         // ============================================================================
         const fallbackFirebaseConfig = {
             apiKey: "AIzaSyC-aOdWkAcL5MB_7rBnme_7eFqXJd1RBaU",
@@ -1488,16 +1481,23 @@
             measurementId: "G-LECHXHH49C"
         };
 
-        const activeConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : fallbackFirebaseConfig;
+        const activeConfig = typeof __firebase_config !== 'undefined'
+            ? JSON.parse(__firebase_config)
+            : fallbackFirebaseConfig;
+
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'exam-builder-pro-v1';
         const app = initializeApp(activeConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // LocalStorage Keys for Persistent Auto-Login on the Same Device
         const LS_SAVED_EMAIL_KEY = 'smart_teacher_saved_email_v2';
+        const LS_DEVICE_FP_KEY = 'smart_teacher_hw_fp_v2';
 
+        // State Variables
         let firebaseUser = null;
         let currentTeacher = null;
+        let currentHardwareFingerprint = null;
         let selectedRegisterRole = 'مدرس';
         let unsubscribeTeacherDoc = null;
         let unsubscribeOwnerUsers = null;
@@ -1508,6 +1508,7 @@
         let allCodesCache = [];
         let allTutorialsCache = [];
 
+        // Exam Builder State
         let selectedExamType = 'daily';
         let examDirection = 'rtl';
         let questionsList = [];
@@ -1517,6 +1518,143 @@
         let activeEditorToolPanel = null;
         let autoFitSinglePage = false;
 
+        // ============================================================================
+        // 3. HARDWARE-LEVEL DEVICE FINGERPRINTING
+        // ============================================================================
+        async function getHardwareDeviceFingerprint() {
+            const screenW = Math.max(window.screen.width || 0, window.screen.height || 0);
+            const screenH = Math.min(window.screen.width || 0, window.screen.height || 0);
+            const dpr = Number(window.devicePixelRatio || 1).toFixed(2);
+            const touchPoints = navigator.maxTouchPoints || 0;
+            const colorDepth = window.screen.colorDepth || 24;
+            const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+
+            const ua = navigator.userAgent || '';
+            let osFamily = 'OtherOS';
+            if (/iPhone|iPad|iPod/i.test(ua)) osFamily = 'iOS';
+            else if (/Android/i.test(ua)) osFamily = 'Android';
+            else if (/Mac OS X|Macintosh/i.test(ua)) osFamily = 'MacOS';
+            else if (/Windows/i.test(ua)) osFamily = 'Windows';
+            else if (/Linux/i.test(ua)) osFamily = 'Linux';
+
+            const rawHardwareString = `HW_${osFamily}_${screenW}x${screenH}_DPR${dpr}_TP${touchPoints}_CD${colorDepth}_TZ${tz}`;
+            const fpHash = await hashString(rawHardwareString);
+            try {
+                localStorage.setItem(LS_DEVICE_FP_KEY, fpHash);
+            } catch (e) {}
+            return fpHash;
+        }
+
+        // ============================================================================
+        // 4. ORGANIZED MATH & SCIENTIFIC SYMBOLS DICTIONARY (مع الأسس والكسور والأسهم والجداول)
+        // ============================================================================
+        const MATH_SYMBOL_GROUPS = [
+            {
+                title: '١. الأرقام الصغيرة للأسس والبسط (توضع فوق الحرف أو الرقم أو فوق خط الكسر ⁄)',
+                items: [
+                    '⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹',
+                    '⁺', '⁻', '⁼', '⁽', '⁾', 'ⁿ', 'ˣ', 'ʸ', 'ᵃ', 'ᵇ', 'ᶜ', 'ᵐ'
+                ]
+            },
+            {
+                title: '٢. الأرقام الصغيرة السفلية للمقام والأدلة (توضع تحت الحرف أو تحت خط الكسر ⁄)',
+                items: [
+                    '₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉',
+                    '₊', '₋', '₌', '₍', '₎', 'ₓ', 'ₙ', 'ₘ', 'ₐ', 'ₑ'
+                ]
+            },
+            {
+                title: '٣. الكسور الجاهزة وخط الكسر والقسمة (يمكنك تركيب أي كسر مثل ⁵⁄₇ باستخدام ⁄)',
+                items: [
+                    '⁄', '÷', '/', '½', '⅓', '⅔', '¼', '¾',
+                    '⅕', '⅖', '⅗', '⅘', '⅙', '⅚', '⅛', '⅜', '⅝', '⅞',
+                    '¹⁄₂', '¹⁄₃', '²⁄₃', '¹⁄₄', '³⁄₄', '¹⁄₅', '¹⁄₁₀', 'ᵃ⁄ᵇ', 'ˣ⁄ᵧ', '(   )/(   )'
+                ]
+            },
+            {
+                title: '٤. الأسهم والاتجاهات والمعادلات السهمية (مثل أسهم السؤال الثالث وفروعه)',
+                items: [
+                    '→', '←', '↔', '⇒', '⇐', '⇔',
+                    '↑', '↓', '↕', '↗', '↘', '↙', '↖',
+                    '⟶', '⟵', '⟷', '⟹', '⟸', '⟺', '↦', '⇌'
+                ]
+            },
+            {
+                title: '٥. العمليات الحسابية والجذور والعلاقات المقارنة',
+                items: [
+                    '+', '−', '×', '÷', '±', '∓', '=', '≠', '≈', '≡',
+                    '<', '>', '≤', '≥', '≪', '≫', '∝', '√', '∛', '∜',
+                    '√(   )', '∛(   )', '%', '‰', '∞', 'π', '∴', '∵', '∶', '∷'
+                ]
+            },
+            {
+                title: '٦. المجموعات والفترات والمنطق والهندسة',
+                items: [
+                    '∈', '∉', '⊂', '⊃', '⊆', '⊇', '⊄', '∪', '∩', '∅',
+                    '∀', '∃', '∄', '¬', '∧', '∨', 'ℕ', 'ℤ', 'ℚ', 'ℝ', 'ℂ',
+                    '∠', '⊥', '∥', '△', '□', '◯', '°', '′', '″', '≅', '∼'
+                ]
+            },
+            {
+                title: '٧. الدوال والتفاضل والتكامل والأقواس الرياضية',
+                items: [
+                    '∑', '∏', '∫', '∬', '∮', '∆', '∇', '∂',
+                    'f(x)', 'g(x)', 'y=', 'd/dx', 'dy/dx', 'lim', 'sin(', 'cos(', 'tan(',
+                    'sec(', 'csc(', 'cot(', 'log(', 'ln(', '|x|', '( )', '[ ]', '{ }', '⟨ ⟩'
+                ]
+            },
+            {
+                title: '٨. رموز الجداول وتقسيم الأعمدة (أو اضغط زر "جدول رياضيات" بالأعلى لإدراج جدول كامل)',
+                items: [
+                    '|', '│', '─', '┌', '┬', '┐', '├', '┼', '┤', '└', '┴', '┘', '═', '║', '╬'
+                ]
+            }
+        ];
+
+        const SCIENTIFIC_SYMBOLS = {
+            chem: [
+                '→', '⇌', '↑', '↓', 'Δ', '°C', 'K', 'atm',
+                '₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇',
+                '₈', '₉', '⁺', '⁻', '²⁺', '³⁺', '²⁻', '³⁻',
+                'H₂O', 'CO₂', 'O₂', 'H₂', 'N₂', 'NH₃', 'CH₄', 'HCl',
+                'H₂SO₄', 'HNO₃', 'NaOH', 'NaCl', 'CaCO₃', 'OH⁻', 'H₃O⁺', 'SO₄²⁻',
+                'NO₃⁻', 'CO₃²⁻', 'PO₄³⁻', 'NH₄⁺', 'mol', 'g/mol', 'pH', 'ΔH°'
+            ],
+            phys: [
+                'Ω', 'μ', 'λ', 'θ', 'Φ', 'ψ', 'ω', 'α',
+                'β', 'γ', 'Δ', 'τ', 'ρ', 'σ', 'ε₀', 'μ₀',
+                'v⃗', 'a⃗', 'F⃗', 'E⃗', 'B⃗', '×10³', '×10⁶', '×10⁻³',
+                '×10⁻⁶', '×10⁻⁹', '×10⁻¹²', '×10⁻¹⁹', 'm/s', 'm/s²', 'kg', 'N',
+                'J', 'W', 'Pa', 'Hz', 'C', 'V', 'A', 'T', 'Wb', 'eV'
+            ],
+            arabic: [
+                '﴿', '﴾', '«', '»', 'ﷺ', 'ﷻ', '﴾١﴿', '﴾٢﴿',
+                '﴾٣﴿', '﴾٤﴿', '•', '◈', 'أ/', 'ب/', 'ج/', 'د/',
+                '١-', '٢-', '٣-', '٤-', '٥-', '(   )', '[   ]', 'ـــــــــــــ',
+                '١٠ درجات', '٢٠ درجة', '١٥ درجة', '٥ درجات', 'درجتان'
+            ]
+        };
+
+        const ARABIC_FONTS = [
+            { id: 'font-amiri', label: 'خط أميري الرسمي', short: 'أميري' },
+            { id: 'font-cairo', label: 'خط القاهرة الحديث', short: 'القاهرة' },
+            { id: 'font-tajawal', label: 'خط تجول الأنيق', short: 'تجول' },
+            { id: 'font-almarai', label: 'خط المراعي الواضح', short: 'المراعي' },
+            { id: 'font-kufi', label: 'خط الكوفي الأكاديمي', short: 'الكوفي' }
+        ];
+
+        const QUESTION_COLORS = [
+            { hex: '#0f172a', name: 'أسود رسمي' },
+            { hex: '#1e3a8a', name: 'أزرق وزاري' },
+            { hex: '#0f766e', name: 'أخضر زمردي' },
+            { hex: '#7c2d12', name: 'بني كلاسيكي' },
+            { hex: '#881337', name: 'عنابي فخم' },
+            { hex: '#4c1d95', name: 'بنفسجي أكاديمي' }
+        ];
+
+        // ============================================================================
+        // 5. HELPER UTILITIES & CRYPTOGRAPHIC HASHING
+        // ============================================================================
         async function hashString(str) {
             const msgBuffer = new TextEncoder().encode(str + "_SMART_SALT_2026");
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
@@ -1531,18 +1669,23 @@
         function getUsersCollection() {
             return collection(db, 'artifacts', appId, 'public', 'data', 'exam_app_users');
         }
+
         function getUserDocRef(email) {
             return doc(db, 'artifacts', appId, 'public', 'data', 'exam_app_users', emailToDocId(email));
         }
+
         function getCodesCollection() {
             return collection(db, 'artifacts', appId, 'public', 'data', 'exam_app_codes');
         }
+
         function getCodeDocRef(codeStr) {
             return doc(db, 'artifacts', appId, 'public', 'data', 'exam_app_codes', normalizeSubscriptionCode(codeStr));
         }
+
         function getTutorialsCollection() {
             return collection(db, 'artifacts', appId, 'public', 'data', 'exam_app_tutorials');
         }
+
         function getTutorialDocRef(tutId) {
             return doc(db, 'artifacts', appId, 'public', 'data', 'exam_app_tutorials', tutId);
         }
@@ -1576,6 +1719,7 @@
                 iconBox.className = "w-11 h-11 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-lg mx-auto";
                 iconBox.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
             }
+
             modal.classList.remove('hidden');
         };
 
@@ -1584,9 +1728,11 @@
         };
 
         // ============================================================================
-        // BOOTSTRAP & AUTO-LOGIN (no device guard / no auto-logout)
+        // 6. BOOTSTRAP, SPLASH SCREEN & AUTOMATIC PERSISTENT LOGIN
         // ============================================================================
         async function initAppAuth() {
+            currentHardwareFingerprint = await getHardwareDeviceFingerprint();
+
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
@@ -1602,11 +1748,19 @@
             try {
                 const savedEmail = localStorage.getItem(LS_SAVED_EMAIL_KEY);
                 if (savedEmail && firebaseUser) {
-                    const snap = await getDoc(getUserDocRef(savedEmail));
+                    const userRef = getUserDocRef(savedEmail);
+                    const snap = await getDoc(userRef);
                     if (snap.exists()) {
-                        autoLoggedUser = snap.data();
-                    } else {
-                        localStorage.removeItem(LS_SAVED_EMAIL_KEY);
+                        const userData = snap.data();
+                        if (!userData.activeDeviceFingerprint || userData.activeDeviceFingerprint === currentHardwareFingerprint) {
+                            if (userData.activeDeviceFingerprint !== currentHardwareFingerprint) {
+                                await updateDoc(userRef, { activeDeviceFingerprint: currentHardwareFingerprint });
+                                userData.activeDeviceFingerprint = currentHardwareFingerprint;
+                            }
+                            autoLoggedUser = userData;
+                        } else {
+                            localStorage.removeItem(LS_SAVED_EMAIL_KEY);
+                        }
                     }
                 }
             } catch (e) {
@@ -1635,7 +1789,7 @@
         window.addEventListener('resize', adjustA4PreviewScale);
 
         // ============================================================================
-        // LOGIN / REGISTER
+        // 7. TEACHER LOGIN, REGISTRATION, ROLE SELECTION & DEVICE GUARD
         // ============================================================================
         window.selectRegisterRole = function(role) {
             selectedRegisterRole = role;
@@ -1700,7 +1854,13 @@
 
                 if (snap.exists()) {
                     showCustomMessage("الحساب موجود مسبقاً", "هذا البريد الإلكتروني مسجل بالفعل! يرجى تسجيل الدخول من نافذة تسجيل الدخول.", "warning");
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>إنشاء حساب جديد</span>';
                     return;
+                }
+
+                if (!currentHardwareFingerprint) {
+                    currentHardwareFingerprint = await getHardwareDeviceFingerprint();
                 }
 
                 const passwordHash = await hashString(password);
@@ -1711,6 +1871,7 @@
                     email: email,
                     teacherRole: selectedRegisterRole || 'مدرس',
                     passwordHash: passwordHash,
+                    activeDeviceFingerprint: currentHardwareFingerprint,
                     isSubscribed: isOwnerAccount ? true : false,
                     subscriptionCode: isOwnerAccount ? 'OWNER-MASTER' : '',
                     trialStatus: 'none',
@@ -1720,7 +1881,9 @@
                 };
 
                 await setDoc(userRef, newUserObj);
-                try { localStorage.setItem(LS_SAVED_EMAIL_KEY, email); } catch (e) {}
+                try {
+                    localStorage.setItem(LS_SAVED_EMAIL_KEY, email);
+                } catch (e) {}
 
                 enterApplication(newUserObj);
             } catch (err) {
@@ -1756,6 +1919,8 @@
 
                 if (!snap.exists()) {
                     showCustomMessage("الحساب غير موجود", "لا يوجد حساب مسجل بهذا البريد الإلكتروني. يمكنك إنشاء حساب جديد من النافذة المجاورة.", "error");
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>تسجيل الدخول للحساب</span>';
                     return;
                 }
 
@@ -1764,14 +1929,25 @@
 
                 if (userData.passwordHash !== inputHash) {
                     showCustomMessage("خطأ في الرمز السري", "الرمز السري الذي أدخلته غير صحيح، يرجى التأكد والمحاولة مجدداً.", "error");
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>تسجيل الدخول للحساب</span>';
                     return;
                 }
 
-                const isOwnerAccount = (email === OWNER_EMAIL.toLowerCase());
-                const updatedFields = isOwnerAccount ? { isSubscribed: true } : {};
+                if (!currentHardwareFingerprint) {
+                    currentHardwareFingerprint = await getHardwareDeviceFingerprint();
+                }
 
-                if (isOwnerAccount) await updateDoc(userRef, updatedFields);
-                try { localStorage.setItem(LS_SAVED_EMAIL_KEY, email); } catch (e) {}
+                const isOwnerAccount = (email === OWNER_EMAIL.toLowerCase());
+                const updatedFields = {
+                    activeDeviceFingerprint: currentHardwareFingerprint,
+                    ...(isOwnerAccount ? { isSubscribed: true } : {})
+                };
+
+                await updateDoc(userRef, updatedFields);
+                try {
+                    localStorage.setItem(LS_SAVED_EMAIL_KEY, email);
+                } catch (e) {}
 
                 enterApplication({ ...userData, ...updatedFields });
             } catch (err) {
@@ -1801,7 +1977,18 @@
 
             unsubscribeTeacherDoc = onSnapshot(userRef, (docSnap) => {
                 if (!docSnap.exists()) return;
-                currentTeacher = docSnap.data();
+                const liveData = docSnap.data();
+
+                if (
+                    liveData.activeDeviceFingerprint &&
+                    currentHardwareFingerprint &&
+                    liveData.activeDeviceFingerprint !== currentHardwareFingerprint
+                ) {
+                    forceLogoutDueToAnotherDevice();
+                    return;
+                }
+
+                currentTeacher = liveData;
                 refreshAccountUI();
                 renderExamHistoryList();
             }, (err) => {
@@ -1833,6 +2020,28 @@
             }
         };
 
+        function forceLogoutDueToAnotherDevice() {
+            if (unsubscribeTeacherDoc) { unsubscribeTeacherDoc(); unsubscribeTeacherDoc = null; }
+            if (unsubscribeOwnerUsers) { unsubscribeOwnerUsers(); unsubscribeOwnerUsers = null; }
+            if (unsubscribeOwnerCodes) { unsubscribeOwnerCodes(); unsubscribeOwnerCodes = null; }
+            if (unsubscribeTutorials) { unsubscribeTutorials(); unsubscribeTutorials = null; }
+
+            currentTeacher = null;
+            try {
+                localStorage.removeItem(LS_SAVED_EMAIL_KEY);
+            } catch (e) {}
+
+            document.getElementById('fullScreenQuestionEditorModal').classList.add('hidden');
+            document.getElementById('appContainer').classList.add('hidden');
+            document.getElementById('authScreen').classList.remove('hidden');
+
+            showCustomMessage(
+                "تم تسجيل الدخول من جهاز آخر!",
+                "تم فتح حسابك على جهاز آخر مختلف، وبموجب نظام الحماية تم تسجيل خروجك تلقائياً من هذا الجهاز.",
+                "warning"
+            );
+        }
+
         window.handleLogout = async function() {
             if (unsubscribeTeacherDoc) { unsubscribeTeacherDoc(); unsubscribeTeacherDoc = null; }
             if (unsubscribeOwnerUsers) { unsubscribeOwnerUsers(); unsubscribeOwnerUsers = null; }
@@ -1840,7 +2049,9 @@
             if (unsubscribeTutorials) { unsubscribeTutorials(); unsubscribeTutorials = null; }
 
             currentTeacher = null;
-            try { localStorage.removeItem(LS_SAVED_EMAIL_KEY); } catch (e) {}
+            try {
+                localStorage.removeItem(LS_SAVED_EMAIL_KEY);
+            } catch (e) {}
 
             document.getElementById('loginPassword').value = '';
             document.getElementById('fullScreenQuestionEditorModal').classList.add('hidden');
@@ -1848,6 +2059,7 @@
             document.getElementById('authScreen').classList.remove('hidden');
         };
 
+        // Edit Teacher Name Functions
         window.openEditNameModal = function() {
             if (!currentTeacher) return;
             document.getElementById('editNameInput').value = currentTeacher.name || '';
@@ -1883,7 +2095,7 @@
         };
 
         // ============================================================================
-        // ACCESS & UI REFRESH
+        // 8. ACCESS CONTROL & ACCOUNT STATUS REFRESH
         // ============================================================================
         function hasExamAccess() {
             if (!currentTeacher) return false;
@@ -1894,7 +2106,9 @@
         }
 
         function getTeacherRoleTitle() {
-            if (currentTeacher && currentTeacher.teacherRole === 'معلم') return 'معلم المادة';
+            if (currentTeacher && currentTeacher.teacherRole === 'معلم') {
+                return 'معلم المادة';
+            }
             return 'مدرس المادة';
         }
 
@@ -1910,7 +2124,9 @@
             document.getElementById('profileRoleBadge').textContent = roleWord;
 
             const footerLabel = document.getElementById('footerTeacherLabel');
-            if (footerLabel) footerLabel.textContent = `اسم ${getTeacherRoleTitle()} (الجهة اليسرى أسفل الورقة)`;
+            if (footerLabel) {
+                footerLabel.textContent = `اسم ${getTeacherRoleTitle()} (الجهة اليسرى أسفل الورقة)`;
+            }
 
             const ownerBtn = document.getElementById('btnOwnerDashboard');
             const ownerCrown = document.getElementById('ownerCrownBadge');
@@ -1966,13 +2182,20 @@
         }
 
         // ============================================================================
-        // NAVIGATION
+        // 9. NAVIGATION & FREE TRIAL / SUBSCRIPTION CODE FLOWS
         // ============================================================================
         function hideAllMainSections() {
             const sections = [
-                'sectionExamTypes', 'sectionTutorialsViewer', 'sectionExamHistory',
-                'sectionExamBuilder', 'sectionExamPreview', 'sectionAccount',
-                'sectionOwnerHub', 'sectionOwnerRequests', 'sectionOwnerCodes', 'sectionOwnerTutorials'
+                'sectionExamTypes',
+                'sectionTutorialsViewer',
+                'sectionExamHistory',
+                'sectionExamBuilder',
+                'sectionExamPreview',
+                'sectionAccount',
+                'sectionOwnerHub',
+                'sectionOwnerRequests',
+                'sectionOwnerCodes',
+                'sectionOwnerTutorials'
             ];
             sections.forEach(id => {
                 const el = document.getElementById(id);
@@ -1983,8 +2206,11 @@
         function setOrangeTickerVisible(visible) {
             const ticker = document.getElementById('orangeTickerBar');
             if (!ticker) return;
-            if (visible) ticker.classList.remove('hidden');
-            else ticker.classList.add('hidden');
+            if (visible) {
+                ticker.classList.remove('hidden');
+            } else {
+                ticker.classList.add('hidden');
+            }
         }
 
         window.showSection = function(sectionName) {
@@ -2050,7 +2276,10 @@
 
             try {
                 const userRef = getUserDocRef(currentTeacher.email);
-                await updateDoc(userRef, { trialStatus: 'pending', trialRequestedAt: Date.now() });
+                await updateDoc(userRef, {
+                    trialStatus: 'pending',
+                    trialRequestedAt: Date.now()
+                });
                 showCustomMessage("تم إرسال الطلب بنجاح", "تم إرسال طلبك للإدارة، انتظر الموافقة على التجربة المجانية.", "success");
             } catch (err) {
                 console.error("Trial request error:", err);
@@ -2108,7 +2337,10 @@
                 });
 
                 const userRef = getUserDocRef(currentTeacher.email);
-                await updateDoc(userRef, { isSubscribed: true, subscriptionCode: rawCode });
+                await updateDoc(userRef, {
+                    isSubscribed: true,
+                    subscriptionCode: rawCode
+                });
 
                 closeSubscriptionModal();
                 showCustomMessage("تم تفعيل الاشتراك الدائم!", "مبارك لك! تم تفعيل كود الاشتراك بنجاح وفتحت جميع أنواع الأسئلة لحسابك للأبد.", "success");
@@ -2119,7 +2351,7 @@
         };
 
         // ============================================================================
-        // TUTORIALS
+        // 10. TUTORIALS / EXPLANATIONS SYSTEM (الشريط البرتقالي + إضافة شرح للمالك)
         // ============================================================================
         function startTutorialsRealtimeListener() {
             if (unsubscribeTutorials) unsubscribeTutorials();
@@ -2229,7 +2461,8 @@
 
         window.deleteTutorialButton = async function(tutId) {
             try {
-                await deleteDoc(getTutorialDocRef(tutId));
+                const tutRef = getTutorialDocRef(tutId);
+                await deleteDoc(tutRef);
             } catch (err) {
                 console.error("Delete tutorial error:", err);
             }
@@ -2264,7 +2497,7 @@
         }
 
         // ============================================================================
-        // OWNER DASHBOARD
+        // 11. OWNER CONTROL PANEL (الطلبات المجانية + أكواد الاشتراك)
         // ============================================================================
         function startOwnerRealtimeListeners() {
             if (unsubscribeOwnerUsers) unsubscribeOwnerUsers();
@@ -2387,11 +2620,15 @@
             container.innerHTML = html;
         }
 
-        // Silent approval/rejection (no custom message for owner)
         window.ownerHandleTrialDecision = async function(teacherEmail, decision) {
             try {
                 const userRef = getUserDocRef(teacherEmail);
                 await updateDoc(userRef, { trialStatus: decision });
+                showCustomMessage(
+                    decision === 'approved' ? "تم قبول الطلب" : "تم رفض الطلب",
+                    decision === 'approved' ? "وصلت المحاولة المجانية الواحدة لحساب الأستاذ بنجاح." : "تم رفض طلب التجربة المجانية.",
+                    decision === 'approved' ? "success" : "info"
+                );
             } catch (err) {
                 console.error("Owner decision error:", err);
             }
@@ -2407,7 +2644,8 @@
             const newCode = `EXM-${part1}-${part2}`;
 
             try {
-                await setDoc(getCodeDocRef(newCode), {
+                const codeRef = getCodeDocRef(newCode);
+                await setDoc(codeRef, {
                     code: newCode,
                     status: 'unused',
                     usedByEmail: '',
@@ -2464,7 +2702,7 @@
                             <button onclick="disableAndDeleteSubscriptionCode('${escapeHtml(item.code)}', '${escapeHtml(item.usedByEmail || '')}')" 
                                 class="flex-1 py-2 px-3 rounded-xl bg-rose-50 hover:bg-rose-600 text-rose-700 hover:text-white font-extrabold text-xs transition flex items-center justify-center gap-1.5">
                                 <i class="fa-solid fa-trash-can"></i>
-                                <span>تعطيل وحذف</span>
+                                <span>تعطيل وحذف الكود</span>
                             </button>
                         </div>
                     </div>
@@ -2493,7 +2731,9 @@
                     const userRef = getUserDocRef(usedByEmail);
                     await updateDoc(userRef, { isSubscribed: false, subscriptionCode: '' }).catch(() => {});
                 }
-                await deleteDoc(getCodeDocRef(codeStr));
+                const codeRef = getCodeDocRef(codeStr);
+                await deleteDoc(codeRef);
+
                 showCustomMessage("تم حذف الكود", "تم تعطيل وحذف الكود نهائياً من القائمة وإيقاف اشتراك الحساب المرتبط به.", "warning");
             } catch (err) {
                 console.error("Delete code error:", err);
@@ -2501,7 +2741,7 @@
         };
 
         // ============================================================================
-        // EXAM HISTORY
+        // 12. EXAM HISTORY (سجل الأسئلة المحفوظة: عرض، بحث، تعديل، حذف)
         // ============================================================================
         const EXAM_TYPE_LABELS = {
             daily: 'امتحان يومي',
@@ -2606,7 +2846,7 @@
 
             questionsList = (found.questions || []).map(q => ({ ...q, id: q.id || crypto.randomUUID() }));
             if (questionsList.length === 0) {
-                questionsList = [{ id: crypto.randomUUID(), sectionTitle: '', text: '', grade: '٢٠ درجة', color: '#0f172a', font: 'font-amiri', images: [] }];
+                questionsList = [{ id: crypto.randomUUID(), sectionTitle: '', text: '', grade: '٢٠ درجة', color: '#0f172a', font: 'font-amiri' }];
             }
 
             setExamDirection(examDirection);
@@ -2624,14 +2864,15 @@
             renderExamHistoryList();
 
             try {
-                await updateDoc(getUserDocRef(currentTeacher.email), { savedExams: updatedList });
+                const userRef = getUserDocRef(currentTeacher.email);
+                await updateDoc(userRef, { savedExams: updatedList });
             } catch (err) {
                 console.error("Delete exam history error:", err);
             }
         };
 
         // ============================================================================
-        // EXAM BUILDER
+        // 13. EXAM BUILDER ENGINE & FULL-SCREEN WORD-STYLE QUESTION EDITOR
         // ============================================================================
         window.openExamBuilder = function(type) {
             if (!hasExamAccess()) {
@@ -2657,11 +2898,8 @@
                     text: '',
                     grade: '٢٠ درجة',
                     color: '#0f172a',
-                    font: 'font-amiri',
-                    images: []
+                    font: 'font-amiri'
                 }));
-            } else {
-                questionsList = questionsList.map(q => ({ ...q, images: q.images || [] }));
             }
 
             renderQuestionFields();
@@ -2672,7 +2910,9 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        window.closeExamBuilder = function() { showSection('examTypes'); };
+        window.closeExamBuilder = function() {
+            showSection('examTypes');
+        };
 
         window.setExamDirection = function(dir) {
             examDirection = dir;
@@ -2686,6 +2926,7 @@
                 btnLtr.className = "px-2.5 py-1 rounded-md text-[11px] font-bold bg-teal-700 text-white shadow-2xs transition";
                 btnRtl.className = "px-2.5 py-1 rounded-md text-[11px] font-bold text-slate-600 hover:text-slate-900 transition";
             }
+
             renderQuestionFields();
         };
 
@@ -2700,21 +2941,23 @@
                 const qLabel = isRtl ? `السؤال ${idx + 1} (س${idx + 1})` : `Question ${idx + 1} (Q${idx + 1})`;
                 const fontObj = ARABIC_FONTS.find(f => f.id === q.font) || ARABIC_FONTS[0];
                 const hasText = q.text && q.text.trim().length > 0;
-                const hasImgs = Array.isArray(q.images) && q.images.length > 0;
-                const displayPreview = hasText ? escapeHtml(q.text) : (isRtl ? `اضغط هنا لفتح محرر السؤال ${idx + 1}...` : `Click here to open editor for Question ${idx + 1}...`);
-                const imgBadge = hasImgs ? `<span class="px-1.5 py-0.5 rounded-md bg-indigo-100 text-indigo-800 text-[10px] font-extrabold ml-1"><i class="fa-solid fa-image mr-0.5"></i>${q.images.length} صورة</span>` : '';
+                const displayPreview = hasText
+                    ? escapeHtml(q.text)
+                    : (isRtl ? `اضغط هنا لفتح محرر السؤال ${idx + 1} بملء الشاشة وكتابة السؤال...` : `Click here to open full-screen editor for Question ${idx + 1}...`);
 
                 html += `
                     <div class="bg-slate-50 rounded-xl p-3 border border-slate-200/90 hover:border-teal-500 transition space-y-2" dir="${examDirection}">
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <div class="flex items-center gap-1.5">
-                                <span class="px-2.5 py-0.5 rounded-lg bg-teal-700 text-white text-[11px] font-extrabold">${qLabel}</span>
-                                <button type="button" onclick="deleteQuestionField(${idx})" class="px-2 py-0.5 rounded-lg bg-rose-100 hover:bg-rose-600 text-rose-700 hover:text-white text-[11px] font-extrabold transition flex items-center gap-1">
+                                <span class="px-2.5 py-0.5 rounded-lg bg-teal-700 text-white text-[11px] font-extrabold">
+                                    ${qLabel}
+                                </span>
+                                <button type="button" onclick="deleteQuestionField(${idx})"
+                                    class="px-2 py-0.5 rounded-lg bg-rose-100 hover:bg-rose-600 text-rose-700 hover:text-white text-[11px] font-extrabold transition flex items-center gap-1">
                                     <i class="fa-solid fa-trash-can text-[10px]"></i>
                                     <span>حذف</span>
                                 </button>
                                 ${q.sectionTitle ? `<span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 text-[10px] font-bold">${escapeHtml(q.sectionTitle)}</span>` : ''}
-                                ${imgBadge}
                             </div>
 
                             <div class="flex items-center gap-1.5">
@@ -2743,7 +2986,7 @@
         }
 
         // ============================================================================
-        // FULL-SCREEN EDITOR
+        // 14. FULL-SCREEN QUESTION EDITOR WITH ORGANIZED MATH SYMBOLS & TABLES
         // ============================================================================
         window.openFullScreenQuestionEditor = function(idx) {
             activeEditorQuestionIndex = idx;
@@ -2751,7 +2994,9 @@
             if (!q) return;
 
             const isRtl = examDirection === 'rtl';
-            document.getElementById('fsEditorTitle').textContent = isRtl ? `محرر السؤال ${idx + 1} (س${idx + 1})` : `Question ${idx + 1} Editor (Q${idx + 1})`;
+            document.getElementById('fsEditorTitle').textContent = isRtl
+                ? `محرر السؤال ${idx + 1} (س${idx + 1})`
+                : `Question ${idx + 1} Editor (Q${idx + 1})`;
             document.getElementById('fsCanvasQuestionPrefix').textContent = isRtl ? `س${idx + 1}/` : `Q${idx + 1}:`;
 
             const textarea = document.getElementById('fsEditorTextarea');
@@ -2771,7 +3016,6 @@
             renderFsFontButtons();
             renderFsColorSwatches();
             switchSymbolsTab(currentSymbolsCategory);
-            renderEditorImageThumbnails();
 
             document.getElementById('fullScreenQuestionEditorModal').classList.remove('hidden');
             setTimeout(() => textarea.focus(), 80);
@@ -2782,15 +3026,19 @@
                 font: document.getElementById('panelToolFont'),
                 color: document.getElementById('panelToolColor'),
                 symbols: document.getElementById('panelToolSymbols'),
-                fractions: document.getElementById('panelToolFractions'),
                 meta: document.getElementById('panelToolMeta')
             };
             const buttons = {
                 font: document.getElementById('btnToolFont'),
                 color: document.getElementById('btnToolColor'),
                 symbols: document.getElementById('btnToolSymbols'),
-                fractions: document.getElementById('btnToolFractions'),
                 meta: document.getElementById('btnToolMeta')
+            };
+            const chevrons = {
+                font: document.getElementById('iconChevronFont'),
+                color: document.getElementById('iconChevronColor'),
+                symbols: document.getElementById('iconChevronSymbols'),
+                meta: document.getElementById('iconChevronMeta')
             };
 
             const isAlreadyOpen = (activeEditorToolPanel === panelName);
@@ -2798,7 +3046,10 @@
             Object.keys(panels).forEach(k => {
                 if (panels[k]) panels[k].classList.add('hidden');
                 if (buttons[k]) {
-                    buttons[k].className = "py-2 px-1.5 sm:px-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-teal-50/60 text-slate-700 font-extrabold text-[10px] sm:text-xs transition flex items-center justify-center gap-1";
+                    buttons[k].className = "py-2 px-2 sm:px-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-teal-50/60 text-slate-700 font-extrabold text-[11px] sm:text-xs transition flex items-center justify-center gap-1.5";
+                }
+                if (chevrons[k]) {
+                    chevrons[k].className = "fa-solid fa-chevron-down text-[9px] text-slate-400 transition-transform";
                 }
             });
 
@@ -2808,14 +3059,10 @@
                 activeEditorToolPanel = panelName;
                 if (panels[panelName]) panels[panelName].classList.remove('hidden');
                 if (buttons[panelName]) {
-                    const highlightClasses = {
-                        font: "py-2 px-1.5 sm:px-3 rounded-xl border-2 border-teal-600 bg-teal-50 text-teal-900 font-extrabold text-[10px] sm:text-xs shadow-2xs transition flex items-center justify-center gap-1",
-                        color: "py-2 px-1.5 sm:px-3 rounded-xl border-2 border-teal-600 bg-teal-50 text-teal-900 font-extrabold text-[10px] sm:text-xs shadow-2xs transition flex items-center justify-center gap-1",
-                        symbols: "py-2 px-1.5 sm:px-3 rounded-xl border-2 border-amber-600 bg-amber-50 text-amber-900 font-extrabold text-[10px] sm:text-xs shadow-2xs transition flex items-center justify-center gap-1",
-                        fractions: "py-2 px-1.5 sm:px-3 rounded-xl border-2 border-indigo-600 bg-indigo-50 text-indigo-900 font-extrabold text-[10px] sm:text-xs shadow-2xs transition flex items-center justify-center gap-1",
-                        meta: "py-2 px-1.5 sm:px-3 rounded-xl border-2 border-teal-600 bg-teal-50 text-teal-900 font-extrabold text-[10px] sm:text-xs shadow-2xs transition flex items-center justify-center gap-1"
-                    };
-                    buttons[panelName].className = highlightClasses[panelName];
+                    buttons[panelName].className = "py-2 px-2 sm:px-3 rounded-xl border-2 border-teal-600 bg-teal-50 text-teal-900 font-extrabold text-[11px] sm:text-xs shadow-2xs transition flex items-center justify-center gap-1.5";
+                }
+                if (chevrons[panelName]) {
+                    chevrons[panelName].className = "fa-solid fa-chevron-up text-[9px] text-teal-700 transition-transform";
                 }
             }
         };
@@ -2836,9 +3083,12 @@
             const q = questionsList[activeEditorQuestionIndex];
             if (!q) return;
             const textarea = document.getElementById('fsEditorTextarea');
+            const gradeInput = document.getElementById('fsEditorGrade');
+            const secInput = document.getElementById('fsEditorSectionTitle');
+
             q.text = textarea.value;
-            q.grade = document.getElementById('fsEditorGrade').value;
-            q.sectionTitle = document.getElementById('fsEditorSectionTitle').value;
+            q.grade = gradeInput.value;
+            q.sectionTitle = secInput.value;
 
             document.getElementById('fsCanvasLiveGradePreview').textContent = q.grade ? `(${q.grade})` : '(بدون درجة)';
             const secPreview = document.getElementById('fsCanvasLiveSecPreview');
@@ -2857,8 +3107,8 @@
 
             ARABIC_FONTS.forEach(f => textarea.classList.remove(f.id));
             textarea.classList.add(q.font || 'font-amiri');
-            textarea.style.color = q.color || '#0f172a';
 
+            textarea.style.color = q.color || '#0f172a';
             const dot = document.getElementById('activeColorIndicatorDot');
             if (dot) dot.style.backgroundColor = q.color || '#0f172a';
 
@@ -2933,8 +3183,11 @@
 
             Object.keys(tabs).forEach(k => {
                 if (!tabs[k]) return;
-                if (k === category) tabs[k].className = "px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-teal-700 text-white transition";
-                else tabs[k].className = "px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition";
+                if (k === category) {
+                    tabs[k].className = "px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-teal-700 text-white transition";
+                } else {
+                    tabs[k].className = "px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition";
+                }
             });
 
             const grid = document.getElementById('symbolsGridContainer');
@@ -2970,31 +3223,11 @@
             }
         };
 
-        // Insert real fraction into editor using [frac:num:den] syntax
-        window.insertFractionIntoEditor = function(num, den) {
-            insertSymbolIntoFsEditor(`[frac:${num}:${den}]`);
-        };
-
-        window.insertCustomFraction = function() {
-            const num = document.getElementById('customFracNum').value.trim();
-            const den = document.getElementById('customFracDen').value.trim();
-            if (!num || !den) {
-                showCustomMessage("تنبيه", "يرجى إدخال البسط والمقام.", "warning");
-                return;
-            }
-            insertSymbolIntoFsEditor(`[frac:${num}:${den}]`);
-            document.getElementById('customFracNum').value = '';
-            document.getElementById('customFracDen').value = '';
-        };
-
+        // Insert ready-made math table into question editor (renders as a real bordered table on the A4 sheet!)
         window.insertReadyMathTable = function(mode) {
             let tableTemplate = '';
             if (mode === 'xy') {
                 tableTemplate = `\n| س | ١ | ٢ | ٣ | ٤ |\n| ص |   |   |   |   |\n`;
-            } else if (mode === 'ar') {
-                tableTemplate = `\n| اليوم | السبت | الأحد | الاثنين | الثلاثاء | الأربعاء |\n| العدد | ٣٥ | ١٥ | ١٠ | ٥ | ٢٠ |\n`;
-            } else if (mode === 'empty3x3') {
-                tableTemplate = `\n|   |   |   |\n|   |   |   |\n|   |   |   |\n`;
             } else {
                 tableTemplate = `\n| القيمة | أ | ب | ج | د |\n| العدد | ١٠ | ٢٠ | ٣٠ | ٤٠ |\n`;
             }
@@ -3024,8 +3257,12 @@
 
         window.addNewQuestionField = function() {
             questionsList.push({
-                id: crypto.randomUUID(), sectionTitle: '', text: '', grade: '٢٠ درجة',
-                color: '#0f172a', font: 'font-amiri', images: []
+                id: crypto.randomUUID(),
+                sectionTitle: '',
+                text: '',
+                grade: '٢٠ درجة',
+                color: '#0f172a',
+                font: 'font-amiri'
             });
             renderQuestionFields();
         };
@@ -3040,116 +3277,7 @@
         };
 
         // ============================================================================
-        // IMAGE UPLOAD HANDLERS
-        // ============================================================================
-        window.handleQuestionImageUpload = async function(event) {
-            const file = event.target.files && event.target.files[0];
-            if (!file) return;
-
-            const q = questionsList[activeEditorQuestionIndex];
-            if (!q) return;
-            if (!q.images) q.images = [];
-
-            const statusEl = document.getElementById('imageUploadStatus');
-            if (statusEl) statusEl.textContent = 'جاري ضغط الصورة...';
-
-            try {
-                const dataUrl = await compressImageToBase64(file, 900, 0.72);
-                q.images.push(dataUrl);
-                liveSyncFromFullScreenEditor();
-                renderEditorImageThumbnails();
-                if (statusEl) statusEl.textContent = 'تم الرفع بنجاح ✓';
-                setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 2000);
-            } catch (err) {
-                console.error("Image upload error:", err);
-                if (statusEl) statusEl.textContent = 'فشل الرفع';
-                showCustomMessage("خطأ في الصورة", "تعذر معالجة الصورة، يرجى تجربة صورة أخرى.", "error");
-            } finally {
-                event.target.value = '';
-            }
-        };
-
-        function compressImageToBase64(file, maxWidth, quality) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        let w = img.width, h = img.height;
-                        if (w > maxWidth) {
-                            h = Math.round(h * (maxWidth / w));
-                            w = maxWidth;
-                        }
-                        canvas.width = w;
-                        canvas.height = h;
-                        const ctx = canvas.getContext('2d');
-                        ctx.fillStyle = '#ffffff';
-                        ctx.fillRect(0, 0, w, h);
-                        ctx.drawImage(img, 0, 0, w, h);
-                        resolve(canvas.toDataURL('image/jpeg', quality));
-                    };
-                    img.onerror = reject;
-                    img.src = e.target.result;
-                };
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
-        }
-
-        function renderEditorImageThumbnails() {
-            const q = questionsList[activeEditorQuestionIndex];
-            const container = document.getElementById('imageThumbContainer');
-            const previewArea = document.getElementById('fsImagePreviewArea');
-            if (!container) return;
-
-            const images = (q && q.images) || [];
-            if (images.length === 0) {
-                container.innerHTML = '';
-                if (previewArea) previewArea.innerHTML = '';
-                return;
-            }
-
-            container.innerHTML = images.map((src, i) => `
-                <div class="editor-img-thumb">
-                    <img src="${src}" alt="img">
-                    <span class="remove-btn" onclick="removeQuestionImage(${i})" title="حذف الصورة">
-                        <i class="fa-solid fa-xmark"></i>
-                    </span>
-                </div>
-            `).join('');
-
-            if (previewArea) {
-                previewArea.innerHTML = `
-                    <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-2.5">
-                        <div class="text-[11px] font-extrabold text-indigo-800 mb-1.5">
-                            <i class="fa-solid fa-image mr-1"></i> معاينة الصور المضافة (${images.length}):
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            ${images.map((src, i) => `
-                                <div class="relative">
-                                    <img src="${src}" class="max-h-32 max-w-[150px] rounded-lg border-2 border-indigo-300 shadow-sm object-cover">
-                                    <button onclick="removeQuestionImage(${i})" class="absolute -top-1.5 -left-1.5 w-5 h-5 rounded-full bg-rose-600 text-white text-[10px] flex items-center justify-center shadow">
-                                        <i class="fa-solid fa-xmark"></i>
-                                    </button>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        window.removeQuestionImage = function(imgIndex) {
-            const q = questionsList[activeEditorQuestionIndex];
-            if (!q || !q.images) return;
-            q.images.splice(imgIndex, 1);
-            liveSyncFromFullScreenEditor();
-            renderEditorImageThumbnails();
-        };
-
-        // ============================================================================
-        // SAVE & RENDER A4 SHEET WITH PROPER FRACTIONS + TABLES + IMAGES
+        // 15. SAVE TO HISTORY & GENERATE OFFICIAL IRAQI A4 EXAM PAPER
         // ============================================================================
         function toArabicNumerals(num) {
             const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
@@ -3167,7 +3295,7 @@
                 return;
             }
 
-            const filledQuestions = questionsList.filter(q => (q.text && q.text.trim() !== '') || (q.images && q.images.length > 0));
+            const filledQuestions = questionsList.filter(q => q.text.trim() !== '');
             if (filledQuestions.length === 0) {
                 showCustomMessage("لا توجد أسئلة مكتوبة", "يرجى الضغط على حقل السؤال وكتابة سؤال واحد على الأقل قبل الحفظ والمعاينة.", "warning");
                 return;
@@ -3175,7 +3303,10 @@
 
             const isOwner = currentTeacher.email.toLowerCase() === OWNER_EMAIL.toLowerCase();
             const trialUpdate = (!isOwner && !currentTeacher.isSubscribed && currentTeacher.trialStatus === 'approved')
-                ? { trialStatus: 'used' } : {};
+                ? { trialStatus: 'used' }
+                : {};
+
+            const showStudentNameLine = document.getElementById('toggleStudentNameLine').checked;
 
             const examRecord = {
                 id: currentEditingHistoryId || crypto.randomUUID(),
@@ -3188,7 +3319,7 @@
                 examSubject: document.getElementById('headerSubject').value.trim() || 'التربية الإسلامية',
                 examTime: document.getElementById('headerTime').value.trim() || 'ساعتان',
                 totalMark: document.getElementById('headerTotalMark').value.trim() || '١٠٠',
-                showStudentNameLine: document.getElementById('toggleStudentNameLine').checked,
+                showStudentNameLine: showStudentNameLine,
                 examNote: document.getElementById('headerExamNote').value.trim(),
                 teacherName: document.getElementById('footerTeacherName').value.trim() || `أ. ${currentTeacher ? currentTeacher.name : ''}`,
                 assistantName: document.getElementById('footerAssistantName').value.trim(),
@@ -3201,11 +3332,15 @@
             try {
                 const existingExams = Array.isArray(currentTeacher.savedExams) ? [...currentTeacher.savedExams] : [];
                 const idx = existingExams.findIndex(e => e.id === examRecord.id);
-                if (idx >= 0) existingExams[idx] = examRecord;
-                else existingExams.unshift(examRecord);
+                if (idx >= 0) {
+                    existingExams[idx] = examRecord;
+                } else {
+                    existingExams.unshift(examRecord);
+                }
                 currentTeacher.savedExams = existingExams;
 
-                await updateDoc(getUserDocRef(currentTeacher.email), {
+                const userRef = getUserDocRef(currentTeacher.email);
+                await updateDoc(userRef, {
                     savedExams: existingExams,
                     ...trialUpdate
                 });
@@ -3236,11 +3371,22 @@
             const teacherName = document.getElementById('footerTeacherName').value.trim() || `أ. ${currentTeacher ? currentTeacher.name : ''}`;
             const assistantName = document.getElementById('footerAssistantName').value.trim();
 
-            const filledQuestions = questionsList.filter(q => (q.text && q.text.trim() !== '') || (q.images && q.images.length > 0));
+            const filledQuestions = questionsList.filter(q => q.text.trim() !== '');
 
             renderPrintableSheet({
-                type: selectedExamType, dir: examDirection, schoolName, examTitle, academicYear, examClass,
-                examSubject, examTime, totalMark, showStudentNameLine, examNote, teacherName, assistantName,
+                type: selectedExamType,
+                dir: examDirection,
+                schoolName,
+                examTitle,
+                academicYear,
+                examClass,
+                examSubject,
+                examTime,
+                totalMark,
+                showStudentNameLine,
+                examNote,
+                teacherName,
+                assistantName,
                 questions: filledQuestions
             });
 
@@ -3277,28 +3423,7 @@
             viewport.style.height = `${scaledHeight + 20}px`;
         }
 
-        // Convert [frac:num:den] -> visual fraction, ^x -> superscript, _x -> subscript, and images
-        function formatTextWithFractionsAndScripts(rawText) {
-            if (!rawText) return '';
-            let escaped = escapeHtml(rawText);
-
-            // Fractions [frac:num:den]
-            escaped = escaped.replace(/\[frac:([^\]:]+):([^\]]+)\]/g, (m, num, den) => {
-                return `<span class="exam-frac"><span class="num">${num}</span><span class="den">${den}</span></span>`;
-            });
-
-            // Superscript: ^2 or ^{abc}
-            escaped = escaped.replace(/\^\{([^}]+)\}/g, (m, val) => `<span class="exam-sup">${val}</span>`);
-            escaped = escaped.replace(/\^([0-9a-zA-Z\+\-])/g, (m, val) => `<span class="exam-sup">${val}</span>`);
-
-            // Subscript: _2 or _{abc}
-            escaped = escaped.replace(/_\{([^}]+)\}/g, (m, val) => `<span class="exam-sub">${val}</span>`);
-            escaped = escaped.replace(/_([0-9a-zA-Z\+\-])/g, (m, val) => `<span class="exam-sub">${val}</span>`);
-
-            return escaped;
-        }
-
-        // Render sub-lines and convert |a|b|c| rows into real HTML tables
+        // Helper to render sub-lines and automatically convert pipe-table rows (`| س | ١ | ٢ |`) into real bordered HTML tables
         function renderQuestionSubLinesAndTables(restLines, subFontSize, quoteFontSize) {
             if (!restLines || restLines.length === 0) return '';
 
@@ -3308,6 +3433,7 @@
             while (i < restLines.length) {
                 const currentTrimmed = restLines[i].trim();
 
+                // Detect pipe table rows: starts and ends with '|' and has at least 2 pipes
                 if (currentTrimmed.startsWith('|') && currentTrimmed.endsWith('|') && currentTrimmed.length > 2) {
                     const tableRows = [];
                     while (i < restLines.length) {
@@ -3316,14 +3442,16 @@
                             const cells = rowStr.slice(1, -1).split('|').map(c => c.trim());
                             tableRows.push(cells);
                             i++;
-                        } else break;
+                        } else {
+                            break;
+                        }
                     }
 
-                    html += `<div class="py-1 overflow-x-auto flex justify-center"><table class="exam-inline-table" style="font-size: ${subFontSize};"><tbody>`;
+                    html += `<div class="py-1 overflow-x-auto"><table class="exam-inline-table" style="font-size: ${subFontSize};"><tbody>`;
                     tableRows.forEach(rowCells => {
                         html += `<tr>`;
                         rowCells.forEach(cellText => {
-                            html += `<td>${formatTextWithFractionsAndScripts(cellText) || '&nbsp;&nbsp;&nbsp;'}</td>`;
+                            html += `<td>${escapeHtml(cellText) || '&nbsp;&nbsp;&nbsp;'}</td>`;
                         });
                         html += `</tr>`;
                     });
@@ -3331,7 +3459,7 @@
                 } else {
                     const isCenteredQuote = (currentTrimmed.startsWith('﴿') && currentTrimmed.endsWith('﴾')) || (currentTrimmed.startsWith('«') && currentTrimmed.endsWith('»'));
                     html += `
-                        <div class="${isCenteredQuote ? 'text-center py-1 font-amiri' : ''} font-bold whitespace-pre-wrap" style="${isCenteredQuote ? `font-size: ${quoteFontSize};` : ''}">${formatTextWithFractionsAndScripts(restLines[i])}</div>
+                        <div class="${isCenteredQuote ? 'text-center py-1 font-amiri' : ''} font-bold whitespace-pre-wrap" style="${isCenteredQuote ? `font-size: ${quoteFontSize};` : ''}">${escapeHtml(restLines[i])}</div>
                     `;
                     i++;
                 }
@@ -3341,22 +3469,15 @@
             return html;
         }
 
-        function renderQuestionImagesHtml(images) {
-            if (!Array.isArray(images) || images.length === 0) return '';
-            return `
-                <div class="exam-inline-img-wrap">
-                    ${images.map(src => `<img src="${src}" alt="صورة السؤال">`).join('')}
-                </div>
-            `;
-        }
-
         function renderPrintableSheet(data) {
             const sheet = document.getElementById('printableExamSheet');
             const isRtl = data.dir === 'rtl';
 
             const tierClasses = {
-                daily: 'exam-tier-daily', weekly: 'exam-tier-weekly',
-                monthly: 'exam-tier-monthly', comprehensive: 'exam-tier-comprehensive'
+                daily: 'exam-tier-daily',
+                weekly: 'exam-tier-weekly',
+                monthly: 'exam-tier-monthly',
+                comprehensive: 'exam-tier-comprehensive'
             };
 
             sheet.className = `exam-paper-base shadow-xl mx-auto ${tierClasses[data.type]}`;
@@ -3364,10 +3485,9 @@
 
             const qCount = data.questions.length;
             const totalLines = data.questions.reduce((acc, q) => {
-                const lines = (q.text || '').trim().split('\n').filter(l => l.trim() !== '').length;
+                const lines = q.text.trim().split('\n').filter(l => l.trim() !== '').length;
                 return acc + Math.max(1, lines) + (q.sectionTitle && q.sectionTitle.trim() ? 1 : 0);
             }, 0);
-            const totalImages = data.questions.reduce((acc, q) => acc + ((q.images && q.images.length) || 0), 0);
 
             let mainFontSize = '20px';
             let subFontSize = '19px';
@@ -3377,53 +3497,87 @@
             let lineHeightVal = '1.85';
 
             if (autoFitSinglePage) {
-                mainFontSize = '14px'; subFontSize = '13.5px'; quoteFontSize = '15px';
-                gradeFontSize = '13px'; secTitleFontSize = '14px'; lineHeightVal = '1.55';
+                mainFontSize = '14px';
+                subFontSize = '13.5px';
+                quoteFontSize = '15px';
+                gradeFontSize = '13px';
+                secTitleFontSize = '14px';
+                lineHeightVal = '1.55';
             } else {
-                const imgOverhead = totalImages > 0 ? Math.min(6, totalImages * 1.5) : 0;
-                const effectiveLines = totalLines + imgOverhead;
-
-                if (qCount <= 4 && effectiveLines <= 10) {
-                    mainFontSize = '23px'; subFontSize = '21.5px'; quoteFontSize = '24px';
-                    gradeFontSize = '18.5px'; secTitleFontSize = '20px'; lineHeightVal = '1.95';
+                if (qCount <= 4 && totalLines <= 10) {
+                    mainFontSize = '23px';
+                    subFontSize = '21.5px';
+                    quoteFontSize = '24px';
+                    gradeFontSize = '18.5px';
+                    secTitleFontSize = '20px';
+                    lineHeightVal = '1.95';
                 } else if (qCount <= 4) {
-                    mainFontSize = '20.5px'; subFontSize = '19.5px'; quoteFontSize = '21.5px';
-                    gradeFontSize = '17px'; secTitleFontSize = '18.5px'; lineHeightVal = '1.85';
-                } else if (qCount === 5 && effectiveLines <= 13) {
-                    mainFontSize = '21px'; subFontSize = '19.5px'; quoteFontSize = '22px';
-                    gradeFontSize = '17.5px'; secTitleFontSize = '19px'; lineHeightVal = '1.85';
+                    mainFontSize = '20.5px';
+                    subFontSize = '19.5px';
+                    quoteFontSize = '21.5px';
+                    gradeFontSize = '17px';
+                    secTitleFontSize = '18.5px';
+                    lineHeightVal = '1.85';
+                } else if (qCount === 5 && totalLines <= 13) {
+                    mainFontSize = '21px';
+                    subFontSize = '19.5px';
+                    quoteFontSize = '22px';
+                    gradeFontSize = '17.5px';
+                    secTitleFontSize = '19px';
+                    lineHeightVal = '1.85';
                 } else if (qCount === 5) {
-                    mainFontSize = '18.5px'; subFontSize = '17.5px'; quoteFontSize = '19.5px';
-                    gradeFontSize = '15.5px'; secTitleFontSize = '17px'; lineHeightVal = '1.75';
-                } else if (qCount === 6 && effectiveLines <= 16) {
-                    mainFontSize = '19px'; subFontSize = '18px'; quoteFontSize = '20px';
-                    gradeFontSize = '16px'; secTitleFontSize = '17.5px'; lineHeightVal = '1.78';
+                    mainFontSize = '18.5px';
+                    subFontSize = '17.5px';
+                    quoteFontSize = '19.5px';
+                    gradeFontSize = '15.5px';
+                    secTitleFontSize = '17px';
+                    lineHeightVal = '1.75';
+                } else if (qCount === 6 && totalLines <= 16) {
+                    mainFontSize = '19px';
+                    subFontSize = '18px';
+                    quoteFontSize = '20px';
+                    gradeFontSize = '16px';
+                    secTitleFontSize = '17.5px';
+                    lineHeightVal = '1.78';
                 } else if (qCount === 6) {
-                    mainFontSize = '17px'; subFontSize = '16px'; quoteFontSize = '18px';
-                    gradeFontSize = '14.5px'; secTitleFontSize = '16px'; lineHeightVal = '1.68';
+                    mainFontSize = '17px';
+                    subFontSize = '16px';
+                    quoteFontSize = '18px';
+                    gradeFontSize = '14.5px';
+                    secTitleFontSize = '16px';
+                    lineHeightVal = '1.68';
                 } else {
-                    const small = effectiveLines > 18;
-                    mainFontSize = small ? '15.5px' : '17.5px';
-                    subFontSize = small ? '14.5px' : '16.5px';
-                    quoteFontSize = small ? '16.5px' : '18.5px';
-                    gradeFontSize = small ? '13.5px' : '15px';
-                    secTitleFontSize = small ? '15px' : '16.5px';
+                    mainFontSize = totalLines <= 18 ? '17.5px' : '15.5px';
+                    subFontSize = totalLines <= 18 ? '16.5px' : '14.5px';
+                    quoteFontSize = totalLines <= 18 ? '18.5px' : '16.5px';
+                    gradeFontSize = totalLines <= 18 ? '15px' : '13.5px';
+                    secTitleFontSize = totalLines <= 18 ? '16.5px' : '15px';
                     lineHeightVal = '1.62';
                 }
             }
 
+            // Plain, small, neat "بسم الله الرحمن الرحيم" at the top center of the page (without ornate decorations)
             const plainBismillah = isRtl ? 'بسم الله الرحمن الرحيم' : 'In the Name of Allah, the Most Gracious, the Most Merciful';
 
-            const studentNameRowHtml = (data.showStudentNameLine !== false) ? `
-                <div class="border-b-2 border-slate-800 pb-2 mb-1 flex items-center justify-between text-xs font-extrabold text-slate-900">
-                    <div class="flex-1">${isRtl ? 'اسم الطالب:' : 'Student Name:'} ......................................................................................</div>
-                    <div class="w-48">${isRtl ? 'الشعبة:' : 'Section:'} .....................................</div>
-                </div>` : '';
+            // Optional Student Name & Section Row
+            const studentNameRowHtml = (data.showStudentNameLine !== false)
+                ? `
+                    <div class="border-b-2 border-slate-800 pb-2 mb-1 flex items-center justify-between text-xs font-extrabold text-slate-900">
+                        <div class="flex-1">${isRtl ? 'اسم الطالب:' : 'Student Name:'} ......................................................................................</div>
+                        <div class="w-48">${isRtl ? 'الشعبة:' : 'Section:'} .....................................</div>
+                    </div>
+                `
+                : '';
 
-            const examNoteHtml = data.examNote ? `<div class="pt-1 pb-0.5 text-center text-[12px] font-extrabold text-slate-800">( ${escapeHtml(data.examNote)} )</div>` : '';
+            // Small, subtle Exam Note right below the header / student name line and before Q1
+            const examNoteHtml = data.examNote
+                ? `<div class="pt-1 pb-0.5 text-center text-[12px] font-extrabold text-slate-800">( ${escapeHtml(data.examNote)} )</div>`
+                : '';
 
+            // 1. Top Iraqi Official Header (مع بسم الله الرحمن الرحيم صغيرة ومرتبة وبدون زخرفة في أعلى الوسط)
             const headerHtml = `
                 <div class="shrink-0">
+                    <!-- Top-Center Small Plain Bismillah -->
                     <div class="text-center pb-1.5">
                         <span class="text-[13px] font-extrabold text-slate-900 tracking-normal">${plainBismillah}</span>
                     </div>
@@ -3433,10 +3587,12 @@
                             <div class="font-extrabold text-sm leading-relaxed">
                                 <p>${escapeHtml(data.schoolName)}</p>
                             </div>
+
                             <div class="text-center space-y-0.5">
                                 <h2 class="text-base font-extrabold text-slate-950">${escapeHtml(data.examTitle)}</h2>
                                 <p class="text-xs font-extrabold text-slate-800">${escapeHtml(data.academicYear)}</p>
                             </div>
+
                             <div class="${isRtl ? 'text-right pr-10' : 'text-left pl-10'} text-xs font-extrabold space-y-0.5 leading-snug">
                                 <p>${isRtl ? 'الصف:' : 'Class:'} ${escapeHtml(data.examClass)}</p>
                                 <p>${isRtl ? 'المادة:' : 'Subject:'} ${escapeHtml(data.examSubject)}</p>
@@ -3446,39 +3602,41 @@
                         </div>
                     </div>
 
+                    <!-- Optional Student Name & Section Row -->
                     ${studentNameRowHtml}
+
+                    <!-- Subtle Note Below Header / Student Name Line -->
                     ${examNoteHtml}
                 </div>
             `;
 
+            // 2. Questions List
             let questionsHtml = `<div class="flex-1 flex flex-col justify-between divide-y divide-slate-400/85 my-1" style="line-height: ${lineHeightVal};">`;
 
             data.questions.forEach((q, idx) => {
                 const qNumStr = isRtl ? `س${toArabicNumerals(idx + 1)}/` : `Q${idx + 1}/`;
-                const gradeText = q.grade && q.grade.trim() ? `(${escapeHtml(q.grade)})` : '';
+                const gradeText = q.grade.trim() ? `(${escapeHtml(q.grade)})` : '';
                 const sectionHeadingHtml = q.sectionTitle && q.sectionTitle.trim()
                     ? `<div class="mb-1"><span class="inline-block font-extrabold underline underline-offset-4" style="font-size: ${secTitleFontSize};">${escapeHtml(q.sectionTitle)}:</span></div>`
                     : '';
 
-                const lines = (q.text || '').trim().split('\n');
+                const lines = q.text.trim().split('\n');
                 const firstLine = lines[0] || '';
                 const restLines = lines.slice(1).filter(l => l.trim() !== '');
 
-                const blockFlexWeight = Math.max(1, 0.85 + (restLines.length * 0.35) + (q.sectionTitle ? 0.25 : 0) + ((q.images && q.images.length) || 0) * 1.2).toFixed(2);
+                const blockFlexWeight = Math.max(1, 0.85 + (restLines.length * 0.35) + (q.sectionTitle ? 0.25 : 0)).toFixed(2);
                 const subLinesHtml = renderQuestionSubLinesAndTables(restLines, subFontSize, quoteFontSize);
-                const imagesHtml = renderQuestionImagesHtml(q.images);
 
                 questionsHtml += `
                     <div class="flex flex-col justify-center py-2 ${q.font}" style="color: ${q.color}; flex: ${blockFlexWeight} 1 0%;">
                         ${sectionHeadingHtml}
                         <div class="flex items-start justify-between gap-4">
                             <div class="flex-1">
-                                ${firstLine ? `<div class="font-extrabold" style="font-size: ${mainFontSize};">
+                                <div class="font-extrabold" style="font-size: ${mainFontSize};">
                                     <span>${qNumStr} </span>
-                                    <span>${formatTextWithFractionsAndScripts(firstLine)}</span>
-                                </div>` : `<div class="font-extrabold" style="font-size: ${mainFontSize};"><span>${qNumStr}</span></div>`}
+                                    <span>${escapeHtml(firstLine)}</span>
+                                </div>
                                 ${subLinesHtml}
-                                ${imagesHtml}
                             </div>
                             ${gradeText ? `<div class="shrink-0 font-extrabold pt-0.5" style="font-size: ${gradeFontSize};">${gradeText}</div>` : ''}
                         </div>
@@ -3487,6 +3645,7 @@
             });
             questionsHtml += `</div>`;
 
+            // 3. Official Footer
             const wishesText = isRtl ? 'مع تمنياتنا لكم بالنجاح والموفقية' : 'Best Wishes for Success';
             const roleArabicTitle = getTeacherRoleTitle();
             const teacherTitleLabel = isRtl ? roleArabicTitle : 'Subject Teacher';
@@ -3495,12 +3654,14 @@
                 : 'Assistant Teacher';
 
             const assistantBlockHtml = data.assistantName
-                ? `<div class="${isRtl ? 'text-right pr-4' : 'text-left pl-4'} space-y-0.5">
+                ? `
+                    <div class="${isRtl ? 'text-right pr-4' : 'text-left pl-4'} space-y-0.5">
                         <div class="text-center inline-block">
                             <p>${assistantRoleLabel}</p>
                             <p>${escapeHtml(data.assistantName)}</p>
                         </div>
-                    </div>`
+                    </div>
+                `
                 : `<div></div>`;
 
             const footerHtml = `
@@ -3518,11 +3679,15 @@
                 </div>
             `;
 
-            sheet.innerHTML = `${headerHtml}${questionsHtml}${footerHtml}`;
+            sheet.innerHTML = `
+                ${headerHtml}
+                ${questionsHtml}
+                ${footerHtml}
+            `;
         }
 
         // ============================================================================
-        // DOWNLOAD AS IMAGE / PDF WITH MOBILE-FRIENDLY HANDLING
+        // 16. HIGH-RES DIRECT IMAGE (PNG) & A4 PDF DOWNLOAD
         // ============================================================================
         async function captureFullScaleSheetCanvas() {
             const sheet = document.getElementById('printableExamSheet');
@@ -3543,12 +3708,19 @@
             viewport.style.overflow = 'visible';
             window.scrollTo(0, 0);
 
-            await new Promise(r => setTimeout(r, 100));
+            await new Promise(r => setTimeout(r, 80));
 
             try {
                 const canvas = await html2canvas(sheet, {
-                    scale: 2.5, useCORS: true, allowTaint: true, backgroundColor: '#ffffff',
-                    width: 794, height: sheet.offsetHeight, windowWidth: 1024, scrollX: 0, scrollY: 0
+                    scale: 2.5,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff',
+                    width: 794,
+                    height: sheet.offsetHeight,
+                    windowWidth: 1024,
+                    scrollX: 0,
+                    scrollY: 0
                 });
                 return canvas;
             } finally {
@@ -3559,75 +3731,22 @@
             }
         }
 
-        // Robust download helper for mobile (uses navigator.share if available, else opens blob in new tab)
-        async function triggerDownloadOrShare(blob, filename, mimeType) {
-            // Try Web Share API Level 2 with file support (works great on Android Chrome)
-            try {
-                if (navigator.canShare) {
-                    const file = new File([blob], filename, { type: mimeType });
-                    if (navigator.canShare({ files: [file] })) {
-                        await navigator.share({ files: [file], title: filename });
-                        return true;
-                    }
-                }
-            } catch (err) {
-                console.warn("Share failed, falling back to download:", err);
-            }
-
-            // Fallback: use blob URL with anchor download
-            try {
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                a.rel = 'noopener';
-                a.style.display = 'none';
-                document.body.appendChild(a);
-                a.click();
-
-                setTimeout(() => {
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                }, 1500);
-                return true;
-            } catch (err) {
-                console.error("Anchor download failed:", err);
-            }
-
-            // Last-resort fallback: open blob in a new tab so user can long-press to save
-            try {
-                const url = URL.createObjectURL(blob);
-                const win = window.open(url, '_blank');
-                if (!win) {
-                    showCustomMessage(
-                        "لم يتم تنزيل الملف تلقائياً",
-                        "لم يسمح المتصفح بالتنزيل التلقائي. جرب فتح الصفحة في كروم ثم اضغط زر التنزيل مرة أخرى، أو اسمح للموقع بالتنزيلات من إعدادات المتصفح.",
-                        "warning"
-                    );
-                }
-                setTimeout(() => URL.revokeObjectURL(url), 60000);
-                return true;
-            } catch (err) {
-                showCustomMessage(
-                    "خطأ في التنزيل",
-                    "يرجى السماح للموقع بتنزيل الملفات من إعدادات المتصفح (كروم ← الإعدادات ← إعدادات المواقع ← التنزيلات ← السماح).",
-                    "error"
-                );
-                return false;
-            }
-        }
-
         window.downloadExamAsImage = async function() {
             const btn = document.getElementById('btnDownloadImg');
             const originalHtml = btn.innerHTML;
+
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...';
 
             try {
                 const canvas = await captureFullScaleSheetCanvas();
-                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1.0));
-                const filename = `اسئلة_${EXAM_TYPE_LABELS[selectedExamType]}_${Date.now()}.png`;
-                await triggerDownloadOrShare(blob, filename, 'image/png');
+                const dataUrl = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = `اسئلة_${EXAM_TYPE_LABELS[selectedExamType]}_${Date.now()}.png`;
+                link.href = dataUrl;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
             } catch (err) {
                 console.error("Image export error:", err);
                 showCustomMessage("خطأ في التنزيل", "تعذر تصدير الصورة حالياً، يرجى المحاولة مرة أخرى.", "error");
@@ -3640,6 +3759,7 @@
         window.downloadExamAsPDF = async function() {
             const btn = document.getElementById('btnDownloadPdf');
             const originalHtml = btn.innerHTML;
+
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...';
 
@@ -3653,9 +3773,7 @@
                 const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
                 pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                const pdfBlob = pdf.output('blob');
-                const filename = `اسئلة_${EXAM_TYPE_LABELS[selectedExamType]}_${Date.now()}.pdf`;
-                await triggerDownloadOrShare(pdfBlob, filename, 'application/pdf');
+                pdf.save(`اسئلة_${EXAM_TYPE_LABELS[selectedExamType]}_${Date.now()}.pdf`);
             } catch (err) {
                 console.error("PDF export error:", err);
                 showCustomMessage("خطأ في التنزيل", "تعذر تصدير ملف PDF حالياً، يرجى المحاولة مرة أخرى.", "error");
@@ -3675,44 +3793,12 @@
                 .replace(/'/g, "&#039;");
         }
 
-        // Constants (moved to bottom for reference)
-        const MATH_SYMBOL_GROUPS = [
-            { title: '١. الأرقام الصغيرة للأسس والبسط:', items: ['⁰','¹','²','³','⁴','⁵','⁶','⁷','⁸','⁹','⁺','⁻','⁼','⁽','⁾','ⁿ','ˣ','ʸ','ᵃ','ᵇ','ᶜ','ᵐ'] },
-            { title: '٢. الأرقام السفلية للمقام:', items: ['₀','₁','₂','₃','₄','₅','₆','₇','₈','₉','₊','₋','₌','₍','₎','ₓ','ₙ','ₘ','ₐ','ₑ'] },
-            { title: '٣. الكسور الجاهزة:', items: ['½','⅓','⅔','¼','¾','⅕','⅖','⅗','⅘','⅙','⅚','⅛','⅜','⅝','⅞','¹⁄₂','¹⁄₃','²⁄₃','¹⁄₄','³⁄₄','⁵⁄₇'] },
-            { title: '٤. الأسهم والاتجاهات:', items: ['→','←','↔','⇒','⇐','⇔','↑','↓','↕','↗','↘','↙','↖','⟶','⟵','⟷','⟹','⟸','⟺','↦','⇌'] },
-            { title: '٥. العمليات والعلاقات:', items: ['+','−','×','÷','±','∓','=','≠','≈','≡','<','>','≤','≥','≪','≫','∝','√','∛','∜','%','‰','∞','π','∴','∵','∶'] },
-            { title: '٦. المجموعات والمنطق:', items: ['∈','∉','⊂','⊃','⊆','⊇','⊄','∪','∩','∅','∀','∃','∄','¬','∧','∨','ℕ','ℤ','ℚ','ℝ','ℂ'] },
-            { title: '٧. الهندسة والدوال:', items: ['∠','⊥','∥','△','□','◯','°','′','″','≅','∼','∑','∏','∫','∆','∇','∂','sin(','cos(','tan(','log(','ln('] }
-        ];
-
-        const SCIENTIFIC_SYMBOLS = {
-            chem: ['→','⇌','↑','↓','Δ','°C','K','atm','₀','₁','₂','₃','₄','₅','H₂O','CO₂','O₂','H₂','N₂','NH₃','CH₄','HCl','H₂SO₄','HNO₃','NaOH','NaCl','CaCO₃','OH⁻','H₃O⁺','SO₄²⁻','NO₃⁻','CO₃²⁻','PO₄³⁻','NH₄⁺','pH','ΔH°'],
-            phys: ['Ω','μ','λ','θ','Φ','ψ','ω','α','β','γ','Δ','τ','ρ','σ','ε₀','μ₀','m/s','m/s²','kg','N','J','W','Pa','Hz','C','V','A','T','Wb','eV','×10³','×10⁶','×10⁻³','×10⁻⁶','×10⁻⁹'],
-            arabic: ['﴿','﴾','«','»','ﷺ','ﷻ','﴾١﴿','﴾٢﴿','•','◈','أ/','ب/','ج/','د/','١-','٢-','٣-','٤-','(   )','[   ]','ـــــــــــ','درجة','درجتان','١٠ درجات','٢٠ درجة']
-        };
-
-        const ARABIC_FONTS = [
-            { id: 'font-amiri', label: 'خط أميري الرسمي', short: 'أميري' },
-            { id: 'font-cairo', label: 'خط القاهرة الحديث', short: 'القاهرة' },
-            { id: 'font-tajawal', label: 'خط تجول الأنيق', short: 'تجول' },
-            { id: 'font-almarai', label: 'خط المراعي الواضح', short: 'المراعي' },
-            { id: 'font-kufi', label: 'خط الكوفي الأكاديمي', short: 'الكوفي' }
-        ];
-
-        const QUESTION_COLORS = [
-            { hex: '#0f172a', name: 'أسود رسمي' },
-            { hex: '#1e3a8a', name: 'أزرق وزاري' },
-            { hex: '#0f766e', name: 'أخضر زمردي' },
-            { hex: '#7c2d12', name: 'بني كلاسيكي' },
-            { hex: '#881337', name: 'عنابي فخم' },
-            { hex: '#4c1d95', name: 'بنفسجي أكاديمي' }
-        ];
-
         if ('serviceWorker' in navigator && window.isSecureContext) {
             window.addEventListener('load', async () => {
                 try {
-                    const registration = await navigator.serviceWorker.register('/s/sw.js', { scope: '/s/' });
+                    const registration = await navigator.serviceWorker.register('/s/sw.js', {
+                        scope: '/s/'
+                    });
                     registration.update();
                 } catch (error) {
                     console.error('Service Worker registration failed:', error);
