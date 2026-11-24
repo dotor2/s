@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منصة الأستاذ الذكية - لإنشاء الأسئلة الامتحانية</title>
+    <title>الاستاذ قدوة - لإنشاء الأسئلة الامتحانية</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,7 +13,7 @@
     <link rel="apple-touch-icon" href="/s/icon-192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="منصة الأستاذ">
+    <meta name="apple-mobile-web-app-title" content="الاستاذ قدوة">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -251,6 +251,9 @@
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+.qd-panel{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:14px;margin-bottom:12px;display:flex;flex-direction:column;gap:10px}.qd-title{font-weight:900;font-size:15px;color:#134e3a}.qd-btn{display:inline-flex;align-items:center;justify-content:center;background:#0f766e;color:white;border:0;border-radius:9px;padding:9px 12px;font-size:12px;font-weight:800;cursor:pointer;text-decoration:none;white-space:normal}.qd-btn.secondary{background:#e2e8f0;color:#334155}.qd-btn.danger{background:#fee2e2;color:#991b1b}.qd-btn:disabled{opacity:.5}.qd-input{display:block;width:100%;min-width:0;border:1px solid #cbd5e1;border-radius:9px;background:#f8fafc;padding:9px;font-size:13px;color:#0f172a}.qd-label{display:block;font-size:12px;font-weight:800;color:#334155;min-width:0}.qd-label .qd-input{margin-top:4px}.qd-line{display:flex;align-items:center;gap:7px;border-bottom:1px solid #e2e8f0;padding:9px 0;flex-wrap:wrap;font-size:12px}.qd-line[hidden]{display:none}.qd-muted{font-size:11px;color:#64748b;line-height:1.6}.qd-actions{display:flex;flex-wrap:wrap;gap:7px;align-items:end}.qd-actions .qd-label{flex:1;min-width:100px}.qd-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.qd-check{display:flex;gap:8px;align-items:center;padding:8px;font-size:13px}.qd-tab{flex:1;padding:12px 6px;border-radius:10px;font-weight:800;font-size:12px;color:#475569;background:#fff}.qd-tab.active{color:#fff;background:#0f766e}.qd-print-page{width:794px;min-height:1122px;padding:35px;background:white;color:#0f172a;display:flex;flex-direction:column;font-family:Cairo,sans-serif;box-sizing:border-box}.qd-print-page h1{text-align:center;font-size:24px;font-weight:900;margin:0 0 10px}.qd-print-page p{text-align:center;font-size:13px;margin:5px 0 16px}.qd-print-page footer{margin-top:auto;text-align:center;font-size:12px;padding-top:20px}.qd-print-table{border-collapse:collapse;width:100%;table-layout:auto;font-size:11px}.qd-print-table td,.qd-print-table th{border:1px solid #334155;padding:7px 3px;text-align:center;overflow-wrap:anywhere}.qd-print-table th{background:#e2e8f0;font-weight:900}.qd-print-table td:nth-child(2){min-width:80px}.qd-print-table tr{break-inside:avoid}#qdExportStage{position:fixed;left:-12000px;top:0;width:794px;pointer-events:none}.exam-pages-wrapper{width:794px;display:flex;flex-direction:column;gap:12px}.exam-pages-wrapper .exam-paper-base{height:1122px;min-height:1122px;overflow:hidden;flex:none}.exam-pages-wrapper .exam-paper-base>div{min-width:0}.exam-continuation .exam-questions{flex:0 0 auto!important;justify-content:flex-start!important}.exam-continuation .exam-questions>div{flex:0 0 auto!important;justify-content:flex-start!important}.exam-continuation{justify-content:flex-start!important}.exam-continuation .exam-footer{margin-top:25px}.exam-fit-inner{width:100%;display:flex;flex-direction:column;transform-origin:top center}.exam-fit-inner .exam-questions{flex:1}.exam-continuation .exam-fit-inner{justify-content:flex-start}
+
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800">
@@ -393,7 +396,7 @@
 
             <!-- Main Arabic Title -->
             <h1 class="text-3xl sm:text-4xl font-black tracking-wide text-[#fefce8] drop-shadow-[0_4px_10px_rgba(0,0,0,0.45)] mb-4">
-                منصة الأستاذ الذكية
+                الاستاذ قدوة
             </h1>
 
             <!-- Golden Glowing Divider Line with Center Diamond -->
@@ -562,7 +565,7 @@
                         <i class="fa-solid fa-file-pen text-sm"></i>
                     </div>
                     <div>
-                        <h1 class="text-xs sm:text-sm font-extrabold text-slate-800 leading-tight">منصة الأستاذ الذكية</h1>
+                        <h1 class="text-xs sm:text-sm font-extrabold text-slate-800 leading-tight">الاستاذ قدوة</h1>
                         <p id="headerSubStatus" class="text-[11px] text-slate-500 font-semibold">مرحباً بك أستاذنا الفاضل</p>
                     </div>
                 </div>
@@ -646,6 +649,7 @@
                         </span>
                     </button>
                 </div>
+                <button onclick="showSection('examHistory')" class="w-full bg-white rounded-xl border border-slate-200 p-3 text-sm font-extrabold text-teal-800 flex items-center justify-center gap-2"><i class="fa-solid fa-clock-rotate-left"></i> سجل الأسئلة المحفوظة</button>
             </section>
 
             <!-- SECTION: TUTORIALS & APP INSTALL LINKS PAGE (تفتح عند الضغط على الشريط البرتقالي المتحرك) -->
@@ -664,7 +668,7 @@
             </section>
 
             <!-- SECTION: EXAM HISTORY -->
-            <section id="sectionExamHistory" class="hidden space-y-3">
+            <section id="sectionExamHistory" class="hidden space-y-3"><button class="qd-btn secondary" onclick="showSection('examTypes')">رجوع إلى نوع الأسئلة</button>
                 <div class="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-2xs space-y-3">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2">
@@ -868,7 +872,7 @@
                         </button>
                         <div class="text-left">
                             <h3 class="text-sm sm:text-base font-extrabold text-slate-800">معاينة الورقة</h3>
-                            <p class="text-[11px] text-slate-500">١ صفحة A4 – جاهزة للتنزيل والحفظ</p>
+                            <p class="text-[11px] text-slate-500"><span id="qdPageCount">A4</span> – جاهزة للتنزيل والحفظ</p>
                         </div>
                     </div>
 
@@ -879,7 +883,7 @@
                             <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all relative peer-checked:bg-teal-700"></div>
                         </label>
                         <div class="flex items-center gap-1.5 text-xs font-bold text-slate-700">
-                            <span>ورقة واحدة – صغّر الخط إلى ١١.٥ لتكفي</span>
+                            <span>تصغير الخط عند الحاجة (مع تقسيم الأسئلة الطويلة)</span>
                             <i class="fa-regular fa-file-lines text-teal-700"></i>
                         </div>
                     </div>
@@ -1113,20 +1117,20 @@
                 <div id="ownerTutorialsList" class="space-y-2.5"></div>
             </section>
 
+            <section id="sectionClasses" class="hidden space-y-3"></section>
+            <section id="sectionAssistant" class="hidden space-y-3"><div class="flex gap-2"><button id="qdBoardTab" class="qd-tab active" onclick="qAssistantTab('board')">السبورة الذكية</button><button id="qdPlanTab" class="qd-tab" onclick="qAssistantTab('plans')">الخطط السنوية</button></div><div id="qdAssistantContent"></div></section>
         </main>
 
         <!-- COMPACT 3-BUTTON BOTTOM NAVIGATION BAR (نوع الأسئلة | سجل الأسئلة | حسابي) -->
         <nav class="fixed bottom-0 right-0 left-0 z-30 bg-white/95 backdrop-blur border-t border-slate-200 shadow-md">
-            <div class="max-w-md mx-auto grid grid-cols-3 gap-1.5 px-3 py-1.5">
-                <button onclick="showSection('examTypes')" id="navBtnExams" class="py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 bg-teal-50 text-teal-800 font-extrabold transition">
+            <div class="max-w-xl mx-auto grid grid-cols-4 gap-1 px-2 py-1.5">
+                <button onclick="showSection('examTypes')" id="navBtnExams" class="py-1.5 px-1 rounded-xl flex flex-col items-center justify-center gap-1 bg-teal-50 text-teal-800 font-extrabold transition">
                     <i class="fa-solid fa-layer-group text-xs sm:text-sm"></i>
                     <span class="text-[11px] sm:text-xs">نوع الأسئلة</span>
                 </button>
-                <button onclick="showSection('examHistory')" id="navBtnHistory" class="py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 text-slate-500 hover:bg-slate-50 font-bold transition">
-                    <i class="fa-solid fa-clock-rotate-left text-xs sm:text-sm"></i>
-                    <span class="text-[11px] sm:text-xs">سجل الأسئلة</span>
-                </button>
-                <button onclick="showSection('account')" id="navBtnAccount" class="py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 text-slate-500 hover:bg-slate-50 font-bold transition">
+                <button onclick="showSection('classes')" id="navBtnClasses" class="py-1.5 px-1 rounded-xl flex flex-col items-center justify-center gap-1 text-slate-500 font-bold transition"><i class="fa-solid fa-users text-sm"></i><span class="text-[10px] sm:text-xs">ادارة الشعب</span></button>
+                <button onclick="showSection('assistant')" id="navBtnAssistant" class="py-1.5 px-1 rounded-xl flex flex-col items-center justify-center gap-1 text-slate-500 font-bold transition"><i class="fa-solid fa-toolbox text-sm"></i><span class="text-[10px] sm:text-xs">النظام المساعد</span></button>
+                <button onclick="showSection('account')" id="navBtnAccount" class="py-1.5 px-1 rounded-xl flex flex-col items-center justify-center gap-1 text-slate-500 hover:bg-slate-50 font-bold transition">
                     <i class="fa-solid fa-circle-user text-xs sm:text-sm"></i>
                     <span class="text-[11px] sm:text-xs">حسابي</span>
                 </button>
@@ -1478,6 +1482,7 @@
         </div>
     </div>
 
+    <div id="qdModal" class="hidden fixed inset-0 z-40 bg-slate-900/60 flex items-center justify-center p-3"><div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-xl"><div class="p-3 border-b flex items-center justify-between"><h2 id="qdModalTitle" class="font-extrabold text-teal-900"></h2><button class="qd-btn secondary" onclick="qClose()">إغلاق</button></div><div id="qdModalBody" class="p-4 overflow-y-auto flex flex-col gap-3"></div></div></div><div id="qdExportStage" aria-hidden="true"></div>
     <!-- APPLICATION LOGIC & FIREBASE INTEGRATION -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -2133,6 +2138,7 @@
                 }
 
                 currentTeacher = liveData;
+                if (!hasExamAccess() && (!Q("sectionClasses").classList.contains("hidden") || !Q("sectionAssistant").classList.contains("hidden"))) { qClear(); showSection("account"); }
                 refreshAccountUI();
                 renderExamHistoryList();
             }, (err) => {
@@ -2170,6 +2176,7 @@
             if (unsubscribeOwnerCodes) { unsubscribeOwnerCodes(); unsubscribeOwnerCodes = null; }
             if (unsubscribeTutorials) { unsubscribeTutorials(); unsubscribeTutorials = null; }
 
+            qClear();
             currentTeacher = null;
             try {
                 localStorage.removeItem(LS_SAVED_EMAIL_KEY);
@@ -2192,6 +2199,7 @@
             if (unsubscribeOwnerCodes) { unsubscribeOwnerCodes(); unsubscribeOwnerCodes = null; }
             if (unsubscribeTutorials) { unsubscribeTutorials(); unsubscribeTutorials = null; }
 
+            qClear();
             currentTeacher = null;
             try {
                 localStorage.removeItem(LS_SAVED_EMAIL_KEY);
@@ -2339,7 +2347,7 @@
                 'sectionOwnerHub',
                 'sectionOwnerRequests',
                 'sectionOwnerCodes',
-                'sectionOwnerTutorials'
+                'sectionOwnerTutorials', 'sectionClasses', 'sectionAssistant'
             ];
             sections.forEach(id => {
                 const el = document.getElementById(id);
@@ -2358,17 +2366,20 @@
         }
 
         window.showSection = function(sectionName) {
+            if ((sectionName === "classes" || sectionName === "assistant") && !qAccess()) return;
             hideAllMainSections();
 
             const navExams = document.getElementById('navBtnExams');
-            const navHistory = document.getElementById('navBtnHistory');
+            const navClasses = document.getElementById('navBtnClasses');
+            const navAssistant = document.getElementById('navBtnAssistant');
             const navAccount = document.getElementById('navBtnAccount');
 
-            const inactiveClass = "py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 text-slate-500 hover:bg-slate-50 font-bold transition";
-            const activeClass = "py-1.5 px-2 rounded-xl flex items-center justify-center gap-1.5 bg-teal-50 text-teal-800 font-extrabold transition";
+            const inactiveClass = "py-1.5 px-1 rounded-xl flex flex-col items-center justify-center gap-1 text-slate-500 hover:bg-slate-50 font-bold transition";
+            const activeClass = "py-1.5 px-1 rounded-xl flex flex-col items-center justify-center gap-1 bg-teal-50 text-teal-800 font-extrabold transition";
 
             navExams.className = inactiveClass;
-            navHistory.className = inactiveClass;
+            navClasses.className = inactiveClass;
+            navAssistant.className = inactiveClass;
             navAccount.className = inactiveClass;
 
             setOrangeTickerVisible(true);
@@ -2378,8 +2389,12 @@
                 navExams.className = activeClass;
             } else if (sectionName === 'examHistory') {
                 document.getElementById('sectionExamHistory').classList.remove('hidden');
-                navHistory.className = activeClass;
+                navExams.className = activeClass;
                 renderExamHistoryList();
+            } else if (sectionName === 'classes') {
+                document.getElementById('sectionClasses').classList.remove('hidden');navClasses.className=activeClass;setOrangeTickerVisible(false);qRenderClasses();
+            } else if (sectionName === 'assistant') {
+                document.getElementById('sectionAssistant').classList.remove('hidden');navAssistant.className=activeClass;setOrangeTickerVisible(false);qRenderAssistant();
             } else if (sectionName === 'account') {
                 document.getElementById('sectionAccount').classList.remove('hidden');
                 navAccount.className = activeClass;
@@ -3993,7 +4008,23 @@
         }
 
         function renderPrintableSheet(data) {
-            const sheet = document.getElementById('printableExamSheet');
+            const root=Q('printableExamSheet');
+            root.innerHTML='';
+            if(data.questions.length<=6){renderPrintablePage(data,root);Q('qdPageCount').textContent='صفحة A4';return;}
+            root.className='exam-pages-wrapper';root.removeAttribute('dir');
+            const count=data.questions.length, batches=[];let offset=0;
+            while(offset<count){const size=offset===0?5:Math.min(6,count-offset);batches.push({offset,questions:data.questions.slice(offset,offset+size)});offset+=size;}
+            batches.forEach((b,i)=>{const page=document.createElement('div');root.appendChild(page);renderPrintablePage({...data,...b,isLast:i===batches.length-1},page);if(i>0&&b.questions.length<5)page.classList.add('exam-continuation');page.dataset.qPage=String(i+1);const inner=document.createElement('div');inner.className='exam-fit-inner';while(page.firstChild)inner.appendChild(page.firstChild);page.appendChild(inner);inner.style.minHeight=i>0&&b.questions.length<5?'0':'100%';});
+            Q('qdPageCount').textContent=batches.length+' صفحات A4';
+            requestAnimationFrame(()=>qFitExamPages());
+            Promise.all([...root.querySelectorAll('img')].map(img=>img.decode().catch(()=>{}))).then(()=>{qFitExamPages();adjustA4PreviewScale();});
+            if(document.fonts?.ready)document.fonts.ready.then(()=>{qFitExamPages();adjustA4PreviewScale();});
+        }
+        function qFitExamPages(){const root=Q('printableExamSheet');for(const page of root.querySelectorAll('[data-q-page]')){const inner=page.firstElementChild;inner.style.transform='none';inner.style.width='100%';inner.style.flexShrink='0';const cs=getComputedStyle(page),avail=page.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);const natural=inner.scrollHeight;if(natural>avail+1){inner.style.transform=`scale(${avail/natural})`;inner.style.transformOrigin='top center';}}}
+        async function qCaptureExamPages(){const root=Q('printableExamSheet'),sc=Q('a4ScaleContainer'),vp=Q('a4PreviewViewport'),old=[sc.style.transform,vp.style.height,vp.style.overflow];try{sc.style.transform='none';vp.style.height='auto';vp.style.overflow='visible';if(document.fonts?.ready)await document.fonts.ready;await Promise.all([...root.querySelectorAll('img')].map(x=>x.decode().catch(()=>{})));qFitExamPages();await new Promise(r=>requestAnimationFrame(r));const canvases=[];for(const page of root.querySelectorAll('[data-q-page]'))canvases.push(await html2canvas(page,{scale:2,width:794,height:1122,backgroundColor:'#fff',logging:false,useCORS:true}));return canvases;}finally{[sc.style.transform,vp.style.height,vp.style.overflow]=old;}}
+        async function qDownloadMultiExam(format){const btn=Q(format==='pdf'?'btnDownloadPdf':'btnDownloadImg');btn.disabled=true;try{const cs=await qCaptureExamPages();if(format==='pdf'){const {jsPDF}=window.jspdf,pdf=new jsPDF({format:'a4',unit:'mm',compress:true});cs.forEach((c,i)=>{if(i)pdf.addPage();pdf.addImage(c.toDataURL('image/jpeg',.96),'JPEG',0,0,210,297);});showRealDownloadLinks(pdf.output('blob'),'اسئلة_'+Date.now()+'.pdf');}else{const out=document.createElement('canvas'),scale=Math.min(1,15000/(cs.length*cs[0].height),Math.sqrt(24000000/(cs.length*cs[0].width*cs[0].height)));out.width=Math.round(cs[0].width*scale);out.height=Math.round(cs.length*cs[0].height*scale);const ctx=out.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,out.width,out.height);cs.forEach((c,i)=>ctx.drawImage(c,0,i*c.height*scale,out.width,c.height*scale));showRealDownloadLinks(await canvasAsBlob(out),'اسئلة_'+Date.now()+'.png');}}catch(e){showCustomMessage('تعذر التصدير',e.message,'error');}finally{btn.disabled=false;}}
+
+        function renderPrintablePage(data, sheet) {
             const isRtl = data.dir === 'rtl';
 
             const tierClasses = {
@@ -4135,10 +4166,11 @@
             `;
 
             // 2. Questions List
-            let questionsHtml = `<div class="flex-1 flex flex-col justify-between divide-y divide-slate-400/85 my-1" style="line-height: ${lineHeightVal};">`;
+            let questionsHtml = `<div class="exam-questions flex-1 flex flex-col justify-between divide-y divide-slate-400/85 my-1" style="line-height: ${lineHeightVal};">`;
 
             data.questions.forEach((q, idx) => {
-                const qNumStr = isRtl ? `س${toArabicNumerals(idx + 1)}/` : `Q${idx + 1}/`;
+                const num = idx + 1 + (data.offset || 0);
+                const qNumStr = isRtl ? `س${toArabicNumerals(num)}/` : `Q${num}/`;
                 const gradeText = q.grade.trim() ? `(${escapeHtml(q.grade)})` : '';
                 const sectionHeadingHtml = q.sectionTitle && q.sectionTitle.trim()
                     ? `<div class="mb-1"><span class="inline-block font-extrabold underline underline-offset-4" style="font-size: ${secTitleFontSize};">${escapeHtml(q.sectionTitle)}:</span></div>`
@@ -4186,7 +4218,7 @@
                 : `<div></div>`;
 
             const footerHtml = `
-                <div class="shrink-0 pt-3 border-t-2 border-slate-800">
+                <div class="exam-footer shrink-0 pt-3 border-t-2 border-slate-800">
                     <div class="grid grid-cols-3 items-end text-xs sm:text-sm font-extrabold text-slate-900">
                         ${assistantBlockHtml}
                         <div class="text-center pb-1.5">${wishesText}</div>
@@ -4201,9 +4233,9 @@
             `;
 
             sheet.innerHTML = `
-                ${headerHtml}
+                ${data.offset ? `<div class="text-center border-b border-slate-400 pb-2 font-bold text-sm">${escapeHtml(data.examTitle)} — ${isRtl ? "تابع الأسئلة" : "Continued"}</div>` : headerHtml}
                 ${questionsHtml}
-                ${footerHtml}
+                ${data.isLast === false ? `<div class="text-center text-xs font-bold border-t pt-2">${isRtl?"تتمة الأسئلة في الصفحة التالية":"Continued on next page"}</div>` : footerHtml}
             `;
         }
 
@@ -4327,6 +4359,7 @@
         };
 
         window.downloadExamAsImage = async function() {
+            if(Q("printableExamSheet").classList.contains("exam-pages-wrapper"))return qDownloadMultiExam("png");
             const btn = document.getElementById('btnDownloadImg');
             const original = btn.innerHTML;
             btn.disabled = true;
@@ -4342,6 +4375,7 @@
         };
 
         window.downloadExamAsPDF = async function() {
+            if(Q("printableExamSheet").classList.contains("exam-pages-wrapper"))return qDownloadMultiExam("pdf");
             const btn = document.getElementById('btnDownloadPdf');
             const original = btn.innerHTML;
             btn.disabled = true;
@@ -4384,6 +4418,88 @@
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
         }
+
+        // ===== QUDWA: teacher-only tools =====
+        const Q = id => document.getElementById(id);
+        const qEsc = v => escapeHtml(String(v ?? ''));
+        const qTypes = ['الشهر الأول 1','الشهر الثاني 1','الدرجة الفصلية 1','نصف السنة','الشهر الأول 2','الشهر الثاني 2','الدرجة الفصلية 2','نهاية السنة','السلوك'];
+        const qFields = [['school','اسم المدرسة'],['grade','الصف الدراسي'],['name','اسم الشعبة'],['subject','المادة'],['year','العام الدراسي'],['teacher','اسم الأستاذ']];
+        const qId = () => crypto.randomUUID();
+        const qNumber = v => Number(String(v).trim().replace(/[٠-٩]/g,c=>'٠١٢٣٤٥٦٧٨٩'.indexOf(c)).replace(/[۰-۹]/g,c=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(c)).replace('٫','.'));
+        const qInput = (id,label,value='',attrs='') => `<label class="qd-label">${label}<input id="${id}" value="${qEsc(value)}" ${attrs} class="qd-input"></label>`;
+        const qBtn = (label,fn,kind='') => `<button type="button" class="qd-btn ${kind}" onclick="${fn}">${label}</button>`;
+        const qPanel = (title,body) => `<div class="qd-panel"><h3 class="qd-title">${title}</h3>${body}</div>`;
+        let qState={classes:[],plans:[]},qAccount='',qClassId='',qStudentId='',qTab='board',qBoard=[],qBoardOwner='',qBusy=false;
+        function qAllowed(){return !!currentTeacher && hasExamAccess();}
+        function qAccess(){if(qAllowed())return true;showCustomMessage('القسم مقفل','فعّل اشتراكك من حسابي للوصول إلى هذه الأدوات.','warning');return false;}
+        function qKey(){return 'qudwa_teacher_tools_v1:'+currentTeacher.email.toLowerCase();}
+        function qLoad(){if(!qAllowed())return false;const key=qKey();if(qAccount!==key){qAccount=key;qClassId='';qStudentId='';qBoard=[];qBoardOwner=key;try{const d=JSON.parse(localStorage.getItem(key)||'null');qState=d&&Array.isArray(d.classes)&&Array.isArray(d.plans)?d:{classes:[],plans:[]};}catch(e){qState={classes:[],plans:[]};}}return true;}
+        function qSave(next){if(!qAllowed()||qAccount!==qKey())return false;try{localStorage.setItem(qAccount,JSON.stringify(next));qState=next;return true;}catch(e){showCustomMessage('لم يتم الحفظ','مساحة التخزين المحلية غير متاحة أو ممتلئة.','error');return false;}}
+        function qEdit(fn){const next=JSON.parse(JSON.stringify(qState));fn(next);return qSave(next);}
+        function qClass(){return qState.classes.find(c=>c.id===qClassId);}
+        function qStudent(){return qClass()?.students.find(s=>s.id===qStudentId);}
+        function qSorted(c){return [...c.students].sort((a,b)=>a.name.localeCompare(b.name,'ar',{sensitivity:'base',numeric:true}));}
+        function qGradeText(g){return !g?'—':g.max==null?String(g.score):`${g.score} / ${g.max}`;}
+        function qModal(title,html){if(!qAllowed())return;Q('qdModalTitle').textContent=title;Q('qdModalBody').innerHTML=html;Q('qdModal').classList.remove('hidden');}
+        window.qClose=()=>{Q('qdModal').classList.add('hidden');Q('qdModalBody').innerHTML='';};
+        function qClear(){window.qClose();qAccount='';qState={classes:[],plans:[]};qClassId='';qStudentId='';qBoard=[];qBoardOwner='';Q('sectionClasses').innerHTML='';Q('qdAssistantContent').innerHTML='';}
+        function qNotice(){return '<p class="qd-muted">السجلات تحفظ على هذا المتصفح للحساب الحالي. احتفظ بنسخة احتياطية ولا تستخدم جهازاً مشتركاً لحفظ بيانات الطلاب.</p>';}
+        function qRenderClasses(){if(!qLoad())return;const c=qClass();if(!c){Q('sectionClasses').innerHTML=qPanel('إدارة الشعب',qBtn('＋ إنشاء شعبة','qClassForm()')+qNotice()+qState.classes.map(x=>`<div class="qd-line"><div><b>${qEsc(x.name)} — ${qEsc(x.grade)}</b><p class="qd-muted">${qEsc(x.school)} | ${qEsc(x.subject)} | ${x.students.length} طالب</p></div>${qBtn('فتح',`qOpenClass('${x.id}')`)}${qBtn('تعديل',`qClassForm('${x.id}')`,'secondary')}${qBtn('حذف',`qDeleteClass('${x.id}')`,'danger')}</div>`).join('')+(!qState.classes.length?'<p class="qd-muted">لا توجد شعب بعد.</p>':'')+qBtn('تنزيل نسخة احتياطية','qBackup()','secondary')+'<div id="qdBackupLink"></div>'+'<label class="qd-label">استعادة نسخة احتياطية<input type="file" accept=".json,application/json" class="qd-input" onchange="qRestore(this)"></label>');return;}
+        Q('sectionClasses').innerHTML=qPanel(qEsc(c.name)+' — '+qEsc(c.grade),`<p class="qd-muted">${qEsc(c.school)} | ${qEsc(c.subject)} | ${qEsc(c.year)} | ${qEsc(c.teacher)}</p><div class="qd-actions">${qBtn('رجوع','qOpenClass(\'\')','secondary')}${qBtn('تعديل الشعبة',`qClassForm('${c.id}')`,'secondary')}${qBtn('إضافة الطلاب','qStudentForm()')}${qBtn('طباعة درجات الشعبة','qPrintForm()')}</div><p class="qd-muted">عدد الطلاب: ${c.students.length}</p><input class="qd-input" placeholder="البحث عن طالب" oninput="qFilter(this.value)"><div id="qdStudents">${qSorted(c).map((s,i)=>`<div class="qd-line" data-name="${qEsc(s.name)}"><span>${i+1}</span><b class="flex-1">${qEsc(s.name)}</b>${qBtn('النتيجة',`qStudentView('${s.id}')`)}${qBtn('تعديل',`qStudentForm('${s.id}')`,'secondary')}${qBtn('حذف',`qDeleteStudent('${s.id}')`,'danger')}</div>`).join('')}</div>`);}
+        window.qFilter=v=>{for(const r of Q('qdStudents').children)r.hidden=!r.dataset.name.includes(v.trim());};
+        window.qOpenClass=id=>{qClassId=id;qRenderClasses();};
+        window.qClassForm=(id='')=>{const c=qState.classes.find(x=>x.id===id)||{};qModal(id?'تعديل الشعبة':'إنشاء شعبة',qFields.map(([k,l])=>qInput('qd_'+k,l,c[k]??(k==='teacher'?currentTeacher.name:''))).join('')+qBtn('حفظ',`qSaveClass('${id}')`));};
+        window.qSaveClass=id=>{const obj=Object.fromEntries(qFields.map(([k])=>[k,Q('qd_'+k).value.trim()]));if(Object.values(obj).some(v=>!v))return alert('أكمل جميع الحقول');if(qEdit(d=>{const c=d.classes.find(x=>x.id===id);if(c)Object.assign(c,obj);else d.classes.push({...obj,id:qId(),students:[]});})){qClose();qRenderClasses();}};
+        window.qDeleteClass=id=>{if(confirm('حذف الشعبة وطلابها ودرجاتهم نهائياً؟')&&qEdit(d=>d.classes=d.classes.filter(c=>c.id!==id))){qClassId='';qRenderClasses();}};
+        window.qStudentForm=(id='')=>{const s=qClass()?.students.find(x=>x.id===id);qModal(id?'تعديل اسم الطالب':'إضافة الطلاب',qInput('qdStudentName','اسم الطالب',s?.name||'','maxlength="150"')+qBtn(id?'حفظ التعديل':'إضافة طالب واحد',`qSaveStudent('${id}',false)`)+(id?'':qBtn('إضافة ومتابعة إضافة الطلاب',`qSaveStudent('',true)`,'secondary')));Q('qdStudentName').focus();};
+        window.qSaveStudent=(id,more)=>{const name=Q('qdStudentName').value.trim();if(!name)return alert('اكتب اسم الطالب');const c=qClass();if(!c)return;if(qEdit(d=>{const x=d.classes.find(y=>y.id===c.id);if(id)x.students.find(s=>s.id===id).name=name;else x.students.push({id:qId(),name,grades:{}});})){qRenderClasses();if(more)qStudentForm();else qClose();}};
+        window.qDeleteStudent=id=>{if(confirm('حذف الطالب ودرجاته؟')&&qEdit(d=>{const c=d.classes.find(x=>x.id===qClassId);c.students=c.students.filter(s=>s.id!==id);}))qRenderClasses();};
+        window.qStudentView=id=>{qStudentId=id;const s=qStudent();if(!s)return;const c=qClass();qModal(s.name,`<p class="qd-muted">${qEsc(c.school)} | ${qEsc(c.grade)} | ${qEsc(c.name)} | ${qEsc(c.subject)}</p>`+qTypes.map((t,i)=>`<div class="qd-line"><b class="flex-1">${t}</b><span dir="ltr">${qEsc(qGradeText(s.grades[i]))}</span>${s.grades[i]?qBtn('تعديل',`qGradeForm(false,${i})`,'secondary')+qBtn('حذف',`qDeleteGrade(${i})`,'danger'):''}</div>`).join('')+qBtn('إضافة درجة بدون تقسيم','qGradeForm(false)')+qBtn('إضافة درجة مع تقسيم','qGradeForm(true)')+qBtn('طباعة درجات الطالب','qPrintForm(true)','secondary'));};
+        window.qDeleteGrade=i=>{if(confirm('حذف هذه الدرجة؟')&&qEdit(d=>delete d.classes.find(c=>c.id===qClassId).students.find(s=>s.id===qStudentId).grades[i]))qStudentView(qStudentId);};
+        window.qGradeForm=(divide,index=0)=>{const g=qStudent()?.grades[index];qModal(divide?'إضافة درجة مع تقسيم':'إضافة درجة بدون تقسيم',`<label class="qd-label">نوع الدرجة<select class="qd-input" id="qdGradeType">${qTypes.map((t,i)=>`<option value="${i}" ${i===index?'selected':''}>${t}</option>`).join('')}</select></label>`+(divide?`<p class="qd-muted">اكتب الدرجتين لجمعهما معاً، ويمكن إضافة ثالثة.</p><div class="qd-actions">${qInput('qdA','الدرجة الأولى','','inputmode="decimal" oninput="qGradePreview()"')}${qInput('qdB','الدرجة الثانية','','inputmode="decimal" oninput="qGradePreview()"')}<div id="qdThird" class="hidden">${qInput('qdC','الدرجة الثالثة','','inputmode="decimal" oninput="qGradePreview()"')}</div></div>${qBtn('إضافة / إزالة حقل ثالث','qToggleThird()','secondary')}${qInput('qdDiv','قسّم المجموع على','','inputmode="decimal" oninput="qGradePreview()"')}${qInput('qdMax','الدرجة الكلية (اختياري)','','inputmode="decimal"')}<div id="qdResult" class="qd-muted"></div>`:`<div class="qd-actions">${qInput('qdScore','درجة الطالب',g?.score??'','inputmode="decimal"')}${qInput('qdMax','من (الدرجة الكلية)',g?.max??'','inputmode="decimal"')}</div>`)+qBtn('حفظ الدرجة',`qSaveGrade(${divide})`)+qBtn('رجوع','qStudentView(qStudentIdSafe())','secondary'));};
+        window.qStudentIdSafe=()=>qStudentId;
+        window.qToggleThird=()=>{Q('qdThird').classList.toggle('hidden');if(Q('qdThird').classList.contains('hidden'))Q('qdC').value='';qGradePreview();};
+        function qCalc(){const inputs=[Q('qdA'),Q('qdB'),...(!Q('qdThird').classList.contains('hidden')?[Q('qdC')]:[])];if(inputs.some(x=>!x.value.trim())||!Q('qdDiv').value.trim())return null;const vals=inputs.map(x=>qNumber(x.value)),div=qNumber(Q('qdDiv').value);if(vals.some(x=>!Number.isFinite(x)||x<0)||!Number.isFinite(div)||div<=0)return null;const sum=vals.reduce((a,b)=>a+b,0);return {sum,div,score:Number((sum/div).toFixed(4))};}
+        window.qGradePreview=()=>{const x=qCalc();Q('qdResult').textContent=x?`${x.sum} ÷ ${x.div} = ${x.score}`:'أدخل قيماً صالحة ومقسّماً أكبر من صفر.';};
+        window.qSaveGrade=divide=>{const i=Number(Q('qdGradeType').value),maxRaw=Q('qdMax').value.trim(),max=maxRaw?qNumber(maxRaw):null;let score;if(divide){const calc=qCalc();if(!calc)return alert('تحقق من الدرجات ورقم القسمة');score=calc.score;}else{if(!Q('qdScore').value.trim()||max===null)return alert('أكمل الحقلين');score=qNumber(Q('qdScore').value);}if(!Number.isFinite(score)||score<0||(max!==null&&(!Number.isFinite(max)||max<=0||score>max)))return alert('الدرجة غير صالحة');if(qStudent().grades[i]&&!confirm('استبدال الدرجة السابقة؟'))return;if(qEdit(d=>d.classes.find(c=>c.id===qClassId).students.find(s=>s.id===qStudentId).grades[i]={score,max}))qStudentView(qStudentId);};
+        window.qPrintForm=(one=false)=>{qModal(one?'طباعة درجات الطالب':'طباعة درجات الشعبة',`<label class="qd-check"><input type="checkbox" checked onchange="qSelectGrades(this.checked)"> تحديد الكل</label>${qTypes.map((t,i)=>`<label class="qd-check"><input type="checkbox" class="qd-grade-choice" value="${i}" checked>${t}</label>`).join('')}<div class="qd-actions">${qBtn('تنزيل PDF',`qPrintGrades(${one},'pdf')`)}${qBtn('تنزيل صورة',`qPrintGrades(${one},'png')`,'secondary')}</div><div id="qdDownload"></div>`);};
+        window.qSelectGrades=v=>document.querySelectorAll('.qd-grade-choice').forEach(x=>x.checked=v);
+        function qTable(headers,rows){return `<table class="qd-print-table"><thead><tr>${headers.map(x=>`<th>${qEsc(x)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(x=>`<td>${qEsc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;}
+        function qPage(title,subtitle,body){return `<div class="qd-print-page" dir="rtl"><h1>${qEsc(title)}</h1><p>${qEsc(subtitle)}</p>${body}<footer>الاستاذ قدوة</footer></div>`;}
+        async function qRenderPages(pages,format,name,target='qdDownload'){if(!qAllowed()||qBusy)return;qBusy=true;const owner=qAccount;const host=Q('qdExportStage');try{host.innerHTML=pages.join('');if(document.fonts?.ready)await document.fonts.ready;const canvases=[];for(const el of host.children){await Promise.all([...el.querySelectorAll('img')].map(x=>x.decode().catch(()=>{})));canvases.push(await html2canvas(el,{scale:1.6,backgroundColor:'#fff',logging:false,useCORS:true}));}if(qAllowed()&&qAccount===owner)await qExportCanvases(canvases,format,name,target);}catch(e){showCustomMessage('تعذّر التصدير',e.message,'error');}finally{host.innerHTML='';qBusy=false;}}
+        async function qExportCanvases(cs,format,name,target){if(!cs.length)return;let blob;if(format==='pdf'){const {jsPDF}=window.jspdf;const pdf=new jsPDF({unit:'mm',format:'a4',orientation:cs[0].width>cs[0].height?'landscape':'portrait',compress:true});cs.forEach((c,i)=>{if(i)pdf.addPage('a4',c.width>c.height?'landscape':'portrait');const w=pdf.internal.pageSize.getWidth(),h=pdf.internal.pageSize.getHeight(),s=Math.min(w/c.width,h/c.height);pdf.addImage(c.toDataURL('image/jpeg',.94),'JPEG',(w-c.width*s)/2,0,c.width*s,c.height*s);});blob=pdf.output('blob');}else{const joined=document.createElement('canvas');const w=Math.max(...cs.map(c=>c.width)),h=cs.reduce((a,c)=>a+c.height,0);const scale=Math.min(1,15000/h,Math.sqrt(24000000/(w*h)));joined.width=Math.max(1,Math.round(w*scale));joined.height=Math.max(1,Math.round(h*scale));const ctx=joined.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,joined.width,joined.height);let y=0;for(const c of cs){ctx.drawImage(c,0,y,c.width*scale,c.height*scale);y+=c.height*scale;}blob=await canvasAsBlob(joined);}qDownload(blob,name+'.'+format,target);}
+        function qDownload(blob,name,target){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;a.textContent='اضغط هنا لتنزيل '+name;a.className='qd-btn';const container=Q(target);if(container){container.replaceChildren(a);}else{document.body.appendChild(a);}a.click();if(!container)a.remove();setTimeout(()=>URL.revokeObjectURL(url),300000);}
+        window.qPrintGrades=(one,format)=>{const c=qClass(),s=qStudent();const indices=[...document.querySelectorAll('.qd-grade-choice:checked')].map(x=>Number(x.value));if(!indices.length)return alert('اختر نوع درجة واحداً على الأقل');const subtitle=[c.school,c.grade,c.name,c.subject,c.year,c.teacher].join(' | ');let pages=[];if(one){pages=[qPage('كشف درجات '+s.name,subtitle,qTable(['نوع الدرجة','الدرجة'],indices.map(i=>[qTypes[i],qGradeText(s.grades[i])])) )];}else{const all=qSorted(c);for(let j=0;j<Math.max(1,all.length);j+=22){pages.push(qPage('كشف درجات الشعبة',subtitle,qTable(['ت','اسم الطالب',...indices.map(i=>qTypes[i])],all.slice(j,j+22).map((s,k)=>[j+k+1,s.name,...indices.map(i=>qGradeText(s.grades[i]))]))));}}qRenderPages(pages,format,one?'درجات الطالب':'درجات الشعبة');};
+        window.qBackup=()=>{if(qAllowed())qDownload(new Blob([JSON.stringify(qState)],{type:'application/json'}),'نسخة-قدوة.json','qdBackupLink');};
+        window.qRestore=async input=>{if(!input.files[0]||!qAllowed())return;try{const obj=JSON.parse(await input.files[0].text());if(!Array.isArray(obj.classes)||!Array.isArray(obj.plans))throw Error('ملف غير صالح');const validId=x=>typeof x==='string'&&/^[a-zA-Z0-9-]+$/.test(x);if(obj.classes.some(c=>!validId(c.id)||!Array.isArray(c.students)||qFields.some(([k])=>typeof c[k]!=='string')||c.students.some(s=>!validId(s.id)||typeof s.name!=='string'||!s.grades||typeof s.grades!=='object'))||obj.plans.some(p=>!validId(p.id)||!Array.isArray(p.topics)||typeof p.subject!=='string'))throw Error('بيانات غير صالحة');if(confirm('استبدال سجلات هذا الحساب المحلية بالنسخة؟')&&qSave(obj)){qClassId='';qRenderClasses();}}catch(e){alert('تعذرت استعادة النسخة: '+e.message);}finally{input.value='';}};
+        // Annual planner: allocate actual teaching days, weighted topics, reserved review and breaks.
+        function qDate(s){return new Date(s+'T12:00:00Z');}
+        function qISO(d){return d.toISOString().slice(0,10);}
+        function qSlots(p,after=''){let out=[];const end=qDate(p.end),d=qDate(p.start);for(;d<=end;d.setUTCDate(d.getUTCDate()+1)){const iso=qISO(d);if(iso<after||p.excluded.some(x=>iso>=x[0]&&iso<=x[1]))continue;const n=p.days[d.getUTCDay()]||0;for(let i=0;i<n;i++)out.push(iso);}return out;}
+        function qAllocate(p,after=''){const slots=qSlots(p,after),study=slots.slice(0,Math.max(0,slots.length-p.review)),todo=p.topics.filter(t=>!t.done),weight=todo.reduce((s,t)=>s+t.weight,0);let pos=0,remaining=study.length,weights=weight;for(let i=0;i<todo.length;i++){const t=todo[i],left=todo.length-i-1;let count=remaining>=left+1?Math.min(remaining-left,Math.max(1,Math.round(remaining*t.weight/weights))):Math.min(1,remaining);if(i===todo.length-1)count=remaining;t.count=count;t.from=count?study[pos]:'';t.to=count?study[pos+count-1]:'';pos+=count;remaining-=count;weights-=t.weight;}p.available=slots.length;p.reviewActual=Math.min(p.review,slots.length);p.reviewDates=p.reviewActual?slots.slice(-p.reviewActual):[];return p;}
+        function qRenderAssistant(){if(!qLoad())return;Q('qdBoardTab').classList.toggle('active',qTab==='board');Q('qdPlanTab').classList.toggle('active',qTab==='plans');if(qTab==='board'){qRenderBoard();return;}Q('qdAssistantContent').innerHTML=qPanel('الخطط السنوية الذكية',qBtn('＋ إنشاء خطة سنوية','qPlanForm()')+qNotice()+qState.plans.map(p=>`<div class="qd-line"><div class="flex-1"><b>${qEsc(p.subject)} — ${qEsc(p.grade)}</b><p class="qd-muted">${qEsc(p.start)} إلى ${qEsc(p.end)} | ${p.topics.filter(t=>t.done).length}/${p.topics.length} موضوع</p></div>${qBtn('فتح',`qPlanView('${p.id}')`)}${qBtn('تعديل',`qPlanForm('${p.id}')`,'secondary')}${qBtn('حذف',`qPlanDelete('${p.id}')`,'danger')}</div>`).join(''));}
+        window.qAssistantTab=t=>{qTab=t;qRenderAssistant();};
+        const qDays=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+        window.qPlanForm=(id='')=>{const p=qState.plans.find(x=>x.id===id)||{};qModal(id?'تعديل الخطة السنوية':'إنشاء خطة سنوية',qInput('qpSchool','اسم المدرسة',p.school||'')+qInput('qpTeacher','اسم الأستاذ',p.teacher||currentTeacher.name)+qInput('qpSubject','المادة',p.subject||'')+qInput('qpGrade','الصف',p.grade||'')+qInput('qpStart','بداية العام الدراسي',p.start||'','type="date"')+qInput('qpEnd','نهاية العام الدراسي',p.end||'','type="date"')+'<p class="qd-muted">عدد الحصص في كل يوم من الأسبوع، اكتب صفر في أيام العطلة.</p><div class="qd-grid">'+qDays.map((d,i)=>qInput('qpDay'+i,d,p.days?.[i]??(i<5?1:0),'type="number" min="0" max="10"')).join('')+'</div>'+qInput('qpReview','عدد حصص المراجعة في نهاية الخطة',p.review??5,'type="number" min="0"')+`<label class="qd-label">العطل والامتحانات (كل سطر تاريخ أو فترة: YYYY-MM-DD / YYYY-MM-DD)<textarea class="qd-input" id="qpExcluded" rows="3">${qEsc((p.excluded||[]).map(x=>x.join(' / ')).join('\n'))}</textarea></label><p class="qd-muted">كل موضوع في سطر: اسم الفصل | اسم الموضوع | عدد الحصص النسبية (مثلاً 3). الفصول المتعددة بنفس الاسم تجمع معاً في الكشف.</p><textarea id="qpTopics" class="qd-input" rows="8" placeholder="الفصل الأول | الموضوع الأول | 2">${qEsc((p.topics||[]).map(t=>[t.chapter,t.name,t.weight].join(' | ')).join('\n'))}</textarea>`+qBtn('إنشاء / تحديث الخطة',`qPlanSave('${id}')`));};
+        window.qPlanSave=id=>{const val=k=>Q(k).value.trim();const start=val('qpStart'),end=val('qpEnd'),subject=val('qpSubject'),grade=val('qpGrade');const days=qDays.map((_,i)=>Number(val('qpDay'+i))),review=Number(val('qpReview'));if(!start||!end||!subject||!grade||!val('qpSchool')||!val('qpTeacher')||qDate(end)<qDate(start)||(qDate(end)-qDate(start))/86400000>366||days.some(n=>!Number.isInteger(n)||n<0||n>10)||!days.some(Boolean)||!Number.isInteger(review)||review<0)return alert('تحقق من التواريخ والحصص والبيانات');const excluded=val('qpExcluded').split('\n').filter(x=>x.trim()).map(x=>{const a=x.split('/').map(s=>s.trim());return [a[0],a[1]||a[0]];});if(excluded.some(a=>a.some(x=>!/^\d{4}-\d{2}-\d{2}$/.test(x)||!Number.isFinite(+qDate(x))||qISO(qDate(x))!==x)||a[0]>a[1]))return alert('صيغة العطل غير صالحة');const old=qState.plans.find(p=>p.id===id);const topics=val('qpTopics').split('\n').filter(x=>x.trim()).map(x=>{const [chapter,name,w='1']=x.split('|').map(s=>s.trim());const previous=old?.topics.find(t=>t.chapter===chapter&&t.name===name);return {chapter,name,weight:qNumber(w),done:previous?.done||false,...(previous?.done?{from:previous.from,to:previous.to,count:previous.count}: {})};});if(!topics.length||topics.some(t=>!t.chapter||!t.name||!Number.isFinite(t.weight)||t.weight<=0))return alert('أدخل الفصول والمواضيع والأوزان بشكل صحيح');const p=qAllocate({id:id||qId(),school:val('qpSchool'),teacher:val('qpTeacher'),subject,grade,start,end,days,review,excluded,topics});if(qEdit(d=>{d.plans=d.plans.filter(x=>x.id!==p.id);d.plans.push(p);})){qRenderAssistant();qPlanView(p.id);}};
+        window.qPlanDelete=id=>{if(confirm('حذف الخطة؟')&&qEdit(d=>d.plans=d.plans.filter(p=>p.id!==id)))qRenderAssistant();};
+        window.qPlanView=id=>{const p=qState.plans.find(x=>x.id===id);if(!p)return;const done=p.topics.filter(t=>t.done).length;qModal('الخطة السنوية — '+p.subject,`<p class="qd-muted">${qEsc(p.start)} إلى ${qEsc(p.end)} | الحصص المتاحة ${p.available} | المراجعة ${p.reviewActual} حصة</p><p>إنجاز المواضيع: ${Math.round(done/p.topics.length*100)}%</p><progress max="${p.topics.length}" value="${done}" class="w-full"></progress>${p.topics.some(t=>!t.done&&!t.count)?'<p class="text-red-700 font-bold">الحصص غير كافية لجميع المواضيع. عدّل الفترة أو عدد الحصص.</p>':''}${p.topics.map((t,i)=>`<label class="qd-line"><input type="checkbox" ${t.done?'checked':''} onchange="qPlanDone('${p.id}',${i},this.checked)"><div class="flex-1"><b>${qEsc(t.chapter)} — ${qEsc(t.name)}</b><p class="qd-muted">${qEsc(t.from||'غير مجدول')} ← ${qEsc(t.to||'—')} | ${t.count||0} حصة</p></div></label>`).join('')}<p class="qd-muted">إعادة توزيع المواضيع غير المنجزة بدءاً من تاريخ جديد:</p>${qInput('qpAfter','تاريخ الاستئناف',p.start,'type="date"')}${qBtn('إعادة التوزيع',`qPlanReallocate('${p.id}')`)}<div class="qd-actions">${qBtn('طباعة PDF',`qPlanPrint('${p.id}','pdf')`)}${qBtn('طباعة صورة',`qPlanPrint('${p.id}','png')`,'secondary')}</div><div id="qdDownload"></div>`);};
+        window.qPlanDone=(id,i,v)=>{if(qEdit(d=>d.plans.find(p=>p.id===id).topics[i].done=v)){qRenderAssistant();qPlanView(id);}};
+        window.qPlanReallocate=id=>{const after=Q('qpAfter').value;if(!after)return alert('حدد التاريخ');if(qEdit(d=>qAllocate(d.plans.find(p=>p.id===id),after)))qPlanView(id);};
+        window.qPlanPrint=(id,format)=>{const p=qState.plans.find(x=>x.id===id);const sub=[p.school,p.teacher,p.subject,p.grade,p.start,p.end].join(' | ');const pages=[];for(let i=0;i<p.topics.length;i+=18){pages.push(qPage('الخطة السنوية',sub,qTable(['الفصل','الموضوع','من','إلى','الحصص','الإنجاز'],p.topics.slice(i,i+18).map(t=>[t.chapter,t.name,t.from||'—',t.to||'—',t.count||0,t.done?'تم':'لم يتم']))+(i+18>=p.topics.length?`<p>المراجعة: ${p.reviewActual} حصة ${qEsc(p.reviewDates?.[0]||'')} – ${qEsc(p.reviewDates?.at(-1)||'')}</p>`:'')));}qRenderPages(pages,format,'الخطة السنوية');};
+        // Board processing, entirely in browser (no AI or OCR): manual perspective correction + scan filters.
+        function qRenderBoard(){Q('qdAssistantContent').innerHTML=qPanel('السبورة الذكية',`<p class="qd-muted">صوّر السبورة أو اختر صوراً. حدّد زواياها يدوياً عند الحاجة ثم اختر نمط التنظيف. تبقى الكتابة والرسومات الأصلية، ولا تتحول إلى نص Word قابل للتحرير.</p><label class="qd-label">عنوان الملزمة<input class="qd-input" id="qbTitle" value="${qEsc(qBoard.title||'')}" oninput="qBoardTitle(this.value)"></label><label class="qd-label">رفع صور السبورة<input type="file" accept="image/*" multiple class="qd-input" onchange="qBoardAdd(this)"></label><label class="qd-label">تصوير السبورة<input type="file" accept="image/*" capture="environment" class="qd-input" onchange="qBoardAdd(this)"></label><div id="qbList">${qBoard.map((b,i)=>`<div class="qd-panel"><img src="${b.output||b.src}" class="w-full rounded-lg border border-slate-200" alt="السبورة ${i+1}"><div class="qd-actions">${qBtn('قص وتصحيح وتنظيف',`qBoardEdit(${i})`)}${qBtn('↑',`qBoardMove(${i},-1)`,'secondary')}${qBtn('↓',`qBoardMove(${i},1)`,'secondary')}${qBtn('حذف',`qBoardRemove(${i})`,'danger')}</div></div>`).join('')}</div><div class="qd-actions">${qBtn('إنشاء PDF','qBoardPrint(\'pdf\')')}${qBtn('إنشاء صورة','qBoardPrint(\'png\')','secondary')}</div><div id="qdBoardDownload"></div>`);}
+        window.qBoardTitle=v=>qBoard.title=v;
+        function qImage(src){return new Promise((res,rej)=>{const img=new Image();img.onload=()=>res(img);img.onerror=()=>rej(Error('الصورة غير مدعومة'));img.src=src;});}
+        window.qBoardAdd=async input=>{if(!qAllowed())return;const key=qAccount;for(const file of [...input.files]){if(qBoard.length>=20)break;try{const url=URL.createObjectURL(file);let img;try{img=await qImage(url);}finally{URL.revokeObjectURL(url);}if(!qAllowed()||qAccount!==key)return;const c=document.createElement('canvas'),s=Math.min(1,1800/Math.max(img.width,img.height));c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext('2d').drawImage(img,0,0,c.width,c.height);const src=c.toDataURL('image/jpeg',.92),ctx=c.getContext('2d'),pixels=ctx.getImageData(0,0,c.width,c.height);for(let j=0;j<pixels.data.length;j+=4){for(let k=0;k<3;k++){pixels.data[j+k]=Math.max(0,Math.min(255,(pixels.data[j+k]-160)*1.25+180));}}ctx.putImageData(pixels,0,0);qBoard.push({src,output:c.toDataURL('image/jpeg',.95),mode:'color'});}catch(e){showCustomMessage('صورة غير مدعومة',file.name,'warning');}}input.value='';if(qTab==='board')qRenderBoard();};
+        window.qBoardRemove=i=>{qBoard.splice(i,1);qRenderBoard();};window.qBoardMove=(i,d)=>{if(i+d<0||i+d>=qBoard.length)return;[qBoard[i],qBoard[i+d]]=[qBoard[i+d],qBoard[i]];qRenderBoard();};
+        let qbPoints=[],qbIndex=0,qbImage=null;
+        window.qBoardEdit=async i=>{qbIndex=i;qbImage=await qImage(qBoard[i].src);qbPoints=qBoard[i].points?.map(p=>[...p])||[];qModal('ضبط صورة السبورة',`<p class="qd-muted">اضغط على الزوايا بالترتيب: أعلى اليسار، أعلى اليمين، أسفل اليمين، أسفل اليسار. إذا لم تحدد زوايا ستستخدم الصورة كاملة.</p><canvas id="qbCanvas" style="width:100%;height:auto;touch-action:none;border:1px solid #cbd5e1" onclick="qBoardPoint(event)"></canvas>${qBtn('إعادة تحديد الزوايا','qBoardReset()','secondary')}<label class="qd-label">نمط التنظيف<select id="qbMode" class="qd-input"><option value="original">الألوان الأصلية</option><option value="color">تنظيف وإبراز الألوان</option><option value="gray">أبيض وأسود عالي التباين</option><option value="invert">سبورة داكنة إلى ورقة بيضاء</option></select></label><label class="qd-label">درجة التباين<input id="qbContrast" type="range" min="1" max="3" step="0.1" value="1.5"></label>${qBtn('تطبيق المعالجة','qBoardApply()')}`);Q('qbMode').value=qBoard[i].mode||'color';qbDraw();};
+        function qbDraw(){const c=Q('qbCanvas'),s=Math.min(1,850/Math.max(qbImage.width,qbImage.height));c.width=Math.round(qbImage.width*s);c.height=Math.round(qbImage.height*s);const ctx=c.getContext('2d');ctx.drawImage(qbImage,0,0,c.width,c.height);ctx.strokeStyle='#ef4444';ctx.fillStyle='#ef4444';ctx.lineWidth=3;ctx.beginPath();qbPoints.forEach((p,i)=>{const x=p[0]*c.width,y=p[1]*c.height;if(i)ctx.lineTo(x,y);else ctx.moveTo(x,y);});if(qbPoints.length===4)ctx.closePath();ctx.stroke();qbPoints.forEach((p,i)=>{ctx.beginPath();ctx.arc(p[0]*c.width,p[1]*c.height,6,0,Math.PI*2);ctx.fill();});}
+        window.qBoardPoint=e=>{if(qbPoints.length===4)qbPoints=[];const r=e.currentTarget.getBoundingClientRect();qbPoints.push([Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))]);qbDraw();};window.qBoardReset=()=>{qbPoints=[];qbDraw();};
+        function qbWarp(img,points){const src=document.createElement('canvas');src.width=img.width;src.height=img.height;const sx=src.getContext('2d',{willReadFrequently:true});sx.drawImage(img,0,0);const raw=sx.getImageData(0,0,src.width,src.height);const p=points.map(([x,y])=>[x*(src.width-1),y*(src.height-1)]);const dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);let w=Math.max(dist(p[0],p[1]),dist(p[3],p[2])),h=Math.max(dist(p[0],p[3]),dist(p[1],p[2]));const cross=(a,b,c)=>(b[0]-a[0])*(c[1]-b[1])-(b[1]-a[1])*(c[0]-b[0]);if(w<20||h<20||p.some((a,i)=>cross(a,p[(i+1)%4],p[(i+2)%4])<=0))throw Error('حدد الزوايا بالترتيب الصحيح');const scale=Math.min(1,1600/Math.max(w,h));w=Math.round(w*scale);h=Math.round(h*scale);const out=document.createElement('canvas');out.width=w;out.height=h;const ctx=out.getContext('2d'),dst=ctx.createImageData(w,h);const [[x0,y0],[x1,y1],[x2,y2],[x3,y3]]=p;const dx1=x1-x2,dx2=x3-x2,dx3=x0-x1+x2-x3,dy1=y1-y2,dy2=y3-y2,dy3=y0-y1+y2-y3,den=dx1*dy2-dx2*dy1;const g=Math.abs(den)<1e-9?0:(dx3*dy2-dx2*dy3)/den,k=Math.abs(den)<1e-9?0:(dx1*dy3-dx3*dy1)/den;for(let y=0;y<h;y++)for(let x=0;x<w;x++){const u=x/Math.max(1,w-1),v=y/Math.max(1,h-1),d=g*u+k*v+1;const px=((x1-x0+g*x1)*u+(x3-x0+k*x3)*v+x0)/d,py=((y1-y0+g*y1)*u+(y3-y0+k*y3)*v+y0)/d;const ix=Math.min(src.width-1,Math.max(0,Math.round(px))),iy=Math.min(src.height-1,Math.max(0,Math.round(py))),a=(iy*src.width+ix)*4,b=(y*w+x)*4;dst.data[b]=raw.data[a];dst.data[b+1]=raw.data[a+1];dst.data[b+2]=raw.data[a+2];dst.data[b+3]=255;}ctx.putImageData(dst,0,0);return out;}
+        window.qBoardApply=()=>{try{if(qbPoints.length!==0&&qbPoints.length!==4)return alert('حدد الزوايا الأربع');const points=qbPoints.length===4?qbPoints:[[0,0],[1,0],[1,1],[0,1]],c=qbWarp(qbImage,points),ctx=c.getContext('2d'),data=ctx.getImageData(0,0,c.width,c.height),a=data.data,mode=Q('qbMode').value,contrast=Number(Q('qbContrast').value);if(mode!=='original'){for(let i=0;i<a.length;i+=4){let r=a[i],g=a[i+1],b=a[i+2];if(mode==='invert'){r=255-r;g=255-g;b=255-b;}if(mode==='gray'){r=g=b=.299*r+.587*g+.114*b;}for(let j=0;j<3;j++){const v=[r,g,b][j];a[i+j]=Math.max(0,Math.min(255,(v-160)*contrast+190));}}ctx.putImageData(data,0,0);}Object.assign(qBoard[qbIndex],{output:c.toDataURL('image/jpeg',.95),points:points.map(p=>[...p]),mode});qClose();qRenderBoard();}catch(e){alert(e.message);}};
+        window.qBoardPrint=async format=>{if(!qBoard.length)return alert('أضف صورة واحدة على الأقل');const title=qBoard.title||'ملزمة السبورة',pages=qBoard.map((b,i)=>qPage(title,`${currentTeacher.name} | الصفحة ${i+1} من ${qBoard.length}`,`<img src="${b.output||b.src}" style="max-width:100%;max-height:940px;object-fit:contain;display:block;margin:24px auto" alt="شرح السبورة">`));qRenderPages(pages,format,'ملزمة السبورة','qdBoardDownload');};
 
         if ('serviceWorker' in navigator && window.isSecureContext) {
             window.addEventListener('load', async () => {
